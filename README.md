@@ -52,6 +52,7 @@ The external components needed for the project are:
 
 ## Similar visualisation: 
 http://www.kipinnederland.nl/feiten-en-cijfers
+
 In this visualisation you see the amount of chicken breeding farms in The Netherlands between 2010 - 2014. Next to that you see the average amount of chickens per chicken breeding farm.
 In my visualisation about the same data will be presented.
 
