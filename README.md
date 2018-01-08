@@ -3,7 +3,9 @@ Project Proposal animal change
 
 #### In this document you could read the proposal for the programming project about the animal change in The Netherlands between 2000-2016
 Name: Bob Borsboom
+
 Studentnumber: 10802975
+
 Course: Programming project
 
 Problem statement:
@@ -15,7 +17,7 @@ It is therefore important that the consumers become aware of the current amount 
 
 Solution:
 -----------------------
-SKETCH
+![](doc/sketch.png)
 
 #### User interaction:
 
@@ -52,6 +54,7 @@ The external components needed for the project are:
 
 ## Similar visualisation: 
 http://www.kipinnederland.nl/feiten-en-cijfers
+
 In this visualisation you see the amount of chicken breeding farms in The Netherlands between 2010 - 2014. Next to that you see the average amount of chickens per chicken breeding farm.
 In my visualisation about the same data will be presented.
 
@@ -61,4 +64,4 @@ In my visualisation about the same data will be presented.
 
 
 
-![](doc/Sketch.png)
+
