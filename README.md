@@ -61,4 +61,4 @@ In my visualisation about the same data will be presented.
 
 
 
-![](doc/Sketch.png)
+![](doc/sketch.png)
