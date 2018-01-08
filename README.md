@@ -15,7 +15,7 @@ It is therefore important that the consumers become aware of the current amount 
 
 Solution:
 -----------------------
-SKETCH
+![](doc/sketch.png)
 
 #### User interaction:
 
@@ -61,4 +61,4 @@ In my visualisation about the same data will be presented.
 
 
 
-![](doc/sketch.png)
+
