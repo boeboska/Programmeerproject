@@ -19,17 +19,17 @@ Solution:
 -----------------------
 ![](doc/sketch.png)
 
+
 #### User interaction:
 
 minimum viable product:
 - on hover province: highlight + exact amount of breeding farms
 - on click province: update barchart + update linegraph
 - drop down menu (years): update map numbers + colors
-- check box: select type of breeding farm
-
-Optional: 
+- check box: select type of breeding farm (chicken, pig, turkey or rabbit) 
 - show/hide line
 
+![](doc/technical.png)
 
 Prerequisites:
 -----------------------
