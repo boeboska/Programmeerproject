@@ -1,3 +1,8 @@
+gegevens = 
+provincies = ["Groningen", "Friesland", "Drenthe", "Overijssel", "Flevoland", "Gelderland", "Utrecht", "Noord-Holland", "Zuid-Holland", "Zeeland", "Noord-Brabant", "Limburg"]
+company_data = []
+var map;
+
 window.onload = function() {
 
     var width = 750;
@@ -10,7 +15,7 @@ window.onload = function() {
     var path = d3.geo.path()
         .projection(projection);
 
-    var map = d3.select(".map")
+    map = d3.select(".map")
         .attr("width", width)
         .attr("height", height);
  
@@ -20,21 +25,20 @@ window.onload = function() {
         .defer(d3.json, "data.json")
         .await(data_loader);
 
+
+
     function data_loader (error, nld, data){
    
         if (error) throw error;
 
-        
-        provincies = ["Groningen", "Friesland", "Drenthe", "Overijssel", "Flevoland", "Gelderland", "Utrecht", "Noord-Holland", "Zuid-Holland", "Zeeland", "Noord-Brabant", "Limburg"]
-        company_data = []
+        gegevens = data
+
+         
         for (i = 0; i < provincies.length; i++){
             company_data.push(data["2016"][provincies[i]]["bedrijven"])
         }
         company_data.push("0", "0", "0", "0")
-        
-        
 
-        console.log(company_data)
         var tip = d3.tip()
             .attr('class', 'd3-tip')
 
@@ -69,13 +73,7 @@ window.onload = function() {
             .attr("d", path)
             .attr("stroke", "black")
             .attr("id", "provincie")
-
             .attr("fill", function(d, i) { return map_color(company_data[i]); })
-
-
-            // .attr("fill", function(d) { return map_color(data["2016"][d.properties.name]["bedrijven"]); })
-
-
             .attr("class", function(d, i) { return d.properties.name; })
 
             .on("mouseover", tip.show)
@@ -112,9 +110,7 @@ window.onload = function() {
     };
 };
 
-
 function map_color(number){
-    console.log(number)
     if (number < 500 || number == 500 ) {
         return "pink"
     } else if (number > 500 && number < 1000 || number == 1000) {
@@ -124,5 +120,21 @@ function map_color(number){
     } else if (number > 2000) {
         return "red"
     }
+}
+
+function change_year(value){
+    console.log(value)
+
+    company_data = []
+
+    for (i = 0; i < provincies.length; i++){
+        company_data.push(gegevens[value][provincies[i]]["bedrijven"])
+    }
+    company_data.push("0", "0", "0", "0")
+
+    kaartje = map.selectAll("path")
+    kaartje.attr("fill", function(d, i) { return map_color(company_data[i]); })
+
+
 }
 
