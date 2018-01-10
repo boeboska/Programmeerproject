@@ -12,7 +12,7 @@ Course: Programming project
 
 Technical user disicion diagram:
 -----------------------
-![](doc/technical.png)
+![](doc/tech.png)
 
 
 
