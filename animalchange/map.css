@@ -1,0 +1,31 @@
+.d3-tip {
+	line-height: 1;
+	font-weight: bold;
+
+	/*set pop up box size*/
+	padding: 12px;
+
+	/*set pop up box color*/
+	background: rgba(0, 0, 0, 0.8);
+	color: #fff;
+	border-radius: 2px;
+
+}
+
+#provincie:hover {
+	fill: black;
+	cursor: pointer;
+}
+
+/*1456 is de de hele breeddte van de webpagina. de helft daarvan is 728*/
+#mapdiv {
+	width: 700px;
+	height: 600px;
+	float: right;
+}
+
+#bardiv {
+	width: 700px;
+	height: 600px;
+	float: right;
+}

@@ -4,8 +4,7 @@ http://statline.cbs.nl/Statweb/publication/?DM=SLNL&PA=80780ned&D1=542,560,572-5
 
 Bevolking:
 
-http://statline.cbs.nl/Statweb/publication/?DM=SLNL&PA=37556&D1=0&D2=101-118&HDR=G1&STB=T&VW=T
-
+http://statline.cbs.nl/Statweb/publication/?DM=SLNL&PA=03759NED&D1=0&D2=129&D3=0,5-16&D4=12-28&HDR=T&STB=G2,G1,G3&VW=T
 
 feiten:
 https://www.bedrock.nl/dit-gebeurt-er-met-je-lichaam-en-de-wereld-als-je-stopt-met-vlees-eten/
