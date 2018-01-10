@@ -29,7 +29,7 @@ minimum viable product:
 - check box: select type of breeding farm (chicken, pig, turkey or rabbit) 
 - show/hide line
 
-![](doc/technical.png)
+![](doc/tech.png)
 
 Prerequisites:
 -----------------------
