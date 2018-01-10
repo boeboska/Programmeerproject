@@ -18,6 +18,7 @@ It is therefore important that the consumers become aware of the current amount 
 Solution:
 -----------------------
 ![](doc/sketch.png)
+![](doc/technical.png)
 
 #### User interaction:
 
