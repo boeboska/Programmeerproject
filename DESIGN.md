@@ -17,13 +17,15 @@ Technical user disicion diagram:
 
 
 #### components description:
-##### Slider: For the slider I need data from multiple years. Next to that I need three update functions. 1 for the map, 1 for the barchart and 1 for the linegraph.
-##### Onclick map: For the onclick map I need data per province. Next to that I need two update functions. 1 for the barchart and 1 for the linegraph
-##### Onclick checkbox: For the Onclick checkbox I need data of the amount of breeding farms per animal per province. Next to that I need three update functions. 1 for the map, 1 for the barchart and 1 for the linegraph.
+##### Slider: For the slider I need data from multiple years. Next to that I need three main update functions. 1 for the map, 1 for the barchart and 1 for the linegraph. These main functions are also usefull for the other two user interactions (Onclick map and Onclick checkbox > see below). 
+##### Onclick map: For the onclick map I need data per province. Next to that I can use 2/3 main update functions. 1 for the barchart and 1 for the linegraph
+##### Onclick checkbox: For the Onclick checkbox I need data of the amount of breeding farms per animal per province. Next to that I can use 3/3 main update functions. 1 for the map, 1 for the barchart and 1 for the linegraph.
+
+#### The three main update functions are javascript functions. These functions retreive information from HTML. When the user gives input by clicking on map/slider/checkbox the HTML code will be activated.
 
 #### Data:
 For the line graph the data should be transformed. The amount of animals per 1.000 people will be showed. 
-Therefor the amount of animals must be divided by the population amount
+Therefor the amount of animals must be divided by the population amount.
 
 Data from CBS about the amount of breeding farms per province and the amount of animals per province
 http://statline.cbs.nl/Statweb/publication/?DM=SLNL&PA=80780ned&D1=542,560,572-575,578-579&D2=0,5-16&D3=a&HDR=G1,G2&STB=T&VW=T
