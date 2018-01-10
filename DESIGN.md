@@ -30,3 +30,10 @@ http://statline.cbs.nl/Statweb/publication/?DM=SLNL&PA=80780ned&D1=542,560,572-5
 
 Data from CBS about the amount of people in The Netherlands:
 http://statline.cbs.nl/Statweb/publication/?DM=SLNL&PA=37556&D1=0&D2=101-118&HDR=G1&STB=T&VW=T
+
+#### External components:
+The external components needed for the project are:
+- D3 v3: d3js.org/d3.v3.min.js
+- D3 tooltip: http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js
+- D3 queue: http://d3js.org/queue.v1.min.js
+- D3 topoJson: http://d3js.org/topojson.v1.min.js
