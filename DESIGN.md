@@ -1,8 +1,7 @@
 Design document animal change
 ===============================
 
-#### In this document you could read the technical parts for the programming project about the animal change in The Netherlands between 2000-2016
-Including a technical user disicion diagram, data source AND ??
+#### In this document you could read the technical parts for the programming project about the animal change in The Netherlands between 2000-2016. Including the technical user disicion diagram, data source AND ??
 
 Name: Bob Borsboom
 
@@ -15,6 +14,12 @@ Technical user disicion diagram:
 -----------------------
 ![](doc/technical.png)
 
+
+
+#### components description:
+##### Slider: For the slider I need data from multiple years. Next to that I need three update functions. 1 for the map, 1 for the barchart and 1 for the linegraph.
+##### Onclick map: For the onclick map I need data per province. Next to that I need two update functions. 1 for the barchart and 1 for the linegraph
+##### Onclick checkbox: For the Onclick checkbox I need data of the amount of breeding farms per animal per province. Next to that I need three update functions. 1 for the map, 1 for the barchart and 1 for the linegraph.
 
 #### Data:
 For the line graph the data should be transformed. The amount of animals per 1.000 people will be showed. 
