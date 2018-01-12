@@ -1,12 +1,17 @@
 gegevens = 
-provincies = ["Groningen", "Friesland", "Drenthe", "Overijssel", "Flevoland", "Gelderland", "Utrecht", "Noord-Holland", "Zuid-Holland", "Zeeland", "Noord-Brabant", "Limburg"]
+// provincies = ["Groningen", "Friesland", "Drenthe", "Overijssel", "Flevoland", "Gelderland", "Utrecht", "Noord-Holland", "Zuid-Holland", "Zeeland", "Noord-Brabant", "Limburg"]
+provincies2 = ["Noord-Brabant", "Utrecht", "Zuid-Holland", "Noord-Holland"]
+provincies3 = ["Drenthe", "Friesland", "Gelderland", "Groningen", "Limburg", "Overijssel", "Flevoland", "Zeeland"]
 company_data = []
 var map;
+var tip;
+var current_year;
+array = [];
 
 window.onload = function() {
 
-    var width = 750;
-    var height = 600;
+    var width = 900;
+    var height = 800;
 
     var projection = d3.geo.mercator()
         .scale(1)
@@ -32,25 +37,14 @@ window.onload = function() {
         if (error) throw error;
 
         gegevens = data
+        current_year = 2000;
 
-         
-        for (i = 0; i < provincies.length; i++){
-            company_data.push(data["2016"][provincies[i]]["bedrijven"])
-        }
-        company_data.push("0", "0", "0", "0")
-
-        var tip = d3.tip()
+        tip = d3.tip()
             .attr('class', 'd3-tip')
-
-        // calculate position
             .offset([-10, 0])
-
-
-        // set data within the display function
             .html(function(d) {
-            
                 return  "<strong> Capital: </strong> <span style='color:red'>" + d.properties.name + "</span>" +
-                        "<div> <strong> Breeding Farms: </strong> <span style='color:red'>" + data["2016"][d.properties.name]["bedrijven"] + "</div>"
+                        "<div> <strong> Breeding Farms: </strong> <span style='color:red'>" + data[current_year][d.properties.name]["bedrijven"] + "</div>"
 
 
         });
@@ -60,7 +54,7 @@ window.onload = function() {
         var l = topojson.feature(nld, nld.objects.subunits).features[3],
             b = path.bounds(l),
             s = .2 / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / height),
-            t = [(width - 100 - s * (b[1][0] + b[0][0])) / 2, (height + 100 - s * (b[1][1] + b[0][1])) / 2];
+            t = [(width - 200 - s * (b[1][0] + b[0][0])) / 2, (height - 100 - s * (b[1][1] + b[0][1])) / 2];
 
         projection
             .scale(s)
@@ -73,14 +67,18 @@ window.onload = function() {
             .attr("d", path)
             .attr("stroke", "black")
             .attr("id", "provincie")
-            .attr("fill", function(d, i) { return map_color(company_data[i]); })
+            .attr("fill", function(d, i) {
+
+                if (d.properties.name != undefined) 
+                { return map_color(gegevens["2000"][d.properties.name]["bedrijven"])}
+            })
             .attr("class", function(d, i) { return d.properties.name; })
 
             .on("mouseover", tip.show)
             .on("mouseout", tip.hide)
 
-        var colorss = ["pink", "HotPink", "DeepPink", "red"];
-        var legenda_numbers = ["0 - 500", "500 - 1000", "1000 - 2000", "2000 +"];
+        var colorss = ["#ffe6e6", "#ffb3b3", "#ff6666", "#ff1a1a", "#b30000"];
+        var legenda_numbers = ["0 - 250", "250 - 500", "500 - 1000", "1000 - 2000", "2000 +"];
 
         var legend = map.selectAll(".legend")
             .data(colorss)
@@ -96,9 +94,10 @@ window.onload = function() {
             .attr("y", 80)
             .attr("width", 18)
             .attr("height", 18)
+            .attr("stroke", "black")
             .style("fill", function(d) { return d });
 
-            // positie van de tekst van de legenda
+            // positie van de tekst van de legenda 
         legend.append("text")
             .data(legenda_numbers)
             .attr("x", width - 30)
@@ -110,31 +109,36 @@ window.onload = function() {
     };
 };
 
-function map_color(number){
-    if (number < 500 || number == 500 ) {
-        return "pink"
-    } else if (number > 500 && number < 1000 || number == 1000) {
-        return "HotPink"
-    } else if (number > 1000 && number < 2000 || number == 2000) {
-        return "DeepPink"
-    } else if (number > 2000) {
-        return "red"
-    }
-}
+
 
 function change_year(value){
-    console.log(value)
 
-    company_data = []
-
-    for (i = 0; i < provincies.length; i++){
-        company_data.push(gegevens[value][provincies[i]]["bedrijven"])
-    }
-    company_data.push("0", "0", "0", "0")
+    current_year = value
 
     kaartje = map.selectAll("path")
-    kaartje.attr("fill", function(d, i) { return map_color(company_data[i]); })
+    kaartje.attr("fill", function(d, i) { if (d.properties.name != undefined) 
+        { return map_color(gegevens[value][d.properties.name]["bedrijven"])}
+        });
 
-
+    legendah = legend
+    legendah.attr("x", width - 30)
+    .attr("y", 90)
+    .attr("dy", ".35em")
+    .style("text-anchor", "end")
+    .text("value")
 }
 
+function map_color(number){
+    // console.log(number)
+    if (number < 250 || number == 250) {
+        return "#ffe6e6"
+    } else if (number > 250 && number < 500 || number == 500 ) {
+        return "#ffb3b3"
+    } else if (number > 500 && number < 1000 || number == 1000) {
+        return "#ff6666"
+    } else if (number > 1000 && number < 2000 || number == 2000) {
+        return "#ff1a1a"
+    } else if (number > 2000) {
+        return "#b30000"
+    }
+}

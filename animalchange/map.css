@@ -19,9 +19,9 @@
 
 /*1456 is de de hele breeddte van de webpagina. de helft daarvan is 728*/
 #mapdiv {
-	width: 700px;
-	height: 600px;
-	float: right;
+	width: 900px;
+	height: 800px;
+	float: left;
 }
 
 #bardiv {
@@ -32,8 +32,10 @@
 
 .slidecontainer {
 
-	width: 1500px;
+	width: 250px;
 	height: 200px;
+    float: right;
+
 }
 
 /*dikte van de balk*/
