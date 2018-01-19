@@ -8,7 +8,14 @@ var tip;
 var current_year;
 array = [];
 
+
+
+
+
 window.onload = function() {
+
+    barChart();
+    lineGraph();
 
     var width = 900;
     var height = 800;
@@ -27,17 +34,18 @@ window.onload = function() {
 
     queue()
         .defer(d3.json, "nld.json")
-        .defer(d3.json, "data.json")
+        .defer(d3.json, "datah.json")
         .await(data_loader);
 
 
 
     function data_loader (error, nld, data){
-   
+        
         if (error) throw error;
 
         gegevens = data
         current_year = 2000;
+   
 
         tip = d3.tip()
             .attr('class', 'd3-tip')
@@ -76,6 +84,10 @@ window.onload = function() {
 
             .on("mouseover", tip.show)
             .on("mouseout", tip.hide)
+
+            .on("click", function(d) { click_province_bar(d.properties.name),
+                click_province_line(d.properties.name)} )
+            
 
         var colorss = ["#ffe6e6", "#ffb3b3", "#ff6666", "#ff1a1a", "#b30000"];
         var legenda_numbers = ["0 - 250", "250 - 500", "500 - 1000", "1000 - 2000", "2000 +"];
@@ -116,20 +128,13 @@ function change_year(value){
     current_year = value
 
     kaartje = map.selectAll("path")
-    kaartje.attr("fill", function(d, i) { if (d.properties.name != undefined) 
+    kaartje.attr("fill", function(d, i) { 
+        if (d.properties.name != undefined) 
         { return map_color(gegevens[value][d.properties.name]["bedrijven"])}
         });
-
-    legendah = legend
-    legendah.attr("x", width - 30)
-    .attr("y", 90)
-    .attr("dy", ".35em")
-    .style("text-anchor", "end")
-    .text("value")
 }
 
 function map_color(number){
-    // console.log(number)
     if (number < 250 || number == 250) {
         return "#ffe6e6"
     } else if (number > 250 && number < 500 || number == 500 ) {

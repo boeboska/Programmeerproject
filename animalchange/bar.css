@@ -1,0 +1,28 @@
+.d3-tipbar{
+	line-height: 1;
+	font-weight: bold;
+
+	/*set pop up box size*/
+	padding: 12px;
+
+	/*set pop up box color*/
+	background: rgba(0, 0, 0, 0.8);
+	color: #fff;
+	border-radius: 2px;
+
+}
+
+
+.bar {
+	fill: green;
+}
+.bar:hover {
+	fill: black;
+	cursor: pointer;
+}
+
+#bardiv {
+	width: 1200;
+    height: 800px;
+	float: left;
+}

@@ -7,6 +7,12 @@
     <!-- for mobile use -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+
+    <link rel="stylesheet" type="text/css" href="map.css">
+    <link rel="stylesheet" type="text/css" href="bar.css">
+
+
+
     <script src="//d3js.org/d3.v3.min.js"></script>
     <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
     <script src="http://d3js.org/queue.v1.min.js"></script>
@@ -14,14 +20,18 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-    <link rel="stylesheet" type="text/css" href="map.css">
 
-    <script src="map.js"></script>
-    <script src="bar.js"></script>
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script src="bar.js"></script>
+    <script src="line.js"></script>
+    <script src="map.js"></script>
+   
+
 
     <title>Animal Change</title>
 
@@ -32,7 +42,7 @@
 <body>
 
     <div class="jumbotron">
-        <h1> KIP KIP TOK TOK </h1>
+        <h1> Animal change The Netherlands between 2000 - 2016 </h1>
     </div>
 
     <div class="page-header"> </div>
@@ -48,33 +58,81 @@
             <button type="button" class="btn btn-info">Konijnen</button>
             <button type="button" class="btn btn-info">Varkens</button>
 
+            <button type="button" class = "nl_button" onclick="back_to_nl()"
+            >Click me to go back the The Nerherlands </button>
+
+
               <!-- SLIDER -->
             <div class="slidecontainer">
             <input type ="range" min ="2000" max="2016" value="2000" class="slider" id="myRange" 
-            onchange="change_year(value)">
+            onchange="change_year(value); change_year_bar(value)">
             </div>
 
+            <!-- MAP -->
             <div id="mapdiv">
              <svg = class= "map"> </svg>
+
+ <!--            <div id="option">
+                <input name="updateButton" 
+                type="button" 
+                value="Click me for The Netherlands" 
+                onclick="updateData()" />
+            </div>
+ -->
+
+
+
+
+
+
+
+
+
             </div>
         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         <!-- BAR -->
         <div class="col-sm-6">
 
-            <img src="https://www.tutorialspoint.com/r/images/barchart_months_revenue.png" class="img-fluid" alt="W3Schools.com">
         
-             <div id ="bardiv">
-            <svg class="barchart"> </svg>
+            <div id ="bardiv">
+                <svg class="barchart"> </svg>
             </div>
 
         </div>
     </div>
 
-    <div class ="row">
+    <div class ="row2">
         <div class="col-sm-12">
-               <img src="http://image.mathcaptain.com/cms/images/113/straight-line-graph.png" class="img-fluid">
+            <div id ="linediv">
+                <svg class="linegraph"> </svg>
+            </div>
+
+              <!--  <img src="http://image.mathcaptain.com/cms/images/113/straight-line-graph.png" class="img-fluid"> -->
         </div>
 
     </div>

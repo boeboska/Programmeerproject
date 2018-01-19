@@ -1,6 +1,6 @@
 Dieren:
 
-http://statline.cbs.nl/Statweb/publication/?DM=SLNL&PA=80780ned&D1=542,560,572-575,578-579&D2=0,5-16&D3=a&HDR=G1,G2&STB=T&VW=T
+http://statline.cbs.nl/Statweb/publication/?DM=SLNL&PA=80780ned&D1=542%2c560%2c572-575%2c578-579&D2=0%2c5-16&D3=0-16&HDR=G1%2cG2&STB=T&VW=D
 
 Bevolking:
 
