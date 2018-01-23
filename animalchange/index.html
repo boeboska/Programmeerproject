@@ -11,17 +11,13 @@
     <link rel="stylesheet" type="text/css" href="map.css">
     <link rel="stylesheet" type="text/css" href="bar.css">
 
-
-
     <script src="//d3js.org/d3.v3.min.js"></script>
     <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+    
     <script src="http://d3js.org/queue.v1.min.js"></script>
     <script src="http://d3js.org/topojson.v1.min.js"></script>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-
-
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
@@ -30,8 +26,6 @@
     <script src="bar.js"></script>
     <script src="line.js"></script>
     <script src="map.js"></script>
-   
-
 
     <title>Animal Change</title>
 
@@ -47,71 +41,37 @@
 
     <div class="page-header"> </div>
 
-
-
     <div class="row">
         <!-- MAP -->
         <div class="col-sm-6">
 
-            <button type="button" class="btn btn-info">Kippen</button>
-            <button type="button" class="btn btn-info">Kalkoenen</button>
-            <button type="button" class="btn btn-info">Konijnen</button>
-            <button type="button" class="btn btn-info">Varkens</button>
+            <button type="button" class ="nl_button" onclick="back_to_nl()"
+            >Nederland</button>
 
-            <button type="button" class = "nl_button" onclick="back_to_nl()"
-            >Click me to go back the The Nerherlands </button>
+            <form action ="">
+
+                <input type="checkbox" class="box" value="kip" onclick="animal_button_map(value)" onchange="animal_button_bar(value)"> Kip <br>
+
+                <input type="checkbox" class="box" value="varken" onclick="animal_button_map(value)" onchange="animal_button_bar(value)"> varken <br>
+
+                <input type="checkbox" class="box" value="overig" onclick="animal_button_map(value)" onchange="animal_button_bar(value)"> overig <br>
+
+                <input type="checkbox" class="box" value="kalkoen" onclick="animal_button_map(value)" onchange="animal_button_bar(value)"> kalkoen <br>
+
+            </form>
 
 
               <!-- SLIDER -->
             <div class="slidecontainer">
             <input type ="range" min ="2000" max="2016" value="2000" class="slider" id="myRange" 
-            onchange="change_year(value); change_year_bar(value)">
+            oninput="change_year(value); change_year_bar(value);">
             </div>
 
             <!-- MAP -->
             <div id="mapdiv">
              <svg = class= "map"> </svg>
-
- <!--            <div id="option">
-                <input name="updateButton" 
-                type="button" 
-                value="Click me for The Netherlands" 
-                onclick="updateData()" />
-            </div>
- -->
-
-
-
-
-
-
-
-
-
             </div>
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

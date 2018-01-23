@@ -8,7 +8,7 @@ i = 0
 hoeveel = 0
 
 # Open the csv file and delete the first rows.
-file = open('datah.txt', 'r') 
+file = open('final_data.txt', 'r') 
 text = file.readlines()
 
 
@@ -55,8 +55,15 @@ for row in text:
 			temp[year][provincie]["kipmens"] = dieren[j+7]
 			temp[year][provincie]["kalkoenmens"] = dieren[j+8]
 			temp[year][provincie]["overigmens"] = dieren[j+9]
-			j = j + 10
+
+			temp[year][provincie]["varkenbedrijf"] = dieren[j+10]
+			temp[year][provincie]["kipbedrijf"] = dieren[j+11]
+			temp[year][provincie]["kalkoenbedrijf"] = dieren[j+12]
+			temp[year][provincie]["overigbedrijf"] = dieren[j+13]
+
+
+			j = j + 14
 			# print(j)
 
-with open("datah.json", "w") as outfile:
+with open("final_data.json", "w") as outfile:
 	json.dump(temp, outfile)

@@ -24,8 +24,6 @@
 	float: left;
 }
 
-
-
 .slidecontainer {
 
 	/*width: 250px;*/
@@ -82,6 +80,28 @@
 }
 
 .nl_button {
+
     cursor: pointer;
+    background: #e0e0e0;
+    height: 50px;
+    width: 200px;
+    font-weight: bold;
+    font-size: 250%;
+}
+
+.nl_button:hover {
+    background: #c6c6c6;
 
 }
+
+.box {
+
+    text-align: center;
+    cursor: pointer;
+    background: #e0e0e0;
+    height: 50px;
+    width: 100px;
+    font-weight: bold;
+    font-size: 250%;
+}
+

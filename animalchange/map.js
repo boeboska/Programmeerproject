@@ -1,5 +1,5 @@
 gegevens = 
-// provincies = ["Groningen", "Friesland", "Drenthe", "Overijssel", "Flevoland", "Gelderland", "Utrecht", "Noord-Holland", "Zuid-Holland", "Zeeland", "Noord-Brabant", "Limburg"]
+provincies = ["Noord-Brabant", "Utrecht", "Zuid-Holland", "Noord-Holland", "Drenthe", "Friesland", "Gelderland", "Groningen", "Limburg", "Overijssel", "Flevoland", "Zeeland"]
 provincies2 = ["Noord-Brabant", "Utrecht", "Zuid-Holland", "Noord-Holland"]
 provincies3 = ["Drenthe", "Friesland", "Gelderland", "Groningen", "Limburg", "Overijssel", "Flevoland", "Zeeland"]
 company_data = []
@@ -8,9 +8,19 @@ var tip;
 var current_year;
 array = [];
 
+kip_button = 0;
+chicken_button = "off"
 
+varken_button = 0;
+pig_button = "off"
 
+overig_button = 0;
+other_button = "off"
 
+kalkoen_button = 0;
+turkey_button = "off"
+
+buttons_on = []
 
 window.onload = function() {
 
@@ -34,13 +44,13 @@ window.onload = function() {
 
     queue()
         .defer(d3.json, "nld.json")
-        .defer(d3.json, "datah.json")
+        .defer(d3.json, "final_data.json")
         .await(data_loader);
-
-
 
     function data_loader (error, nld, data){
         
+        // console.log(data)
+
         if (error) throw error;
 
         gegevens = data
@@ -54,10 +64,8 @@ window.onload = function() {
                 return  "<strong> Capital: </strong> <span style='color:red'>" + d.properties.name + "</span>" +
                         "<div> <strong> Breeding Farms: </strong> <span style='color:red'>" + data[current_year][d.properties.name]["bedrijven"] + "</div>"
 
-
         });
         map.call(tip);
-
 
         var l = topojson.feature(nld, nld.objects.subunits).features[3],
             b = path.bounds(l),
@@ -85,10 +93,8 @@ window.onload = function() {
             .on("mouseover", tip.show)
             .on("mouseout", tip.hide)
 
-            .on("click", function(d) { click_province_bar(d.properties.name),
-                click_province_line(d.properties.name)} )
+            .on("click", function(d) { click_province_bar(d.properties.name)} )
             
-
         var colorss = ["#ffe6e6", "#ffb3b3", "#ff6666", "#ff1a1a", "#b30000"];
         var legenda_numbers = ["0 - 250", "250 - 500", "500 - 1000", "1000 - 2000", "2000 +"];
 
@@ -117,33 +123,192 @@ window.onload = function() {
             .attr("dy", ".35em")
             .style("text-anchor", "end")
             .text(function(d) { return d; })
-
     };
 };
 
-
-
-function change_year(value){
+function change_year(value) {
 
     current_year = value
 
-    kaartje = map.selectAll("path")
-    kaartje.attr("fill", function(d, i) { 
-        if (d.properties.name != undefined) 
-        { return map_color(gegevens[value][d.properties.name]["bedrijven"])}
+    // als er knoppen aan staan, update dan de kaart met die knoppen
+    if (buttons_on.length > 0) {
+        make_map(buttons_on)
+    }
+    else {
+        kaartje = map.selectAll("path")
+        kaartje.attr("fill", function(d, i) { 
+            if (d.properties.name != undefined) { 
+                return map_color(gegevens[value][d.properties.name]["bedrijven"])
+            }
         });
-}
-
-function map_color(number){
-    if (number < 250 || number == 250) {
-        return "#ffe6e6"
-    } else if (number > 250 && number < 500 || number == 500 ) {
-        return "#ffb3b3"
-    } else if (number > 500 && number < 1000 || number == 1000) {
-        return "#ff6666"
-    } else if (number > 1000 && number < 2000 || number == 2000) {
-        return "#ff1a1a"
-    } else if (number > 2000) {
-        return "#b30000"
     }
 }
+
+function map_color(number) {
+
+    if (number >= 0) {
+
+        if (number < 250 || number == 250) {
+            return "#ffe6e6"
+        } 
+        else if (number > 250 && number < 500 || number == 500 ) {
+            return "#ffb3b3"
+        } 
+        else if (number > 500 && number < 1000 || number == 1000) {
+            return "#ff6666"
+        } 
+        else if (number > 1000 && number < 2000 || number == 2000) {
+            return "#ff1a1a"
+        } 
+        else if (number > 2000) {
+            return "#b30000"
+        }
+    }
+}
+
+function animal_button_map (value) {
+    // console.log(value)
+
+    if (value == "kip") {
+
+        kip_button = kip_button + 1
+        chicken_button = check_button_on_2(kip_button)
+
+        if (chicken_button == "on") { 
+            buttons_on.push("kipbedrijf")
+            make_map(buttons_on)
+        }
+        else { 
+            remove_animal_from_array_map("kipbedrijf")
+            make_map(buttons_on)
+        }
+    }
+    else if (value == "varken") {
+
+        varken_button = varken_button + 1
+        pig_button = check_button_on_2(varken_button)
+
+        if (pig_button == "on") {
+            buttons_on.push("varkenbedrijf")
+            make_map(buttons_on)
+        }
+        else { 
+            remove_animal_from_array_map("varkenbedrijf")
+            make_map(buttons_on)
+             }
+    }
+    else if (value == "overig") {
+
+        overig_button = overig_button + 1
+        other_button = check_button_on_2(overig_button)
+
+        if (other_button == "on") {
+            buttons_on.push("overigbedrijf")
+            make_map(buttons_on)
+        }
+        else { 
+            remove_animal_from_array_map("overigbedrijf")
+            make_map(buttons_on)
+             }
+    }
+
+    else if (value == "kalkoen") {
+
+        kalkoen_button = kalkoen_button + 1
+        turkey_button = check_button_on_2(kalkoen_button)
+        console.log(turkey_button)
+
+        if (turkey_button == "on") {
+            buttons_on.push("kalkoenbedrijf")
+            make_map(buttons_on)
+
+        }
+        else { 
+            remove_animal_from_array_map("kalkoenbedrijf")
+            make_map(buttons_on)
+        }
+    }
+}
+
+function check_button_on_2 (value) {
+    if (value % 2 == 1) {
+        return "on"
+    }
+    else {
+        return "off"
+    }
+}
+
+// als er een button uit gaat
+function remove_animal_from_array_map (animal) {
+    for (var i = buttons_on.length - 1; i >= 0; i--) {
+        if (buttons_on[i] == animal) {
+            buttons_on.splice(i, 1)
+        }
+    }       
+}
+
+function make_map (aantal_buttons_aan) {
+
+  // als alle knoppen uit staan of allemaal aan staan
+    if (aantal_buttons_aan.length == 0 || aantal_buttons_aan.length == 4) {
+             create_part_map ("alle_buttons_staan_uit")
+    }
+    else if (aantal_buttons_aan.length == 1) {
+        create_part_map (aantal_buttons_aan)
+    }
+    else if (aantal_buttons_aan.length > 1) {
+        multiple_buttons_map (aantal_buttons_aan)
+    }  
+}
+
+
+function create_part_map (value) {
+
+    new_map = map.selectAll("path")
+    new_map.attr("fill", function(d,i) {
+        if (d.properties.name != undefined) {
+            // alleen kip of varken
+            if (value.length == 1) {
+                // console.log(value)
+                return map_color(gegevens[current_year][d.properties.name][value])
+            }
+            // als alles uit staat
+            else {
+                return map_color(gegevens[current_year][d.properties.name]["bedrijven"])
+            }  
+        }
+    })
+}
+
+// als er meedere buttons aan staan
+function multiple_buttons_map (animal_rij) {
+
+    rijtje_nummers = []
+    eind_rijtje = []
+
+    for (var i = 0; i < animal_rij.length; i++) {
+        for (var j = 0; j < provincies.length; j++) {
+            rijtje_nummers.push(parseInt(gegevens[current_year][provincies[j]][animal_rij[i]]))
+        }
+    }
+
+    for (var i = 0; i < rijtje_nummers.length / animal_rij.length; i++) {
+        // als er 2 dieren zijn
+        if (animal_rij.length == 2) {
+            eind_rijtje.push(rijtje_nummers[i] + rijtje_nummers[i + 12])
+        }
+        // als er 3 dieren zijn
+        else if (animal_rij.length == 3) {
+            eind_rijtje.push(rijtje_nummers[i] + rijtje_nummers[i + provincies.length] + rijtje_nummers[i + (provincies.length * 2)])
+        }   
+    }
+
+    new_map = map.selectAll("path")
+    new_map.attr("fill", function(d,i) {
+        if (d.properties.name != undefined) {
+            return  map_color(eind_rijtje[i - 1])
+        }
+    })
+}
+

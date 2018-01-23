@@ -7,13 +7,21 @@ var valueline
 var kip_line, varken_line, overig_line, kalkoen_line
 var kipmens, varkensmens, overigmens, kalkoenmens
 var value, new_value
-var x 
+var x_line
 var y_line
+
+var kip_click = 0;
+var varken_click = 0;
+var overig_click = 0;
+var kalkoen_click = 0;
+
+var y_lineAxis
+var x_lineAxis
 
 function lineGraph() {
 
 	var margin = {top: 20, right: 20, bottom: 30, left: 60}
-	var width = 2500 - margin.left - margin.right;
+	var width = 1250 - margin.left - margin.right;
 	var height = 480 - margin.top - margin.bottom;
 
 	linegraph = d3.select(".linegraph")
@@ -22,25 +30,25 @@ function lineGraph() {
 		.append("g")
 		.attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
 
-	x = d3.scale.linear()
+	x_line = d3.scale.linear()
 		.range([0, width]);
 
 	y_line = d3.scale.linear()
 		.range([height, 0]);
 
-	var xAxis = d3.svg.axis()
+	x_lineAxis = d3.svg.axis()
 		.tickFormat(function(d) { return d })
-		.scale(x)
+		.scale(x_line)
 		.orient("bottom");
 
-	var yAxis = d3.svg.axis()
+	y_lineAxis = d3.svg.axis()
 		.scale(y_line)
 		.orient("left")
 
 	var color = d3.scale.category10();
 
 	queue()
-		.defer(d3.json, "datah.json")
+		.defer(d3.json, "final_data.json")
 		.await(make_line);
 
 	function make_line(error, linedata) {
@@ -48,19 +56,19 @@ function lineGraph() {
 
 		line_gegevens = linedata
 
-		x.domain([2000, 2016])
+		x_line.domain([2000, 2016])
 		y_line.domain([0, 900])
 
 		// add the Xaxis
 		linegraph.append("g")
 			.attr("class", "x axis")
 			.attr("transform", "translate(0," + height + ")")
-			.call(xAxis);
+			.call(x_lineAxis);
 
 		// add the Y Axis
 		linegraph.append("g")
 			.attr("class", "y axis")
-			.call(yAxis);
+			.call(y_lineAxis);
 
 		calculate_line("kipmens")
 		calculate_line("varkenmens")
@@ -112,10 +120,9 @@ function calculate_line (value) {
 		waardes[i]["year"] = jaren[i]
 		waardes[i][value] = number
 	}
-	
 
 	valueline = d3.svg.line()
-	.x(function(d) { return x(d.year); })
+	.x(function(d) { return x_line(d.year); })
 	.y(function(d) { return y_line(d[value]); })
 
 	create_line(valueline, waardes, value)
@@ -123,13 +130,31 @@ function calculate_line (value) {
 
 function create_line (line, waardes, value) {
 
-	// linegraph = d3.select(".linegraph")
 	linegraph.append("path")
+		.attr("class", "lijn")
 		.attr("stroke", color_line(value))
 		.attr("stroke-width", 4)
 		.attr("d", line(waardes))
 		.style("fill", "none")
 }
+
+function create_line_2 (line, waardes, value) {
+
+	console.log(waardes)
+	console.log(value)
+	// update y as
+	// y_line.domain([0, 600])
+	// linegraph.select(".y.axis").transition().duration(300).call(y_lineAxis)
+
+	linegraph.append("path")
+		.attr("class", "lijn")
+		.attr("stroke", color_line(value))
+		.attr("stroke-width", 4)
+		.attr("d", line(waardes))
+		.style("fill", "none")
+}
+
+
 
 function color_line (value) {
 
@@ -147,38 +172,57 @@ function color_line (value) {
 	}
 }
 
-function click_province_line (province){
+
+function update_linegraph () {
+
+	// verwijder oude lijnen
+	linegraph.selectAll(".lijn").remove()
 	
+	// kijk of er knoppen aan staan
+	if (update_soorten.length != 0) {
+		lijnsoorten.length = update_soorten.length
+	}
+
+
 	for (var j = 0; j < lijnsoorten.length; j++) {
 
 		waardes = []
 		for (var i = 0; i < jaren.length; i++) {
 
-			number = line_gegevens[jaren[i]][province][lijnsoorten[j]]
-
+			// kijk of het voor heel NL moet of een provincie
+			if (current_province != "leeg") {
+				number = line_gegevens[jaren[i]][current_province][lijnsoorten[j]]
+			}
+			else {
+				number = line_gegevens[jaren[i]]["Nederland"][lijnsoorten[j]]
+			}
+			
 			waardes[i] = {}
 			waardes[i]["year"] = jaren[i]
 			waardes[i][lijnsoorten[j]] = number
 		}
 
-		if (lijnsoorten[j] == "kipmens"){
+		if (lijnsoorten[j] == "kipmens") {
 			valueline = kip_line
 		}
-		else if (lijnsoorten[j] == "varkenmens"){
+		else if (lijnsoorten[j] == "varkenmens") {
 			valueline = varken_line
 		}
-		else if (lijnsoorten[j] == "kalkoenmens"){
+		else if (lijnsoorten[j] == "kalkoenmens") {
 			valueline = kalkoen_line
 		}
-		else if (lijnsoorten[j] == "overigmens"){
+		else if (lijnsoorten[j] == "overigmens") {
 			valueline = overig_line
 		}
 
 		valueline = d3.svg.line()
-		.x(function(d) { return x(d.year); })
+		.x(function(d) { return x_line(d.year); })
 		.y(function(d) { return y_line(d[lijnsoorten[j]]); })
 
-		create_line(valueline, waardes, lijnsoorten[j])
+		create_line_2(valueline, waardes, lijnsoorten[j])
 	}
 
 }
+
+
+
