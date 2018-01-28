@@ -102,7 +102,7 @@ function lineGraph() {
             .attr("stroke", "black")
             .style("fill", function(d) { return d });
 
-            // positie van de tekst van de legenda 
+        // positie van de tekst van de legenda 
         line_legend.append("text")
             .data(legenda_animal)
             .attr("x", width - 30)
@@ -114,9 +114,9 @@ function lineGraph() {
 
         // zet het getal onder de slider standaart op 2000
         var slider = d3.selectAll(".slidecontainer")
-		slider.append("text")
-		.text(2000)
-		.style("font-size", "30px")
+			slider.append("text")
+			.text(2000)
+			.style("font-size", "30px")
 	}
 }
 
