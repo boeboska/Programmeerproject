@@ -11,13 +11,13 @@
     <link rel="stylesheet" type="text/css" href="/code/css/map.css">
     <link rel="stylesheet" type="text/css" href="/code/css/bar.css">
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
     <script src="//d3js.org/d3.v3.min.js"></script>
     <script src="https://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
     
     <script src="https://d3js.org/queue.v1.min.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
@@ -29,83 +29,99 @@
 
     <title>Animal Change</title>
 
-
 </head>
 
 
 <body>
 
-    <div class="jumbotron">
-        <h1> Animal change The Netherlands between 2000 - 2016 </h1>
+    <div class="menu_setup">
+
+        <!-- GROENE BALK -->
+        <div class="page-header"> </div>
+
+        <ul class="nav nav-tabs">
+            <li class="active"> <a data-toggle="tab" href="#introduction">Introduction</a> </li>
+            <li> <a data-toggle="tab" href="#visualisation"> Visualisation </a> </li>
+        </ul>
+
+        <div class="tab-content">
+
+            <!-- TABLAD 2 -->
+            <div id ="visualisation" class="tab-pane fade in active">
+
+                <!-- groene streep -->
+                <!-- <div class="page-header"> </div> -->
+
+                <div class="row">
+                    <!-- MAP -->
+                    <div class="col-sm-6">
+
+                        <button type="button" class ="nl_button" onclick="back_to_nl()">Nederland</button>
+
+                          <!-- SLIDER -->
+                        <div class="slidecontainer">
+                        <input type ="range" min ="2000" max="2016" value="2000" class="slider" id="myRange" 
+                        oninput="change_year(value); change_year_bar(value);">
+                        </div>
+
+                        <!-- MAP -->
+                        <div id="mapdiv">
+                         <svg = class= "map"> </svg>
+                        </div>
+                    </div>
+
+                    <!-- BAR -->
+                    <div class="col-sm-6">
+ 
+                        <div id ="bardiv">
+
+                            <svg class="barchart"> 
+
+                            </svg>
+                        </div>
+
+                    </div>
+                </div>
+
+                    <div class ="row2">
+                        <div class="col-sm-6">
+                            <div id ="linediv">
+                                <svg class="linegraph"> </svg>
+                            </div>
+
+                        </div>
+
+
+                         <div class="col-sm-6">
+                            <div id ="buttondiv">
+                            <form action ="">
+
+                                <input type="checkbox" class="box" value="kip" onclick="animal_button_map(value)" onchange="animal_button_bar(value)"> Kip <br>
+
+                                <input type="checkbox" class="box" value="varken" onclick="animal_button_map(value)" onchange="animal_button_bar(value)"> varken <br>
+
+                                <input type="checkbox" class="box" value="overig" onclick="animal_button_map(value)" onchange="animal_button_bar(value)"> overig <br>
+
+                                <input type="checkbox" class="box" value="kalkoen" onclick="animal_button_map(value)" onchange="animal_button_bar(value)"> kalkoen <br>
+
+                            </form>
+                            </div>
+                        </div>
+
+                    </div>
+            </div>
+
+             <!-- TABLAD 1 -->
+            <div id="introduction" class="tab-pane fade">
+
+            </div>
+
+        </div>
     </div>
 
-    <div class="page-header"> </div>
-
-    <div class="row">
-        <!-- MAP -->
-        <div class="col-sm-6">
-
-            <button type="button" class ="nl_button" onclick="back_to_nl()"
-            >Nederland</button>
-
-            
+    <!-- <div class="page-header"> </div> -->
 
 
-              <!-- SLIDER -->
-            <div class="slidecontainer">
-            <input type ="range" min ="2000" max="2016" value="2000" class="slider" id="myRange" 
-            oninput="change_year(value); change_year_bar(value);">
-            </div>
-
-            <!-- MAP -->
-            <div id="mapdiv">
-             <svg = class= "map"> </svg>
-            </div>
-        </div>
-
-
-
-        <!-- BAR -->
-        <div class="col-sm-6">
-
-        
-            <div id ="bardiv">
-
-                <svg class="barchart"> 
-
-                </svg>
-            </div>
-
-        </div>
-    </div>
-
-    <div class ="row2">
-        <div class="col-sm-6">
-            <div id ="linediv">
-                <svg class="linegraph"> </svg>
-            </div>
-
-        </div>
-
-
-         <div class="col-sm-6">
-            <div id ="buttondiv">
-            <form action ="">
-
-                <input type="checkbox" class="box" value="kip" onclick="animal_button_map(value)" onchange="animal_button_bar(value)"> Kip <br>
-
-                <input type="checkbox" class="box" value="varken" onclick="animal_button_map(value)" onchange="animal_button_bar(value)"> varken <br>
-
-                <input type="checkbox" class="box" value="overig" onclick="animal_button_map(value)" onchange="animal_button_bar(value)"> overig <br>
-
-                <input type="checkbox" class="box" value="kalkoen" onclick="animal_button_map(value)" onchange="animal_button_bar(value)"> kalkoen <br>
-
-            </form>
-            </div>
-        <div>
-
-
-    </div>
 
 </body>
 

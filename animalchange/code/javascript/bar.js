@@ -88,7 +88,9 @@ function barChart() {
 			.attr('class', 'd3-tipbar')
 			.offset([-10, 0])
 			.html(function(d, i) {
-				
+
+				// show the connected line with the bar
+				show_current_line(i)
 				return "<strong> Amount: </strong> <span style='color:red'>" + current_hover_data(i) + "</span>";
 		});
 
@@ -145,22 +147,75 @@ function barChart() {
 			.attr("height", function(d, i) { return height - y(numbers_array[i]); })
 
 			.on("mouseover", tip_bar.show)
-			.on("mouseout", tip_bar.hide)
+			.on("mouseout", function() {
+				out_line(),
+				tip_bar.hide
+				
+			})
+
 	}
 }
 
-function selectline(input) {
-	console.log(input)
+            
+
+function out_line () {
+
+	// kleur alle lijnen opnieuw
+	for (var i = 0; i < lijnsoorten.length; i++) {
+
+		// wanneer de lijnen opnieuwe getekend zijn
+		if (new_lines == "yes") {
+			var show_line_return = d3.selectAll("." + lijnsoorten[i])
+		}
+		else {
+			var show_line_return = d3.selectAll("#" + lijnsoorten[i])
+		}
+		show_line_return.attr("stroke", (color_line(lijnsoorten[i])))
+		show_line_return.attr("stroke-width", 7)
+	}
 }
 
-function powerOfTen(d) {
+function show_current_line (i) {
+
+
+	var current_line
+	current_line = lijnsoorten[i]
+
+	
+		// teken alle lijnen weer volgens de oude kleur
+		for (var i = 0; i < lijnsoorten.length; i++) {
+
+			// wanneer de lijnen opnieuwe getekend zijn
+			if (new_lines == "yes") {
+				var show_line_return = d3.selectAll("." + lijnsoorten[i])
+			}
+			else {
+				var show_line_return = d3.selectAll("#" + lijnsoorten[i])
+			}
+			show_line_return.attr("stroke", (color_line(lijnsoorten[i])))
+			show_line_return.attr("stroke-width", 7)
+		}
+
+		if (new_lines == "yes") {
+			var show_line = d3.selectAll("." + current_line)
+		}
+		else {
+			var show_line = d3.selectAll("#" + current_line)
+		}
+
+			// kleur de lijn zwart die moseouver is + lijndikte vergroten
+			show_line.attr("stroke", "black")
+			show_line.attr("stroke-width", 10)
+}
+
+
+function powerOfTen (d) {
 	console.log(d)
 	return d / Math.pow(10, Math.ceil(Math.log(d) / Math.LN10 - 1e-12)) === 1;
 }
 
 function change_year_bar(value) {
 	
-
 	var slider = d3.selectAll(".slidecontainer")
 		slider.selectAll("text").remove()
 		slider.append("text")
@@ -263,7 +318,12 @@ function update_barchart (y_numbers, x_numbers) {
 
 		new_bar
 			.on("mouseover", tip_bar.show)
-			.on("mouseout", tip_bar.hide)
+			.on("mouseout", function() {
+				out_line(),
+				tip_bar.hide
+				
+			})
+
 	}
 }
 

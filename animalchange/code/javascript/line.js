@@ -24,6 +24,8 @@ var aap
 
 y_as_numbers = []
 
+var new_lines = "no"
+
 function lineGraph() {
 
 	var margin = {top: 20, right: 20, bottom: 30, left: 60}
@@ -82,7 +84,7 @@ function lineGraph() {
 		calculate_line("kalkoenmens")
 		calculate_line("overigmens")
 
-		var line_colors = ["#5C6BC0", "#FFCA28", "#D4E157", "#8D6E63"];
+		var line_colors = ["#A1887F", "#F48FB1", "#D4E157", "#FF8A65"];
         var legenda_animal = ["kip (x10)", "varken", "kalkoen", "overig"];
 
 		var line_legend = linegraph.selectAll(".line_legend")
@@ -141,8 +143,10 @@ function calculate_line (value) {
 
 function create_line (line, waardes, value) {
 	
+
 	linegraph.append("path")
 		.attr("class", "lijn")
+		.attr("id", value)
 		.attr("stroke", color_line(value))
 		.attr("stroke-width", 7)
 		.attr("d", line(waardes))
@@ -150,6 +154,8 @@ function create_line (line, waardes, value) {
 }
 
 function create_line_2 (line, waardes, value) {
+
+	new_lines = "yes"
 
 	console.log(value)
 	console.log(waardes)
@@ -162,27 +168,25 @@ function create_line_2 (line, waardes, value) {
 		.style("fill", "none")
 }
 
-function color_line (value) {
-	console.log("HIER@@@@@@@@@@@@@")
-	console.log(value)
+function color_line (value) {	
 
-	var line_colors = ["#5C6BC0", "#FFCA28", "#D4E157", "#8D6E63"];
+	var line_colors = ["#A1887F", "#F48FB1", "#D4E157", "#FF8A65"];
         var legenda_animal = ["kip (x10)", "varken", "kalkoen", "overig"];
 
 	
 
 	if (value == "kipmens") {
-		return "#5C6BC0"	
+		return "#A1887F"	
 	}
 	else if (value == "varkenmens") {
-		return "#FFCA28"
+		return "#F48FB1"
 		
 	}
 	else if (value == "kalkoenmens") {
 		return "#D4E157"
 	}
 	else if (value == "overigmens") {
-		return "#8D6E63"
+		return "#FF8A65"
 	}
 }
 
