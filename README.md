@@ -1,4 +1,4 @@
-Link: https://boeboska.github.io/Programmeerproject/
+Link to visualisation: https://boeboska.github.io/Programmeerproject/
 
 
 
