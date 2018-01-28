@@ -1,7 +1,6 @@
-Link to visualisation:
 <div>
-		<a href="animalchange/index.html"> Link to visualisation::  </a>  
-	</div>
+	<a href="animalchange/index.html"> Link to visualisation::  </a>  
+</div>
 
 
 Project Proposal animal change
