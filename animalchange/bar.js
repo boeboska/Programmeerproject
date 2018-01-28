@@ -30,7 +30,7 @@ function barChart() {
 	
 	var margin = {top: 25, right: 30, bottom: 60, left: 60}
 	width = 1100 - margin.left - margin.right
-	height = 1000 - margin.top - margin.bottom;
+	height = 900 - margin.top - margin.bottom;
 
 
 
@@ -61,7 +61,7 @@ function barChart() {
 		.attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
 	
 	queue()
-		.defer(d3.json, "final_data.json")
+		.defer(d3.json, "mdata.json")
 		.await(make_bar);
 
 	function make_bar(error, bardata) {
@@ -149,12 +149,23 @@ function barChart() {
 	}
 }
 
+function selectline(input) {
+	console.log(input)
+}
+
 function powerOfTen(d) {
 	console.log(d)
 	return d / Math.pow(10, Math.ceil(Math.log(d) / Math.LN10 - 1e-12)) === 1;
 }
 
 function change_year_bar(value) {
+	
+
+	var slider = d3.selectAll(".slidecontainer")
+		slider.selectAll("text").remove()
+		slider.append("text")
+		.text(value)
+		.style("font-size", "30px")
 
 	currentyear = value
 	calculate_y_numbers()
@@ -183,6 +194,14 @@ function calculate_y_numbers () {
 
 function click_province_bar (province) {
 
+	// logt de huidige provincie
+  //   var click_provincie = d3.selectAll(".nl_button")
+	 //    click_provincie.selectAll("text").remove()
+		// click_provincie.append("text")
+		// .attr("class", provincie_locatie)
+		// .text(province)
+		// .style("font-size", "30px")
+
 	current_province = province
 	nl_on = "no"
 
@@ -193,6 +212,12 @@ function click_province_bar (province) {
 
 	numbers_array = calculate_y_numbers()
 
+	console.log(update_knoppen)
+
+	// verwijder alle oude lijnen
+	remove_lines()
+
+	// teken de nieuwe lijnen
 	update_linegraph()
 }
 
@@ -226,14 +251,15 @@ function update_barchart (y_numbers, x_numbers) {
 		.remove()
 
 		new_bar.enter().append("rect")
-			.attr("id", function(d, i) { return x_numbers[i] })
-			.attr("class", "bar")
+			
 			
 		new_bar.transition().duration(1000)
 			.attr("x", function(d, i) { return x(x_numbers[i]); })
 			.attr("width", x.rangeBand())
 			.attr("y", function(d, i) { return y(y_numbers[i]); })
 			.attr("height", function(d, i) { return height - y(y_numbers[i]); })
+			.attr("id", function(d, i) { return x_numbers[i] })
+			.attr("class", "bar")
 
 		new_bar
 			.on("mouseover", tip_bar.show)
@@ -243,14 +269,33 @@ function update_barchart (y_numbers, x_numbers) {
 
 function back_to_nl () {
 
+	// // zet huidige plek op nederland
+	// var click_provincie = d3.selectAll(".legend")
+	// 	click_provincie.selectAll("text").remove()
+ //        click_provincie.append("text")
+ //        .text("Nederland")
+ //        .style("font-size", "30px")
+
 	current_province = "leeg"
 	nl_on = "yes"
 	calculate_y_numbers()
+
+	// line
+	remove_lines()
+	if (update_knoppen.length == 0) {
+		update_knoppen = lijnsoorten
+		update_linegraph()
+		update_knoppen = []
+	}
+	else {
+		update_linegraph()
+	}
+
 }
 
 function animal_button_bar (value) {
 
-	console.log(value)
+	// console.log(value)
 
 	if (value == "kip") {
 		kip_click = kip_click + 1
@@ -259,14 +304,26 @@ function animal_button_bar (value) {
 		if (kip_on == "on") {
 
 			update_soorten.push("kip")
+			update_knoppen.push("kipmens")
 			current_animals = update_soorten
 			calculate_y_numbers()
-			update_linegraph ()
+
+			
+			// als er op een provincie is geklikt
+			if (current_province != "leeg") {
+				remove_lines()
+			}
+			update_linegraph("kipmens")
+
 			
 		}
 		else { 
 			remove_animal_from_array("kip") 
+			remove_animal_from_array_line("kipmens")
 			calculate_y_numbers()
+			linegraph.selectAll(".kipmens").remove()
+			update_linegraph()
+			
 		}
 			
 	}
@@ -277,12 +334,25 @@ function animal_button_bar (value) {
 
 		if (varken_on == "on") {
 			update_soorten.push("varken")
+			update_knoppen.push("varkenmens")
 			current_animals = update_soorten
 			calculate_y_numbers()
+
+			if (current_province != "leeg") {
+				remove_lines()
+			}
+
+
+
+			update_linegraph("varkenmens")
 		}
 		else { 
 			remove_animal_from_array("varken") 
 			calculate_y_numbers()
+			remove_animal_from_array_line("varkenmens")
+			linegraph.selectAll(".varkenmens").remove()
+			update_linegraph()
+
 		}	
 	}
 
@@ -292,13 +362,25 @@ function animal_button_bar (value) {
 
 		if (overig_on == "on") {
 			update_soorten.push("overig")
+			update_knoppen.push("overigmens")
 			current_animals = update_soorten
 			calculate_y_numbers()
+
+
+
+			if (current_province != "leeg") {
+				remove_lines()
+			}
+
+			update_linegraph("overigmens")
 		}
 		else { 
 			remove_animal_from_array("overig")
 			calculate_y_numbers()
-			}	
+			remove_animal_from_array_line("overigmens")
+			linegraph.selectAll(".overigmens").remove()
+			update_linegraph()
+		}	
 	}
 
 	else if (value == "kalkoen") {
@@ -307,11 +389,22 @@ function animal_button_bar (value) {
 
 			if (kalkoen_on == "on") {
 				update_soorten.push("kalkoen")
+				update_knoppen.push("kalkoenmens")
 				current_animals = update_soorten
 				calculate_y_numbers()
+
+
+				if (current_province != "leeg") {
+					remove_lines()
+				}
+				update_linegraph("kalkoenmens")
 			}
-			else { remove_animal_from_array("kalkoen") 
+			else { 
+				remove_animal_from_array("kalkoen") 
 				calculate_y_numbers()
+				remove_animal_from_array_line("kalkoenmens")
+				linegraph.selectAll(".kalkoenmens").remove()
+				update_linegraph()
 			}	
 	}
 }
@@ -360,10 +453,19 @@ function current_hover_data(hover_anmial) {
 function convert_number_to_good_notation (number) {
 
 	var number = number.toLocaleString (undefined, { minimumFractionDigits: 0} );
-
 	return number
+}
 
+function remove_animal_from_array_line (animal) {
+	// console.log(animal)
 
+	for (var i = update_knoppen.length - 1; i >= 0; i--) {
+		if (update_knoppen[i] == animal) {
+    		update_knoppen.splice(i, 1)
+		}
+	}
+	
+	console.log(update_knoppen)
 }
 
 

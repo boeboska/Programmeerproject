@@ -27,11 +27,11 @@
 .slidecontainer {
 
 	/*width: 250px;*/
-    width: 50%;
-	height: 200px;
-    padding: 100px;
-    margin-left: auto;
-    margin-right: auto;
+    width: 70%;
+	/*height: 200px;*/
+    padding-left: 300px;
+    /*margin-left: auto;*/
+    /*margin-right: auto;*/
 
 }
 
@@ -94,14 +94,29 @@
 
 }
 
+#buttondiv {
+    width: 500px;
+    /*height: 10000px;*/
+    float: right;
+    float:;
+}
+
 .box {
 
     text-align: center;
     cursor: pointer;
-    background: #e0e0e0;
+    background: green;
     height: 50px;
     width: 100px;
     font-weight: bold;
     font-size: 250%;
+    padding-left: 200px;
 }
 
+/*.nl_button {
+    float: right;
+    padding-left: 200px;
+    width: 20%;
+    
+}
+*/

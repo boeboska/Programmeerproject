@@ -1,6 +1,6 @@
 jaren = ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016"]
 lijnsoorten = ["kipmens", "varkenmens", "kalkoenmens", "overigmens"]
-
+update_knoppen= []
 
 var line_gegevens
 var valueline
@@ -17,6 +17,12 @@ var kalkoen_click = 0;
 
 var y_lineAxis
 var x_lineAxis
+
+lijnvalue = "leeg"
+
+var aap
+
+y_as_numbers = []
 
 function lineGraph() {
 
@@ -48,11 +54,12 @@ function lineGraph() {
 	var color = d3.scale.category10();
 
 	queue()
-		.defer(d3.json, "final_data.json")
+		.defer(d3.json, "mdata.json")
 		.await(make_line);
 
 	function make_line(error, linedata) {
 		
+		console.log(linedata)
 
 		line_gegevens = linedata
 
@@ -75,23 +82,23 @@ function lineGraph() {
 		calculate_line("kalkoenmens")
 		calculate_line("overigmens")
 
-		var line_colors = ["red", "green", "yellow", "blue"];
-        var legenda_animal = ["kip", "varken", "kalkoen", "overig"];
+		var line_colors = ["#5C6BC0", "#FFCA28", "#D4E157", "#8D6E63"];
+        var legenda_animal = ["kip (x10)", "varken", "kalkoen", "overig"];
 
-		var line_legend = map.selectAll(".line_legend")
+		var line_legend = linegraph.selectAll(".line_legend")
             .data(line_colors)
             .enter()
             .append("g")
             .attr("class", "line_legend")
-            .attr("transform", function(d, i ) { return "translate (0," + i * 20 + ")"; });
+            .attr("transform", function(d, i ) { return "translate (0," + i * 30  + ")"; });
 
 		// positie van de blokjes van de legenda
         line_legend.append("rect")
             .attr("id", function(d, i) { return d })
             .attr("x", width - 20)
             .attr("y", 80)
-            .attr("width", 18)
-            .attr("height", 18)
+            .attr("width", 30)
+            .attr("height", 25)
             .attr("stroke", "black")
             .style("fill", function(d) { return d });
 
@@ -103,6 +110,13 @@ function lineGraph() {
             .attr("dy", ".35em")
             .style("text-anchor", "end")
             .text(function(d) { return d; })
+
+
+        // zet het getal onder de slider standaart op 2000
+        var slider = d3.selectAll(".slidecontainer")
+		slider.append("text")
+		.text(2000)
+		.style("font-size", "30px")
 	}
 }
 
@@ -112,9 +126,6 @@ function calculate_line (value) {
 	for (var i = 0; i < jaren.length; i++) {
 
 		number = line_gegevens[jaren[i]]["Nederland"][value]
-		if (number > 4000){
-			number = number / 10
-		}
 
 		waardes[i] = {}
 		waardes[i]["year"] = jaren[i]
@@ -129,100 +140,202 @@ function calculate_line (value) {
 }
 
 function create_line (line, waardes, value) {
-
+	
 	linegraph.append("path")
 		.attr("class", "lijn")
 		.attr("stroke", color_line(value))
-		.attr("stroke-width", 4)
+		.attr("stroke-width", 7)
 		.attr("d", line(waardes))
 		.style("fill", "none")
 }
 
 function create_line_2 (line, waardes, value) {
 
-	console.log(waardes)
 	console.log(value)
-	// update y as
-	// y_line.domain([0, 600])
-	// linegraph.select(".y.axis").transition().duration(300).call(y_lineAxis)
+	console.log(waardes)
 
 	linegraph.append("path")
-		.attr("class", "lijn")
+		.attr("class", value)
 		.attr("stroke", color_line(value))
-		.attr("stroke-width", 4)
+		.attr("stroke-width", 7)
 		.attr("d", line(waardes))
 		.style("fill", "none")
 }
 
-
-
 function color_line (value) {
+	console.log("HIER@@@@@@@@@@@@@")
+	console.log(value)
+
+	var line_colors = ["#5C6BC0", "#FFCA28", "#D4E157", "#8D6E63"];
+        var legenda_animal = ["kip (x10)", "varken", "kalkoen", "overig"];
+
+	
 
 	if (value == "kipmens") {
-		return "red"	
+		return "#5C6BC0"	
 	}
 	else if (value == "varkenmens") {
-		return "green"
+		return "#FFCA28"
+		
 	}
 	else if (value == "kalkoenmens") {
-		return "yellow"
+		return "#D4E157"
 	}
 	else if (value == "overigmens") {
-		return "blue"
+		return "#8D6E63"
 	}
 }
 
-
-function update_linegraph () {
+function update_linegraph (animal_line) {
 
 	// verwijder oude lijnen
 	linegraph.selectAll(".lijn").remove()
-	
-	// kijk of er knoppen aan staan
-	if (update_soorten.length != 0) {
-		lijnsoorten.length = update_soorten.length
+
+	// verwijder provincie lijnen
+	if (current_province == "leeg") {
+		remove_lines()
 	}
 
+	// console.log(update_knoppen)
 
-	for (var j = 0; j < lijnsoorten.length; j++) {
+	waardes, now_animal = calculate_line_values()
 
-		waardes = []
-		for (var i = 0; i < jaren.length; i++) {
 
-			// kijk of het voor heel NL moet of een provincie
-			if (current_province != "leeg") {
-				number = line_gegevens[jaren[i]][current_province][lijnsoorten[j]]
-			}
-			else {
-				number = line_gegevens[jaren[i]]["Nederland"][lijnsoorten[j]]
-			}
-			
-			waardes[i] = {}
-			waardes[i]["year"] = jaren[i]
-			waardes[i][lijnsoorten[j]] = number
-		}
 
-		if (lijnsoorten[j] == "kipmens") {
+	// console.log(waardes)
+	// console.log(now_animal)
+
+		if (now_animal == "kipmens") {
 			valueline = kip_line
 		}
-		else if (lijnsoorten[j] == "varkenmens") {
+		else if (now_animal == "varkenmens") {
 			valueline = varken_line
 		}
-		else if (lijnsoorten[j] == "kalkoenmens") {
+		else if (now_animal == "kalkoenmens") {
 			valueline = kalkoen_line
 		}
-		else if (lijnsoorten[j] == "overigmens") {
+		else if (now_animal == "overigmens") {
 			valueline = overig_line
 		}
 
 		valueline = d3.svg.line()
 		.x(function(d) { return x_line(d.year); })
-		.y(function(d) { return y_line(d[lijnsoorten[j]]); })
+		.y(function(d) { return y_line(d[now_animal]); })
 
-		create_line_2(valueline, waardes, lijnsoorten[j])
+		create_line_2(valueline, waardes, now_animal)
+		y_as_numbers = []
+}
+
+function calculate_line_values () {
+
+	var now_animal
+
+	// console.log(update_knoppen)
+
+	// kijk of knoppen uit staan
+	if (nl_on == "no" && update_knoppen.length == 0) {
+		update_knoppen = lijnsoorten
 	}
+	// console.log(nl_on)
 
+	console.log(update_knoppen)
+			
+	// set new y_axis
+	update_y_axis()
+
+
+
+	for (var j = 0; j < update_knoppen.length; j++) {
+
+		waardes = []
+		for (var i = 0; i < jaren.length; i++) {
+
+			// console.log(current_province)
+
+			// kijk of het voor heel NL moet of een provincie
+			if (current_province != "leeg") {
+				number = line_gegevens[jaren[i]][current_province][update_knoppen[j]]
+			}
+			else {
+				number = line_gegevens[jaren[i]]["Nederland"][update_knoppen[j]]
+			}
+			
+			waardes[i] = {}
+			waardes[i]["year"] = jaren[i]
+			waardes[i][update_knoppen[j]] = number
+
+		}
+
+		
+
+		// verwijder alle huidige lijnen
+		if (update_knoppen.length > 1 && aap != "jan"){
+			remove_lines()
+			aap = "jan"
+			// console.log("JAAHAA")
+		}
+		
+
+		if (update_knoppen.length == 4 || update_knoppen.length == 2 || update_knoppen.length == 3) {
+
+			now_animal = update_knoppen[j]
+
+			// console.log(waardes)
+			valueline = update_knoppen[j]
+
+			valueline = d3.svg.line()
+			.x(function(d) { return x_line(d.year); })
+			.y(function(d) { return y_line(d[now_animal]); })
+
+			create_line_2(valueline, waardes, now_animal)
+		}
+
+		// console.log(update_knoppen[j])
+		now_animal = update_knoppen[j]
+
+	}
+		// als alle knoppeen aan staan of onclick provincie
+		if (update_knoppen.length == 4) {
+			update_knoppen = []
+		}
+	
+		return waardes, now_animal
+	
 }
 
 
+function remove_lines () {
+	// console.log("OESS")
 
+	linegraph.selectAll(".varkenmens").remove()
+	linegraph.selectAll(".kipmens").remove()
+	linegraph.selectAll(".overigmens").remove()
+	linegraph.selectAll(".kalkoenmens").remove()
+}
+
+function update_y_axis () {
+
+	for (var j = 0; j < update_knoppen.length; j++) {
+		waardes = []
+		for (var i = 0; i < jaren.length; i++) {
+			if (current_province != "leeg") {
+				number = line_gegevens[jaren[i]][current_province][update_knoppen[j]]
+			}
+			else {
+				number = line_gegevens[jaren[i]]["Nederland"][update_knoppen[j]]
+			}
+			y_as_numbers.push(number)
+		}
+	}
+
+	y_as_numbers.sort(function(a, b) { return b-a });
+
+	// console.log(y_as_numbers)
+
+	// update y as
+	y_line.domain([0, y_as_numbers[0]]).nice()
+	linegraph.select(".y.axis").transition().duration(300).call(y_lineAxis)
+
+	
+
+}

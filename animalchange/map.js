@@ -27,8 +27,8 @@ window.onload = function() {
     barChart();
     lineGraph();
 
-    var width = 900;
-    var height = 800;
+    var width = 1000;
+    var height = 1000;
 
     var projection = d3.geo.mercator()
         .scale(1)
@@ -44,7 +44,7 @@ window.onload = function() {
 
     queue()
         .defer(d3.json, "nld.json")
-        .defer(d3.json, "final_data.json")
+        .defer(d3.json, "mdata.json")
         .await(data_loader);
 
     function data_loader (error, nld, data){
@@ -93,9 +93,10 @@ window.onload = function() {
             .on("mouseover", tip.show)
             .on("mouseout", tip.hide)
 
-            .on("click", function(d) { click_province_bar(d.properties.name)} )
+            .on("click", function(d) { 
+            change_year(current_year), click_province_bar(d.properties.name) })
             
-        var colorss = ["#ffe6e6", "#ffb3b3", "#ff6666", "#ff1a1a", "#b30000"];
+        var colorss = ["#B3E5FC", "#4FC3F7", "#03A9F4", "#0288D1", "#01579B"];
         var legenda_numbers = ["0 - 250", "250 - 500", "500 - 1000", "1000 - 2000", "2000 +"];
 
         var legend = map.selectAll(".legend")
@@ -123,10 +124,17 @@ window.onload = function() {
             .attr("dy", ".35em")
             .style("text-anchor", "end")
             .text(function(d) { return d; })
+
+        // var click_provincie = d3.selectAll(".legend")
+        //     click_provincie.append("text")
+        //     .text("Nederland")
+        //     .style("font-size", "30px")
     };
 };
 
 function change_year(value) {
+
+    console.log(value)
 
     current_year = value
 
@@ -138,30 +146,32 @@ function change_year(value) {
         kaartje = map.selectAll("path")
         kaartje.attr("fill", function(d, i) { 
             if (d.properties.name != undefined) { 
+                // console.log(map_color(gegevens[value][d.properties.name]["bedrijven"]))
                 return map_color(gegevens[value][d.properties.name]["bedrijven"])
             }
         });
     }
 }
 
+
 function map_color(number) {
 
     if (number >= 0) {
 
         if (number < 250 || number == 250) {
-            return "#ffe6e6"
+            return "#B3E5FC"
         } 
         else if (number > 250 && number < 500 || number == 500 ) {
-            return "#ffb3b3"
+            return "#4FC3F7"
         } 
         else if (number > 500 && number < 1000 || number == 1000) {
-            return "#ff6666"
+            return "#03A9F4"
         } 
         else if (number > 1000 && number < 2000 || number == 2000) {
-            return "#ff1a1a"
+            return "#0288D1"
         } 
         else if (number > 2000) {
-            return "#b30000"
+            return "#01579B"
         }
     }
 }

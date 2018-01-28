@@ -8,7 +8,7 @@ i = 0
 hoeveel = 0
 
 # Open the csv file and delete the first rows.
-file = open('final_data.txt', 'r') 
+file = open('m_data.txt', 'r') 
 text = file.readlines()
 
 
@@ -65,5 +65,5 @@ for row in text:
 			j = j + 14
 			# print(j)
 
-with open("final_data.json", "w") as outfile:
+with open("mdata.json", "w") as outfile:
 	json.dump(temp, outfile)

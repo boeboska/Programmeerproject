@@ -13,17 +13,47 @@
 }
 
 
-.bar {
-	fill: green;
+#kip {
+	/*geel*/
+	fill: #5C6BC0;
 }
-.bar:hover {
+
+#varken {
+	/*blauw*/
+	fill: #FFCA28;
+}
+
+#overig {
+	/*bruin*/
+	fill: #8D6E63;
+}
+
+#kalkoen {
+	/*lime*/
+	fill: #D4E157;
+}
+
+
+
+#kip:hover {
 	fill: black;
 	cursor: pointer;
 }
-
+#varken:hover {
+	fill: black;
+	cursor: pointer;
+}
+#overig:hover {
+	fill: black;
+	cursor: pointer;
+}
+#kalkoen:hover {
+	fill: black;
+	cursor: pointer;
+}
 #bardiv {
 	width: 1200;
-    height: 800px;
+    height: 600px;
 	float: left;
 
 }

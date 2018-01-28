@@ -48,17 +48,7 @@
             <button type="button" class ="nl_button" onclick="back_to_nl()"
             >Nederland</button>
 
-            <form action ="">
-
-                <input type="checkbox" class="box" value="kip" onclick="animal_button_map(value)" onchange="animal_button_bar(value)"> Kip <br>
-
-                <input type="checkbox" class="box" value="varken" onclick="animal_button_map(value)" onchange="animal_button_bar(value)"> varken <br>
-
-                <input type="checkbox" class="box" value="overig" onclick="animal_button_map(value)" onchange="animal_button_bar(value)"> overig <br>
-
-                <input type="checkbox" class="box" value="kalkoen" onclick="animal_button_map(value)" onchange="animal_button_bar(value)"> kalkoen <br>
-
-            </form>
+            
 
 
               <!-- SLIDER -->
@@ -80,20 +70,44 @@
 
         
             <div id ="bardiv">
-                <svg class="barchart"> </svg>
+
+                <svg class="barchart"> 
+
+                </svg>
+
+
+
+
             </div>
 
         </div>
     </div>
 
     <div class ="row2">
-        <div class="col-sm-12">
+        <div class="col-sm-6">
             <div id ="linediv">
                 <svg class="linegraph"> </svg>
             </div>
 
-              <!--  <img src="http://image.mathcaptain.com/cms/images/113/straight-line-graph.png" class="img-fluid"> -->
         </div>
+
+
+         <div class="col-sm-6">
+            <div id ="buttondiv">
+            <form action ="">
+
+                <input type="checkbox" class="box" value="kip" onclick="animal_button_map(value)" onchange="animal_button_bar(value)"> Kip <br>
+
+                <input type="checkbox" class="box" value="varken" onclick="animal_button_map(value)" onchange="animal_button_bar(value)"> varken <br>
+
+                <input type="checkbox" class="box" value="overig" onclick="animal_button_map(value)" onchange="animal_button_bar(value)"> overig <br>
+
+                <input type="checkbox" class="box" value="kalkoen" onclick="animal_button_map(value)" onchange="animal_button_bar(value)"> kalkoen <br>
+
+            </form>
+            </div>
+        <div>
+
 
     </div>
 
