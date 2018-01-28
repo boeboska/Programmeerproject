@@ -1,7 +1,5 @@
-<div>
-	<a href="animalchange/index.html"> Link to visualisation::  </a> 
-	 https://boeboska.github.io/Programmeerproject/
-</div>
+Link: https://boeboska.github.io/Programmeerproject/
+
 
 
 Project Proposal animal change
