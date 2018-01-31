@@ -1,4 +1,4 @@
-Link to visualisation: https://boeboska.github.io/Programmeerproject/animalchange/
+Link to visualisation: https://boeboska.github.io/Programmeerproject/animalchange/index.html
 
 
 
