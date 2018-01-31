@@ -1,9 +1,5 @@
 Link to visualisation: https://boeboska.github.io/Programmeerproject/animalchange/
 
-<div>
-		<a href="animalchange/index.html">Link to vis: </a>  
-	</div>
-
 
 
 Project Proposal animal change
