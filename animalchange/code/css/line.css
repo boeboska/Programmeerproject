@@ -1,0 +1,17 @@
+/*Name: Bob Borsboom
+Student number: 10802975
+Programming project
+
+styles the linegraph
+*/
+
+.linelegenda {
+	position: absolute;
+	right: 200px;
+	top: 200px;
+}
+
+#linediv {
+	padding-top: 9px;
+	padding-left: 300px;
+}

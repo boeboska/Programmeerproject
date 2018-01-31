@@ -1,0 +1,45 @@
+/*Name: Bob Borsboom
+Student number: 10802975
+Programming project
+
+styles the slider
+*/
+
+/*slider's position*/
+.slidecontainer {
+
+    position: absolute;
+    top: 100px;
+    left: 140px;
+    width: 65%;
+    padding-left: 450px;
+
+}
+
+/*thickness of the appearance*/
+.slider {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 25px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    cursor: pointer;
+}
+
+.slider:hover {
+    opacity: 4;
+}
+
+/*dikte of the roll*/
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #4CAF50;
+    cursor: pointer;
+}
+

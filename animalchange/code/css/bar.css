@@ -1,3 +1,10 @@
+/*Name: Bob Borsboom
+Student number: 10802975
+Programming project
+
+styles the barchart
+*/
+
 .d3-tipbar{
 	line-height: 1;
 	font-weight: bold;
@@ -9,9 +16,7 @@
 	background: rgba(0, 0, 0, 0.8);
 	color: #fff;
 	border-radius: 2px;
-
 }
-
 
 #kip {
 	/*geel*/
@@ -33,27 +38,31 @@
 	fill: #D4E157;
 }
 
-
-
 #kip:hover {
 	fill: black;
 	cursor: pointer;
 }
+
 #varken:hover {
 	fill: black;
 	cursor: pointer;
 }
+
 #overig:hover {
 	fill: black;
 	cursor: pointer;
 }
+
 #kalkoen:hover {
 	fill: black;
 	cursor: pointer;
 }
+
 #bardiv {
+	padding-top: 90px;
+	position: absolute;
+	left: 100px;
+	top: 50px;
 	width: 1200;
     height: 600px;
-	float: left;
-
 }

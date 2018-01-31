@@ -1,3 +1,11 @@
+// Name: Bob Borsboom
+// Student number: 10802975
+// Programming project
+
+// an interactive map using D3
+// shows the amount of breeding farms per province per year
+
+
 gegevens = 
 provincies = ["Noord-Brabant", "Utrecht", "Zuid-Holland", "Noord-Holland", "Drenthe", "Friesland", "Gelderland", "Groningen", "Limburg", "Overijssel", "Flevoland", "Zeeland"]
 provincies2 = ["Noord-Brabant", "Utrecht", "Zuid-Holland", "Noord-Holland"]
@@ -8,6 +16,10 @@ var tip;
 var current_year;
 array = [];
 
+var huidige_province
+
+
+// initialize buttons
 kip_button = 0;
 chicken_button = "off"
 
@@ -27,8 +39,8 @@ window.onload = function() {
     barChart();
     lineGraph();
 
-    var width = 1000;
-    var height = 1000;
+    var width = 1160;
+    var height = 1300;
 
     var projection = d3.geo.mercator()
         .scale(1)
@@ -38,7 +50,7 @@ window.onload = function() {
         .projection(projection);
 
     map = d3.select(".map")
-        .attr("width", width)
+        .attr("width", width + 300)
         .attr("height", height);
  
 
@@ -48,29 +60,28 @@ window.onload = function() {
         .await(data_loader);
 
     function data_loader (error, nld, data){
-        
-        // console.log(data)
 
         if (error) throw error;
 
+        // start year in visualisation is 2000
         gegevens = data
         current_year = 2000;
    
-
         tip = d3.tip()
             .attr('class', 'd3-tip')
             .offset([-10, 0])
             .html(function(d) {
-                return  "<strong> Capital: </strong> <span style='color:red'>" + d.properties.name + "</span>" +
-                        "<div> <strong> Breeding Farms: </strong> <span style='color:red'>" + data[current_year][d.properties.name]["bedrijven"] + "</div>"
+                return  "<strong> Hoofdstad: </strong> <span style='color:red'>" + d.properties.name + "</span>" +
+                        "<div> <strong> Aantal boerderijen: </strong> <span style='color:red'>" + data[current_year][d.properties.name]["bedrijven"] + "</div>"
 
         });
         map.call(tip);
 
+        // map position
         var l = topojson.feature(nld, nld.objects.subunits).features[3],
             b = path.bounds(l),
             s = .2 / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / height),
-            t = [(width - 200 - s * (b[1][0] + b[0][0])) / 2, (height - 100 - s * (b[1][1] + b[0][1])) / 2];
+            t = [(width - s * (b[1][0] + b[0][0])) / 2, (height - 100 - s * (b[1][1] + b[0][1])) / 2];
 
         projection
             .scale(s)
@@ -85,7 +96,10 @@ window.onload = function() {
             .attr("id", "provincie")
             .attr("fill", function(d, i) {
 
+                // only the 12 provinces in The Neterlands
                 if (d.properties.name != undefined) 
+
+                // fill the map based on the data per province
                 { return map_color(gegevens["2000"][d.properties.name]["bedrijven"])}
             })
             .attr("class", function(d, i) { return d.properties.name; })
@@ -94,7 +108,9 @@ window.onload = function() {
             .on("mouseout", tip.hide)
 
             .on("click", function(d) { 
-            change_year(current_year), click_province_bar(d.properties.name) })
+                huidige_province = d.properties.name, 
+            // change year if slider changes and update barchart
+            change_year(current_year), click_province_bar(d.properties.name), make_black(huidige_province) })
             
         var colorss = ["#B3E5FC", "#4FC3F7", "#03A9F4", "#0288D1", "#01579B"];
         var legenda_numbers = ["0 - 250", "250 - 500", "500 - 1000", "1000 - 2000", "2000 +"];
@@ -104,56 +120,81 @@ window.onload = function() {
             .enter()
             .append("g")
             .attr("class", "legend")
-            .attr("transform", function(d, i ) { return "translate (0," + i * 20 + ")"; });
+            .attr("transform", function(d, i ) { return "translate (0," + i * 30 + ")"; });
 
-            // positie van de blokjes van de legenda
+        // positie van de blokjes van de legenda
         legend.append("rect")
             .attr("id", function(d, i) { return d })
-            .attr("x", width - 20)
-            .attr("y", 80)
-            .attr("width", 18)
-            .attr("height", 18)
+            .attr("x", width + 10)
+            .attr("y", 200)
+            .attr("width", 30)
+            .attr("height", 30)
             .attr("stroke", "black")
             .style("fill", function(d) { return d });
 
-            // positie van de tekst van de legenda 
+        // positie van de tekst van de legenda 
         legend.append("text")
             .data(legenda_numbers)
-            .attr("x", width - 30)
-            .attr("y", 90)
+            .attr("x", width)
+            .attr("y", 210)
             .attr("dy", ".35em")
             .style("text-anchor", "end")
+            .style("font-size", "20px")
             .text(function(d) { return d; })
 
-        // var click_provincie = d3.selectAll(".legend")
-        //     click_provincie.append("text")
-        //     .text("Nederland")
-        //     .style("font-size", "30px")
+        var click_provincie = d3.selectAll(".nl_button")
+            click_provincie.selectAll("text").remove()
+            click_provincie.append("text")
+            .text("Nederland")
+            .style("font-size", "30px")
+            .attr("class", "log_province")
     };
 };
 
-function change_year(value) {
+function make_black(provincie) {
 
-    console.log(value)
+    // log de provincie
+    var click_provincie = d3.selectAll(".nl_button")
+        click_provincie.selectAll("text").remove()
+            click_provincie.append("text")
+            .text(provincie)
+            .style("font-size", "30px")
+            .attr("class", "log_province")
+    
+
+    // maak eerst alle normale kleuren
+    for (var i = 0; i < provincies.length; i++){
+        normal_color = d3.selectAll("." + provincies[i])
+        normal_color.style("fill",function(d, i) {
+
+                // only the 12 provinces in The Neterlands
+                if (d.properties.name != undefined) 
+
+                // fill the map based on the data per province
+                { return map_color(gegevens[current_year][d.properties.name]["bedrijven"])}
+            })
+    }
+
+    mapje = d3.selectAll("." + huidige_province)
+    mapje.style("fill", "black")
+}
+
+// when the slider changes, update the map color
+function change_year(value) {
 
     current_year = value
 
-    // als er knoppen aan staan, update dan de kaart met die knoppen
+    // if there are buttons on, update the map with these button data
     if (buttons_on.length > 0) {
         make_map(buttons_on)
     }
-    else {
-        kaartje = map.selectAll("path")
-        kaartje.attr("fill", function(d, i) { 
-            if (d.properties.name != undefined) { 
-                // console.log(map_color(gegevens[value][d.properties.name]["bedrijven"]))
-                return map_color(gegevens[value][d.properties.name]["bedrijven"])
-            }
-        });
-    }
+
+    // draw the map color 
+    make_black(huidige_province)
+    
 }
 
-
+// fill the map based on the data per province
 function map_color(number) {
 
     if (number >= 0) {
@@ -176,13 +217,15 @@ function map_color(number) {
     }
 }
 
+// buttons for updating the map
 function animal_button_map (value) {
-    // console.log(value)
 
     if (value == "kip") {
 
+        // set button on/off
         kip_button = kip_button + 1
         chicken_button = check_button_on_2(kip_button)
+
 
         if (chicken_button == "on") { 
             buttons_on.push("kipbedrijf")
@@ -226,7 +269,7 @@ function animal_button_map (value) {
 
         kalkoen_button = kalkoen_button + 1
         turkey_button = check_button_on_2(kalkoen_button)
-        console.log(turkey_button)
+        // console.log(turkey_button)
 
         if (turkey_button == "on") {
             buttons_on.push("kalkoenbedrijf")
@@ -240,6 +283,7 @@ function animal_button_map (value) {
     }
 }
 
+// checks if button is on
 function check_button_on_2 (value) {
     if (value % 2 == 1) {
         return "on"
@@ -249,7 +293,7 @@ function check_button_on_2 (value) {
     }
 }
 
-// als er een button uit gaat
+// if a button goes out, remove from array
 function remove_animal_from_array_map (animal) {
     for (var i = buttons_on.length - 1; i >= 0; i--) {
         if (buttons_on[i] == animal) {
@@ -260,10 +304,11 @@ function remove_animal_from_array_map (animal) {
 
 function make_map (aantal_buttons_aan) {
 
-  // als alle knoppen uit staan of allemaal aan staan
+    // if all buttons are on or off
     if (aantal_buttons_aan.length == 0 || aantal_buttons_aan.length == 4) {
              create_part_map ("alle_buttons_staan_uit")
     }
+
     else if (aantal_buttons_aan.length == 1) {
         create_part_map (aantal_buttons_aan)
     }
@@ -272,18 +317,17 @@ function make_map (aantal_buttons_aan) {
     }  
 }
 
-
+// update map when 0, 1 or 4 buttons are on
 function create_part_map (value) {
 
     new_map = map.selectAll("path")
     new_map.attr("fill", function(d,i) {
         if (d.properties.name != undefined) {
-            // alleen kip of varken
+            // if only 1 button is on
             if (value.length == 1) {
-                // console.log(value)
                 return map_color(gegevens[current_year][d.properties.name][value])
             }
-            // als alles uit staat
+            // if all buttons are off
             else {
                 return map_color(gegevens[current_year][d.properties.name]["bedrijven"])
             }  
@@ -291,29 +335,32 @@ function create_part_map (value) {
     })
 }
 
-// als er meedere buttons aan staan
+// update map when 2 or 3 buttons are on
 function multiple_buttons_map (animal_rij) {
 
     rijtje_nummers = []
     eind_rijtje = []
 
+    // calculate all the data
     for (var i = 0; i < animal_rij.length; i++) {
         for (var j = 0; j < provincies.length; j++) {
             rijtje_nummers.push(parseInt(gegevens[current_year][provincies[j]][animal_rij[i]]))
         }
     }
 
+    // sort the data 
     for (var i = 0; i < rijtje_nummers.length / animal_rij.length; i++) {
-        // als er 2 dieren zijn
+        // if two buttons are on
         if (animal_rij.length == 2) {
             eind_rijtje.push(rijtje_nummers[i] + rijtje_nummers[i + 12])
         }
-        // als er 3 dieren zijn
+        // if three buttons are on
         else if (animal_rij.length == 3) {
             eind_rijtje.push(rijtje_nummers[i] + rijtje_nummers[i + provincies.length] + rijtje_nummers[i + (provincies.length * 2)])
         }   
     }
 
+    // fill the map
     new_map = map.selectAll("path")
     new_map.attr("fill", function(d,i) {
         if (d.properties.name != undefined) {

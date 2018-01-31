@@ -1,0 +1,40 @@
+/*Name: Bob Borsboom
+Student number: 10802975
+Programming project
+
+styles the titles of the visualisation page
+*/
+
+.map_title {
+	font-weight: 900;
+	text-decoration: underline;
+	position: absolute;
+	top: 75px;
+	left: 650px;
+}
+
+.bar_title {
+	font-weight: bolder;
+	text-decoration: underline;
+	position: absolute;
+	top: 90px;
+	left: 650px;
+}
+
+.line_title {
+	position: absolute;
+	left: 650px;
+	top: 935px;
+	/*float: ;*/
+
+	/*background-color: green;*/
+	/*padding-bottom: 100px;*/
+	text-decoration: underline;
+	
+}
+
+.img {
+    max-width: 100%;
+    height: auto;
+    width: auto\9; /* ie8 */
+}

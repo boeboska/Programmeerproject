@@ -1,5 +1,16 @@
+// Name: Bob Borsboom
+// Student number: 10802975
+// Programming project
+
+// an interactive linegraph using D3
+// shows the amount of animals per province (or for the Neterlands) in the 
+// period 2000-2016
+
+
 jaren = ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016"]
 lijnsoorten = ["kipmens", "varkenmens", "kalkoenmens", "overigmens"]
+
+alle_dieren = ["kipmens", "varkenmens", "kalkoenmens", "overigmens"]
 update_knoppen= []
 
 var line_gegevens
@@ -18,6 +29,12 @@ var kalkoen_click = 0;
 var y_lineAxis
 var x_lineAxis
 
+var line_height
+
+var linegraph
+
+var line_values = 0;
+
 lijnvalue = "leeg"
 
 var aap
@@ -28,13 +45,13 @@ var new_lines = "no"
 
 function lineGraph() {
 
-	var margin = {top: 20, right: 20, bottom: 30, left: 60}
+	var margin = {top: 20, right: 20, bottom: 50, left: 60}
 	var width = 1250 - margin.left - margin.right;
-	var height = 480 - margin.top - margin.bottom;
+	line_height = 480 - margin.top - margin.bottom;
 
 	linegraph = d3.select(".linegraph")
 		.attr("width", width + margin.left + margin.right)
-		.attr("height", height + margin.top + margin.bottom)
+		.attr("height", line_height + margin.top + margin.bottom)
 		.append("g")
 		.attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
 
@@ -42,7 +59,7 @@ function lineGraph() {
 		.range([0, width]);
 
 	y_line = d3.scale.linear()
-		.range([height, 0]);
+		.range([line_height, 0]);
 
 	x_lineAxis = d3.svg.axis()
 		.tickFormat(function(d) { return d })
@@ -71,7 +88,7 @@ function lineGraph() {
 		// add the Xaxis
 		linegraph.append("g")
 			.attr("class", "x axis")
-			.attr("transform", "translate(0," + height + ")")
+			.attr("transform", "translate(0," + line_height + ")")
 			.call(x_lineAxis);
 
 		// add the Y Axis
@@ -88,6 +105,7 @@ function lineGraph() {
         var legenda_animal = ["kip (x10)", "varken", "kalkoen", "overig"];
 
 		var line_legend = linegraph.selectAll(".line_legend")
+			.attr("class", "linelegenda")
             .data(line_colors)
             .enter()
             .append("g")
@@ -96,6 +114,7 @@ function lineGraph() {
 
 		// positie van de blokjes van de legenda
         line_legend.append("rect")
+       		.attr("class", "linelegenda")
             .attr("id", function(d, i) { return d })
             .attr("x", width - 20)
             .attr("y", 80)
@@ -106,12 +125,35 @@ function lineGraph() {
 
         // positie van de tekst van de legenda 
         line_legend.append("text")
+        	.attr("class", "linelegenda")
             .data(legenda_animal)
             .attr("x", width - 30)
             .attr("y", 90)
             .attr("dy", ".35em")
             .style("text-anchor", "end")
+             .style("font-size", "20px")
             .text(function(d) { return d; })
+
+        // titel op x as
+        linegraph.append("g")
+        	.append("text")
+			.attr("x", 1060)
+			.attr("y", 440)
+
+			.style("font-size", "30px")
+			.text("jaren")
+
+		// titel op y as
+		linegraph.append("g")
+        	.append("text")
+			.attr("x", -410)
+			.attr("y", -40)
+			.attr("transform", function(d) {
+                return "rotate(-90)" 
+                })
+			.style("font-size", "25px")
+			.text("Aantal per 1000 mensen")
+
 
 
         // zet het getal onder de slider standaart op 2000
@@ -119,6 +161,66 @@ function lineGraph() {
 			slider.append("text")
 			.text(2000)
 			.style("font-size", "30px")
+
+
+		line_values = calculate_mouseover_values()
+		mouseover()
+		
+
+	}
+}
+
+function calculate_mouseover_values () {
+	
+	lijn_waardes1 = []
+	lijn_waardes2 = []
+	lijn_waardes3 = []
+	lijn_waardes4 = []
+
+	alle_dieren = ["kipmens", "varkenmens", "kalkoenmens", "overigmens"]
+
+	for (var j = 0; j < alle_dieren.lenth; j++) { 
+
+		for (var i = 0; i < jaren.length; i++) {
+
+			if (current_province == "leeg") {
+				number = line_gegevens[jaren[i]]["Nederland"][alle_dieren[j]]	
+			}
+			else {
+				number = line_gegevens[jaren[i]][current_province][alle_dieren[j]]
+			}
+
+			if (j == 0) {
+				lijn_waardes1[i] = {}
+				lijn_waardes1[i]["date"] = dateFromDay((jaren[i]), 1)
+				lijn_waardes1[i]["value"] = number
+			}
+			else if (j == 1) {
+				lijn_waardes2[i] = {}
+				lijn_waardes2[i]["date"] = dateFromDay((jaren[i]), 1)
+				lijn_waardes2[i]["value"] = number
+			}
+			else if (j == 2) {
+				lijn_waardes3[i] = {}
+				lijn_waardes3[i]["date"] = dateFromDay((jaren[i]), 1)
+				lijn_waardes3[i]["value"] = number
+			}
+			else if (j == 3) {
+				lijn_waardes4[i] = {}
+				lijn_waardes4[i]["date"] = dateFromDay((jaren[i]), 1)
+				lijn_waardes4[i]["value"] = number
+			}
+			
+		}
+	}
+		
+	
+	return {
+		lijn_waardes1,
+		lijn_waardes2,
+		lijn_waardes3,
+		lijn_waardes4,
+
 	}
 }
 
@@ -157,23 +259,27 @@ function create_line_2 (line, waardes, value) {
 
 	new_lines = "yes"
 
-	console.log(value)
-	console.log(waardes)
+	// console.log(value)
+	// console.log(waardes)
 
 	linegraph.append("path")
-		.attr("class", value)
+		.attr("class", value + " lijn")
 		.attr("stroke", color_line(value))
 		.attr("stroke-width", 7)
 		.attr("d", line(waardes))
 		.style("fill", "none")
+
+	line_values = calculate_mouseover_values()
+	mouseover()
+
+	linegraph.selectAll(".lijn").moveToBack();
+	
 }
 
 function color_line (value) {	
 
 	var line_colors = ["#A1887F", "#F48FB1", "#D4E157", "#FF8A65"];
         var legenda_animal = ["kip (x10)", "varken", "kalkoen", "overig"];
-
-	
 
 	if (value == "kipmens") {
 		return "#A1887F"	
@@ -201,13 +307,8 @@ function update_linegraph (animal_line) {
 	}
 
 	// console.log(update_knoppen)
-
+	update_y_axis()
 	waardes, now_animal = calculate_line_values()
-
-
-
-	// console.log(waardes)
-	// console.log(now_animal)
 
 		if (now_animal == "kipmens") {
 			valueline = kip_line
@@ -228,21 +329,40 @@ function update_linegraph (animal_line) {
 
 		create_line_2(valueline, waardes, now_animal)
 		y_as_numbers = []
+		
 }
 
 function calculate_line_values () {
 
 	var now_animal
 
-	// console.log(update_knoppen)
+	
+	// console.log(alle_dieren)
 
 	// kijk of knoppen uit staan
 	if (nl_on == "no" && update_knoppen.length == 0) {
+		update_knoppen = ["kipmens", "varkenmens", "kalkoenmens", "overigmens"]
+		// console.log(update_knoppen)
+	}
+	
+
+
+	if (nl_on == "yes" && update_knoppen.length == 0) {
+		console.log("JAAHA")
 		update_knoppen = lijnsoorten
+	}
+
+	// verwijder de eerste vier dieren
+	else if (nl_on == "no" && update_knoppen.length > 4) {
+		console.log("IK BEN ERIN")
+		for (var i = 0; i < 4; i++){
+			update_knoppen.shift()
+		}
+		
 	}
 	// console.log(nl_on)
 
-	console.log(update_knoppen)
+	// console.log(update_knoppen)
 			
 	// set new y_axis
 	update_y_axis()
@@ -276,7 +396,7 @@ function calculate_line_values () {
 		if (update_knoppen.length > 1 && aap != "jan"){
 			remove_lines()
 			aap = "jan"
-			// console.log("JAAHAA")
+			console.log("JAAHAA")
 		}
 		
 
@@ -292,6 +412,7 @@ function calculate_line_values () {
 			.y(function(d) { return y_line(d[now_animal]); })
 
 			create_line_2(valueline, waardes, now_animal)
+			
 		}
 
 		// console.log(update_knoppen[j])
@@ -299,9 +420,9 @@ function calculate_line_values () {
 
 	}
 		// als alle knoppeen aan staan of onclick provincie
-		if (update_knoppen.length == 4) {
-			update_knoppen = []
-		}
+		// if (update_knoppen.length == 4) {
+		// 	update_knoppen = []
+		// }
 	
 		return waardes, now_animal
 	
@@ -317,9 +438,17 @@ function remove_lines () {
 	linegraph.selectAll(".kalkoenmens").remove()
 }
 
-function update_y_axis () {
+function update_y_axis (value) {
 
-	for (var j = 0; j < update_knoppen.length; j++) {
+	// update y as als alle knoppen uit staan
+	if (update_knoppen.length == 0 && value == "draw all lines")
+	{
+
+	}
+
+	// standaart y as update
+	else {
+		for (var j = 0; j < update_knoppen.length; j++) {
 		waardes = []
 		for (var i = 0; i < jaren.length; i++) {
 			if (current_province != "leeg") {
@@ -338,8 +467,144 @@ function update_y_axis () {
 
 	// update y as
 	y_line.domain([0, y_as_numbers[0]]).nice()
-	linegraph.select(".y.axis").transition().duration(300).call(y_lineAxis)
+	linegraph.select(".y.axis").transition().duration(1000).call(y_lineAxis)
+	}
+}
 
+
+function mouseover () {
+
+	// linegraph.selectAll(".circle").remove()
+
+	var x_data;
+
+	var mouseG = linegraph.append("g")
+	.attr("class", "mouse-over-effects")
+
+	mouseG.append("path")
+	.attr("class", "mouse-line")
+	.style("stroke", "black")
+	.style("stroke-width", "1px")
+	.style("opacity", "0")
+
+	var lines = document.getElementsByClassName("lijn")
 	
 
+	var mousePerLine = mouseG.selectAll(".mouse-per-line")
+	.data(gegevens)
+	.enter()
+	.append("g")
+	.attr("class", "mouse-per-line")
+
+	mousePerLine.append("circle")
+	.attr("class", "circle")
+	.attr("r", 7)
+	.style("stroke", "black")
+	.style("fill", "none")
+	.style("stroke-width", "1px")
+	.style("opacity", "0")
+
+	mousePerLine.append("text")
+		.attr("transform", "translate(10,3)")
+
+	mouseG.append("svg:rect")
+	.attr("width", width)
+	.attr("height", line_height)
+	.attr("fill", "none")
+	.attr("pointer-events", "all")
+
+	.on('mouseout', function() { // on mouse out hide line, circles and text
+        d3.select(".mouse-line")
+          .style("opacity", "0");
+        d3.selectAll(".mouse-per-line circle")
+          .style("opacity", "0");
+        d3.selectAll(".mouse-per-line text")
+          .style("opacity", "0");
+      })
+
+	.on('mouseover', function() { // on mouse in show line, circles and text
+        d3.select(".mouse-line")
+          .style("opacity", "1");
+        d3.selectAll(".mouse-per-line circle")
+          .style("opacity", "1");
+        d3.selectAll(".mouse-per-line text")
+          .style("opacity", "1");
+      })
+
+	.on("mousemove", function() {
+		var mouse = d3.mouse(this)
+		d3.select(".mouse-line")
+			.attr("d", function () {
+				var d = "M" + mouse[0] + "," + line_height;
+				d  += " " + mouse[0] + "," + 0;
+				return d;
+			});
+
+		d3.selectAll(".mouse-per-line")
+			.attr("transform", function(d, i) {
+
+				year = x_line.invert(mouse[0]);
+				x_data = dateFromDay(year, 1),
+					bisect = d3.bisector(function() 
+					{ 
+					return x_data
+						}).right
+
+				idx = index_number(x_data)
+
+				var beginning = 0,
+                	end = lines[i].getTotalLength(),
+                	target = null;
+                
+                while (true){
+               		
+
+	              target = Math.floor((beginning + end) / 2);
+	              pos = lines[i].getPointAtLength(target);
+	              if ((target === end || target === beginning) && pos.x !== mouse[0]) {
+	                  break;
+	              }
+	              if (pos.x > mouse[0])      end = target;
+	              else if (pos.x < mouse[0]) beginning = target;
+	              else break; //position found
+	            }
+	            
+	            d3.select(this).select('text')
+	              .text(y_line.invert(pos.y).toFixed(2));
+
+	              // console.log(y_line.invert(pos.y))
+	            return "translate(" + mouse[0] + "," + pos.y +")";
+
+
+			});
+
+
+	});
+
+	function index_number (date) {
+
+		var count = 1;
+
+		for (var i = 0; i < line_values["lijn_waardes1"].length; i++) {
+			if (date.getTime() == line_values["lijn_waardes1"][i].date.getTime()) {
+				count = i				
+				return count
+			}
+		}
+	}
+
 }
+
+function dateFromDay(year, day) {
+	    var date = new Date(year, 0)
+	    return new Date(date.setDate(day));
+}
+
+d3.selection.prototype.moveToBack = function() {  
+    return this.each(function() { 
+        var firstChild = this.parentNode.firstChild; 
+        if (firstChild) { 
+            this.parentNode.insertBefore(this, firstChild); 
+        } 
+    });
+};

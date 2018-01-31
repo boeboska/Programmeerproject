@@ -1,0 +1,49 @@
+/*Name: Bob Borsboom
+Student number: 10802975
+Programming project
+
+styles the front page of the website
+*/
+
+#hokdieren_img {
+	position: absolute;
+	left: 900px;
+}
+
+#discussion {
+	padding-left: 20px;
+	font-size: 25px;
+	width: 800px;
+}
+
+#feiten {	
+	padding-left: 20px;
+	font-size: 25px;
+	width: 800px;
+}
+
+#visualisatie{
+
+	font-size: 25px;
+	width: 800px;
+	position: absolute;
+	top: 60px;
+	left: 2000px;
+}
+
+.background {
+	height: 1440px;
+	background-color: #F5F5F5;
+}
+
+h1 {
+	padding-left: 20px;
+}
+
+#bron {
+	font-size: 25px;
+	width: 800px;
+	position: absolute;
+	top: 820px;
+	left: 1000px;
+}

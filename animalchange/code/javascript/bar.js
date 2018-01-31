@@ -1,3 +1,10 @@
+// Name: Bob Borsboom
+// Student number: 10802975
+// Programming project
+
+// an interactive barchart using D3
+// shows the amount of animals per province (or for the Neterlands) per year
+
 soorten = ["kip", "varken", "overig", "kalkoen"]
 update_soorten = []
 
@@ -15,6 +22,7 @@ var nl_on = "yes"
 var barchart;
 var current_province = "leeg";
 
+// initialize the buttons
 kip_on = "off"
 varken_on = "off"
 overig_on = "off"
@@ -30,13 +38,11 @@ function barChart() {
 	
 	var margin = {top: 25, right: 30, bottom: 60, left: 60}
 	width = 1100 - margin.left - margin.right
-	height = 900 - margin.top - margin.bottom;
+	height = 850 - margin.top - margin.bottom;
 
 
 
-	// var superscript = "0123456789"
-		// formatPower = function(d) { return (d + "").split("").map(function(c) { return superscript[c]; }).join(""); };
-	x = d3.scale.ordinal()
+		x = d3.scale.ordinal()
 		.rangeRoundBands([0, width], .1);
 
 	// y = d3.scale.linear()
@@ -52,8 +58,8 @@ function barChart() {
 	yAxis = d3.svg.axis()
 		.scale(y)
 		.orient("left")
-		// .tickFormat(function(d) { return "e" + formatPower(Math.round(Math.log(d))); });
-
+		.ticks(5)
+	
 	barchart = d3.select(".barchart")
 		.attr("width", width + margin.left + margin.right)
 		.attr("height", height + margin.top + margin.bottom)
@@ -74,29 +80,28 @@ function barChart() {
 
 		numbers_array = []
 
+		// calculate data for begin visualisation in NL in 2000 for all animals
 		for (var i = 0; i < soorten.length; i++){
 			rijtje = parseInt(bardata[currentyear]["Nederland"][soorten[i]])
 			numbers_array.push(rijtje)
 		}
 
-		// console.log(numbers_array)
-
 		if (error) throw error
 
-		// introduct d3.tooltip
 		tip_bar = d3.tip()
 			.attr('class', 'd3-tipbar')
 			.offset([-10, 0])
 			.html(function(d, i) {
 
-				// show the connected line with the bar
-				show_current_line(i)
-				return "<strong> Amount: </strong> <span style='color:red'>" + current_hover_data(i) + "</span>";
+				// if on hover bar show the connected line with the bar
+				show_conntected_line(i)
+				return "<strong> Aantal: </strong> <span style='color:red'>" + current_hover_data(i) + "</span>";
 		});
 
 		d3.select(".barchart")
 		.call(tip_bar);
 
+		// for all the animals
 		x.domain(soorten)
 		// y.domain([Math.exp(9), Math.exp(18.5)])
 
@@ -113,24 +118,25 @@ function barChart() {
 			.attr("transform", "translate(0," + height +")")
 			.call(xAxis)
 			.append("text")
-			.attr("x", width - 40)
-			.attr("y", .75 * margin.bottom - 15)
-		
+			.attr("x", width - 80)
+			.attr("y", .75 * margin.bottom)
+			.style("font-size", "30px")
 			.text("soort")
 
 		// TEXT OP Y AS
 		barchart.append("g")
 			.attr("class", "y axis")
-			.call(yAxis)
+			.call(yAxis 
+				.tickFormat(d3.format("s") ))
 			.append("text")
-			.attr("transform", "rotate(90)")
-			.selectAll(".tick text")
-				.text(null)
-				.filter(powerOfTen)
-				.text(10)
-				.append("tspan")
-				.attr("dy", "-.7em")
-				.text(function (d) { console.log(Math.round(Math.log(d) / Math.LN10)); return Math.round(Math.log(d) / Math.LN10); });
+			.attr("x", - 750)
+			.attr("y", -40)
+			.attr("transform", function(d) {
+                return "rotate(-90)" 
+                })
+			.style("font-size", "30px")
+			.text("aantal")
+
 
 		barchart.selectAll(".bar")
 			.data(numbers_array)
@@ -139,7 +145,7 @@ function barChart() {
 			.attr("class", "bar")
 			.attr("id", function(d, i) { return soorten[i]})
 
-			// BEPAAL DE X COORDINATEN WAAR DE BARS BEGINNEN
+			// calculation the x and y position of the bars
 			.attr("x", function(d, i) {  return x(soorten[i]); })
 			.attr("width", x.rangeBand())
 
@@ -148,72 +154,73 @@ function barChart() {
 
 			.on("mouseover", tip_bar.show)
 			.on("mouseout", function() {
-				out_line(),
-				tip_bar.hide
+				tip_bar.hide();
+				out_line()
+				
 				
 			})
 
 	}
 }
 
-            
+// if on hover bar show the connected line with the bar
+function show_conntected_line (i) {
 
-function out_line () {
+	var jani= x.domain()
+	var current_line = (jani[i] + "mens")
 
-	// kleur alle lijnen opnieuw
+	// draw all lines with the normal colors and stroke-width
 	for (var i = 0; i < lijnsoorten.length; i++) {
 
-		// wanneer de lijnen opnieuwe getekend zijn
+		// when the lines are drawed again
 		if (new_lines == "yes") {
 			var show_line_return = d3.selectAll("." + lijnsoorten[i])
 		}
 		else {
 			var show_line_return = d3.selectAll("#" + lijnsoorten[i])
 		}
+
+		show_line_return.attr("stroke", (color_line(lijnsoorten[i])))
+		show_line_return.attr("stroke-width", 7)
+	}
+
+	if (new_lines == "yes") {
+		var show_line = d3.selectAll("." + current_line)
+	}
+	else {
+		var show_line = d3.selectAll("#" + current_line)
+	}
+
+	// draw the line in black wich is connected with the bar
+	show_line.attr("stroke", "black")
+	show_line.attr("stroke-width", 10)
+}          
+
+// draw all lines with the normal colors and stroke-width
+function out_line () {
+
+	for (var i = 0; i < lijnsoorten.length; i++) {
+
+		// wanneer de lijnen opnieuwe getekend zijn
+		if (new_lines == "yes") {
+			var show_line_return = d3.selectAll("." + lijnsoorten[i])
+		}
+
+		else {
+			var show_line_return = d3.selectAll("#" + lijnsoorten[i])
+		}
+
 		show_line_return.attr("stroke", (color_line(lijnsoorten[i])))
 		show_line_return.attr("stroke-width", 7)
 	}
 }
-
-function show_current_line (i) {
-
-
-	var current_line
-	current_line = lijnsoorten[i]
-
-	
-		// teken alle lijnen weer volgens de oude kleur
-		for (var i = 0; i < lijnsoorten.length; i++) {
-
-			// wanneer de lijnen opnieuwe getekend zijn
-			if (new_lines == "yes") {
-				var show_line_return = d3.selectAll("." + lijnsoorten[i])
-			}
-			else {
-				var show_line_return = d3.selectAll("#" + lijnsoorten[i])
-			}
-			show_line_return.attr("stroke", (color_line(lijnsoorten[i])))
-			show_line_return.attr("stroke-width", 7)
-		}
-
-		if (new_lines == "yes") {
-			var show_line = d3.selectAll("." + current_line)
-		}
-		else {
-			var show_line = d3.selectAll("#" + current_line)
-		}
-
-			// kleur de lijn zwart die moseouver is + lijndikte vergroten
-			show_line.attr("stroke", "black")
-			show_line.attr("stroke-width", 10)
-}
-
 
 function powerOfTen (d) {
 	console.log(d)
 	return d / Math.pow(10, Math.ceil(Math.log(d) / Math.LN10 - 1e-12)) === 1;
 }
 
+// when slider changes, log the current year and update barchart
 function change_year_bar(value) {
 	
 	var slider = d3.selectAll(".slidecontainer")
@@ -224,20 +231,19 @@ function change_year_bar(value) {
 
 	currentyear = value
 	calculate_y_numbers()
-
 }
 
+// calculate the data for the new barchart
 function calculate_y_numbers () {
-
-	// console.log(current_animals)
 
 	numbers_array = []
 	for (var i = 0; i < current_animals.length; i++) {
-		// maak voor heel nederland
+		
+		// if the user wants The Netherlands
 		if (current_province == "leeg" || nl_on == "yes") {	
 			rijtje = parseInt(currentdata[currentyear]["Nederland"][current_animals[i]])
 		}
-		// maak voor die specifieke provincie
+		// if the user wants a specific province
 		else {
 			rijtje = parseInt(currentdata[currentyear][current_province][current_animals[i]])
 		}
@@ -247,6 +253,7 @@ function calculate_y_numbers () {
 	update_barchart(numbers_array, current_animals)
 }
 
+// when the user clicks a province in the map, update barchart and linegraph
 function click_province_bar (province) {
 
 	// logt de huidige provincie
@@ -260,39 +267,38 @@ function click_province_bar (province) {
 	current_province = province
 	nl_on = "no"
 
-	// als er knoppen aanstaan
+	// if all buttons are on
 	if (update_soorten.length > 0){
 		current_animals = update_soorten
 	}
 
 	numbers_array = calculate_y_numbers()
 
-	console.log(update_knoppen)
-
-	// verwijder alle oude lijnen
+	// remove all old lines
 	remove_lines()
 
-	// teken de nieuwe lijnen
+	// draw the new lines
 	update_linegraph()
 }
 
 function update_barchart (y_numbers, x_numbers) {
 
 	
-	// als alle knoppen uit staan
+	// if all buttons are off
 	if (x_numbers.length == 0) {
 		x_numbers = soorten
 		current_animals = soorten
 		calculate_y_numbers()
 	}
 	else {
-		// haal alle 0 waardes uit de array
+		// set all zero values to 1 because of logaritmic scale
 		for (var i = 0; i < y_numbers.length; i++) {
 			if (y_numbers[i] == 0) {
 					y_numbers[i] = 1
 			}
 		}
 
+		// update the x and y axis
 		y.domain([d3.min(y_numbers), d3.max(y_numbers)]).nice()
 		x.domain(x_numbers)
 		
@@ -320,14 +326,18 @@ function update_barchart (y_numbers, x_numbers) {
 			.on("mouseover", tip_bar.show)
 			.on("mouseout", function() {
 				out_line(),
-				tip_bar.hide
+				tip_bar.hide ()
 				
 			})
 
 	}
 }
 
+// when user clicks the buttons NL, update barchart and linegraph
 function back_to_nl () {
+
+	huidige_province = "Nederland"
+	make_black(huidige_province)
 
 	// // zet huidige plek op nederland
 	// var click_provincie = d3.selectAll(".legend")
@@ -340,7 +350,7 @@ function back_to_nl () {
 	nl_on = "yes"
 	calculate_y_numbers()
 
-	// line
+	// remove old lines and draw new 
 	remove_lines()
 	if (update_knoppen.length == 0) {
 		update_knoppen = lijnsoorten
@@ -353,9 +363,8 @@ function back_to_nl () {
 
 }
 
-function animal_button_bar (value) {
 
-	// console.log(value)
+function animal_button_bar (value) {
 
 	if (value == "kip") {
 		kip_click = kip_click + 1
@@ -382,7 +391,13 @@ function animal_button_bar (value) {
 			remove_animal_from_array_line("kipmens")
 			calculate_y_numbers()
 			linegraph.selectAll(".kipmens").remove()
+			// console.log(update_knoppen)
+			remove_lines()
 			update_linegraph()
+
+			// voor de mouseover goed te krijgen
+			line_values = calculate_mouseover_values()
+			mouseover()
 			
 		}
 			
@@ -408,10 +423,17 @@ function animal_button_bar (value) {
 		}
 		else { 
 			remove_animal_from_array("varken") 
-			calculate_y_numbers()
 			remove_animal_from_array_line("varkenmens")
+			calculate_y_numbers()
 			linegraph.selectAll(".varkenmens").remove()
+			remove_lines()
 			update_linegraph()
+
+			// voor de mouseover goed te krijgen
+			line_values = calculate_mouseover_values()
+			mouseover()
+			
+
 
 		}	
 	}
@@ -439,7 +461,16 @@ function animal_button_bar (value) {
 			calculate_y_numbers()
 			remove_animal_from_array_line("overigmens")
 			linegraph.selectAll(".overigmens").remove()
+			remove_lines()
 			update_linegraph()
+
+
+			// voor de mouseover goed te krijgen
+			line_values = calculate_mouseover_values()
+			mouseover()
+			
+
+
 		}	
 	}
 
@@ -464,7 +495,15 @@ function animal_button_bar (value) {
 				calculate_y_numbers()
 				remove_animal_from_array_line("kalkoenmens")
 				linegraph.selectAll(".kalkoenmens").remove()
+				remove_lines()
 				update_linegraph()
+
+
+				// voor de mouseover goed te krijgen
+				line_values = calculate_mouseover_values()
+				mouseover()
+			
+
 			}	
 	}
 }
@@ -518,6 +557,7 @@ function convert_number_to_good_notation (number) {
 
 function remove_animal_from_array_line (animal) {
 	// console.log(animal)
+	// console.log(update_knoppen)
 
 	for (var i = update_knoppen.length - 1; i >= 0; i--) {
 		if (update_knoppen[i] == animal) {
@@ -525,7 +565,7 @@ function remove_animal_from_array_line (animal) {
 		}
 	}
 	
-	console.log(update_knoppen)
+	// console.log(update_knoppen)
 }
 
 

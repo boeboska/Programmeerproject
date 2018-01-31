@@ -10,24 +10,34 @@
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="/code/css/map.css">
     <link rel="stylesheet" type="text/css" href="/code/css/bar.css">
+    <link rel="stylesheet" type="text/css" href="/code/css/buttons.css">
+    <link rel="stylesheet" type="text/css" href="/code/css/titles.css">
+    <link rel="stylesheet" type="text/css" href="/code/css/line.css">
+    <link rel="stylesheet" type="text/css" href="/code/css/frontpage.css">
+    <link rel="stylesheet" type="text/css" href="/code/css/slider.css">
 
+    <!-- bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    
 
+    <!-- d3-->
     <script src="//d3js.org/d3.v3.min.js"></script>
     <script src="https://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-    
     <script src="https://d3js.org/queue.v1.min.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
 
+    <!-- ajax -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    
 
+    <!-- javascript -->
     <script src="/code/javascript/bar.js"></script>
     <script src="/code/javascript/line.js"></script>
     <script src="/code/javascript/map.js"></script>
 
-    <title>Animal Change</title>
+
+    <title>Hokdieren NL</title>
 
 </head>
 
@@ -36,91 +46,235 @@
 
     <div class="menu_setup">
 
-        <!-- GROENE BALK -->
-        <div class="page-header"> </div>
-
+        <!-- heading tabs -->
         <ul class="nav nav-tabs">
-            <li class="active"> <a data-toggle="tab" href="#introduction">Introduction</a> </li>
-            <li> <a data-toggle="tab" href="#visualisation"> Visualisation </a> </li>
+            <li class="active"> <a data-toggle="tab" href="#introduction">Introductie</a> </li>
+            <li> <a data-toggle="tab" href="#visualisation"> Visualisatie </a> </li>
         </ul>
 
         <div class="tab-content">
 
-            <!-- TABLAD 2 -->
-            <div id ="visualisation" class="tab-pane fade in active">
+            <!-- tab 2 -->
+            <div id ="visualisation" class="tab-pane fade">
 
-                <!-- groene streep -->
-                <!-- <div class="page-header"> </div> -->
-
+                <!-- 1st row MAP AND BAR-->
                 <div class="row">
-                    <!-- MAP -->
+
+                    <!-- 1st colom in row 1 MAP -->
                     <div class="col-sm-6">
 
-                        <button type="button" class ="nl_button" onclick="back_to_nl()">Nederland</button>
-
-                          <!-- SLIDER -->
-                        <div class="slidecontainer">
-                        <input type ="range" min ="2000" max="2016" value="2000" class="slider" id="myRange" 
-                        oninput="change_year(value); change_year_bar(value);">
+                        <div class="line_title">
+                            <h2> Verloop aantal dieren per 1000 mensen </h2>
                         </div>
+
+                        <div class="map_title">
+                             <h2> Aantal hokdierboerderijen per provincie </h2>
+                        </div>
+
+                        <!-- button to go back to the situation in the Netherlands -->
+                        <div class="nl_button">
+                            <button type="button" onclick="back_to_nl()">Nederland</button>
+                        </div>
+
+                        <!-- information button map -->
+                        <div class="info-btn_map">
+                            <button>
+                                <a id="popoverData" href="#btn_map" data-content="Wanneer je met je muis over een provincie beweegt zie je het aantal fokboerderijen in die provincie. Klik op een provincie om meer informatie over die provincie te krijgen. Wanneer je een van de dieren-knoppen hebt ingedrukt zal de kaart gevuld worden met fokboerderijen van dat diersoort" rel="popover" data-placement="bottom" data-trigger="hover">Uitleg kaart</a>
+                            </button>
+                        </div>
+
+                        <script>
+                            $('#popoverData').popover();
+                            $('#popoverOption').popover({ trigger: "hover" });
+                        </script>
 
                         <!-- MAP -->
                         <div id="mapdiv">
-                         <svg = class= "map"> </svg>
+
+                            <!-- information button overige -->
+                            <div class="info-btn_overige">
+                                <button>
+                                    <a id="popoverData_overige" href="#" data-content="De categorie bestaat uit de som van de volgende dieren: konijnen, eenden, pelsdieren en ganzen" rel="popover" data-placement="bottom" data-trigger="hover">Uitleg overige</a>
+                                </button>
+                            </div>
+
+                            <script>
+                                $('#popoverData_overige').popover();
+                                $('#popoverOption').popover({ trigger: "hover" });
+                            </script>
+
+                        
+                            <!-- information button bar -->
+                            <div class="info-btn_bar">
+                                <button>
+                                    <a id="popoverData_bar" href="#" data-content="Wanneer je met je muis over een bar beweegt zie je het exacte aantal en de bijbehorende lijn in de lijngrafiek zal opvallen." rel="popover" data-placement="bottom" data-trigger="hover">Uitleg staafdiagram</a>
+                                </button>
+                            </div>
+
+                            <script>
+                                $('#popoverData_bar').popover();
+                                $('#popoverOption').popover({ trigger: "hover" });
+                            </script>
+
+                             <svg = class= "map"> </svg>
                         </div>
                     </div>
 
-                    <!-- BAR -->
+                   <!-- 1st colom in row 1 BAR-->
                     <div class="col-sm-6">
- 
+
+                        <div class="bar_title">
+                            <h2> Aantal dieren </h2>
+                        </div>
+
                         <div id ="bardiv">
-
-                            <svg class="barchart"> 
-
-                            </svg>
+                            <svg class="barchart"></svg>
                         </div>
 
                     </div>
                 </div>
 
+                    <!-- 2st row LINE, BUTTONS AND SLIDER -->
                     <div class ="row2">
+
+                        <!-- LIJN -->
                         <div class="col-sm-6">
-                            <div id ="linediv">
-                                <svg class="linegraph"> </svg>
+
+                             <!-- information button line -->
+                            <div class="info-btn_line">
+                                <button>
+                                    <a id="popoverData_line" href="#" data-content="In de lijngrafiek zie je het aantal dieren in Nederland (of provincie) gedeeld door het aantal mensen in Nederland keer 1000. Er is gekozen om door heel Nederland te delen omdat de dieren die bijvoorbeeld in de provincie Groningen leven in heel Nederland gegeten worden. LET OP: het aantal kippen moet je nog met 10 vermedigvuldigen. In de grafiek is dus zichtbaar hoeveel dieren er leven per 1000 mensen" rel="popover" data-placement="bottom" data-trigger="hover">Uitleg lijngrafiek</a>
+                                </button>
                             </div>
+
+                        <script>
+                            $('#popoverData_line').popover();
+                            $('#popoverOption').popover({ trigger: "hover" });
+                        </script>
+
+                        <div id ="linediv">
+                            <svg class="linegraph"> </svg>
+                        </div>
 
                         </div>
 
-
+                        <!-- BUTTONS AND SLIDER -->
                          <div class="col-sm-6">
+
+                            <div class="info-btn_slider">
+                                <button>
+                                     <a id="popoverData_slider" href="#" data-content="Selecteer hier welk jaar je wilt zien. Daarnaast kun je filteren op welke dieren je wilt zien" rel="popover" data-placement="bottom" data-trigger="hover">Uitleg filters</a>
+                                </button>
+                            </div>
+
+                            <script>
+                                $('#popoverData_slider').popover();
+                                $('#popoverOption').popover({ trigger: "hover" });
+                            </script>
+
+                            <!-- SLIDER -->
+                            <div class="slidecontainer">
+                                <input type ="range" min ="2000" max="2016" value="2000" class="slider" id="myRange" 
+                                oninput="change_year(value); change_year_bar(value);">
+                            </div>
+                           
+                            <!-- ANIMAL BUTTONS -->
                             <div id ="buttondiv">
-                            <form action ="">
+                                <form action ="">
 
-                                <input type="checkbox" class="box" value="kip" onclick="animal_button_map(value)" onchange="animal_button_bar(value)"> Kip <br>
+                                <input type="checkbox" class="animal_buttons" value="kip" onclick="animal_button_map(value)" onchange="animal_button_bar(value)"> Kip <br>
 
-                                <input type="checkbox" class="box" value="varken" onclick="animal_button_map(value)" onchange="animal_button_bar(value)"> varken <br>
+                                <input type="checkbox" class="animal_buttons" value="varken" onclick="animal_button_map(value)" onchange="animal_button_bar(value)"> varken <br>
 
-                                <input type="checkbox" class="box" value="overig" onclick="animal_button_map(value)" onchange="animal_button_bar(value)"> overig <br>
+                                <input type="checkbox" class="animal_buttons" value="overig" onclick="animal_button_map(value)" onchange="animal_button_bar(value)"> overig <br>
 
-                                <input type="checkbox" class="box" value="kalkoen" onclick="animal_button_map(value)" onchange="animal_button_bar(value)"> kalkoen <br>
+                                <input type="checkbox" class="animal_buttons" value="kalkoen" onclick="animal_button_map(value)" onchange="animal_button_bar(value)"> kalkoen <br>
 
-                            </form>
+                                </form>
                             </div>
                         </div>
 
                     </div>
             </div>
 
-             <!-- TABLAD 1 -->
-            <div id="introduction" class="tab-pane fade">
+             <!-- tab 1 -->
 
+            <div id="introduction" class="tab-pane fade in active">
+
+                    <div id="hokdieren_img">
+                        <img src="../Programmeerproject/hokdieren.jpg" alt="Hokdieren">
+                    </div>
+
+                    <h1> Discussie </h1> 
+                    <div id="discussion">
+                        <b>
+                            In Nederland is er een langlopende discussie over de hoeveelheid vlees dat wij mensen eten. 
+                            Sommige experts zeggen dat we teveel vlees eten. Het eten van zoveel vlees is slech voor het klimaat, onze gezondheid en de dieren die wij eten hebben geen gelukkig leven. 
+                        </b>
+                    </div>
+
+                    <h1> Klimaatfeiten </h1>
+                    <div id="feiten">
+                        <ol>
+
+                        <li> 
+                            Voor vlees is veel veevoer nodig. De teelt hiervan kost water, land en energie. Als daarmee direct plantaardig eten voor mensen zou worden geteeld, zou dat minder grondstoffen verbruiken. Ter illustratie: voor 1 kilo vleeseiwit is, afhankelijk van diersoort en omstandigheden, 3 tot 10 keer zoveel plantaardig eiwit nodig. 
+
+                            <p><a href="http://www.voeding-visie.nl/archief/edi026/artikel/pdf/Minder%20vlees%20is%20gezond%20en%20beter%20voor%20het%20milieu.pdf" target="_blank">(Voeding & Visie, 2015)</a></p>
+                                
+                            </a> 
+                        </li>
+
+                        <li>
+                            De CO2-uitstoot bij vleesvervangers, zoals tofu, is 10x keer lager dan bij rundvlees en die van sojamelk vijf keer minder dan bij koemelk. Ook wanneer rekening wordt gehouden met de energie die nodig voor de productie en het transport van vleesvervangers, is de milieubelasting veel kleiner. 
+                            <p><a href="http://www.voeding-visie.nl/archief/edi026/artikel/pdf/Minder%20vlees%20is%20gezond%20en%20beter%20voor%20het%20milieu.pdf" target="_blank">(Voeding & Visie)</a></p>
+                        </li>
+
+                        <li>
+                            Vleesproductie kost het milieu ook veel water. Ter vergelijking: de productie van een kilo kip – de minst milieubelastende vleessoort – kost in totaal 3900 liter, de productie van een kilo sojabonen daarentegen 1800 liter. Zelfs de productie van rijst, een van de meest waterslurpende plantaardige voedselbronnen, is met zijn 3400 liter nog altijd lager dan die van kip. 
+                            <p><a href="https://www.milieucentraal.nl/milieubewust-eten/vlees-vis-of-vega/vlees/" target="_blank">(Ideaal Magazine, 2015)</a></p>
+                        </li>
+
+                        </ol>
+                    </div>
+
+                    <div id="visualisatie">
+
+                        <h1> Visualisatie </h1>
+                        <ul>
+                            In de visualisatie kun je erachter komen of wij mensen tussen 2000 en 2017 minder vlees zijn gaan eten van hokdieren.
+                            Hokdieren zijn dieren die worden gefokt in hokken voor de vleesconsumptie. Voorbeelden van hokdieren zijn bijvoobeeld kippen en varkens.
+                            <p></p>
+                            De visualisatie bestaat uit 3 hoofdelementen: een kaart, een lijngrafiek en een staafdiagram. In de kaart is zichtbaar hoe de verdeling van het aantal fokboerderijen van hokdieren is in Nederland per provincie. In de staafdiagram kun je zien hoeveel dieren er leven en in de lijngrafiek kun je het verloop van dit aantal zien geindexeerd per 1000 mensen. Je kunt als gebruiker kiezen tussen verschillende jaren, diersoorten en provincies (of heel Nederland).
+                            <p></p>
+                            Veel kijkplezier!
+                        </ul>          
+                    </div>
+
+                    <div id="bron">
+
+                        <h1> Bronnen </h1>
+                        <ul>
+                            Voor de visualisatie is gebruik gemaakt van gegevens van de databank van het Centraal Plan Bureau. Er zijn hiervoor 2 datasets gebruikt.
+                        </ul>
+                        <ol>
+                            <li>    Deze dataset gaat over hoeveel dieren en boerderijen er in Nederland zijn per provincie per jaar.
+                                    <p><a href="http://statline.cbs.nl/Statweb/publication/?DM=SLNL&PA=80780ned&D1=542,560,572-575,578-579&D2=0,5-16&D3=0-16&HDR=G1,G2&STB=T&VW=T" target="_blank">Gegevens dieren</a></p>  
+                            </li>
+                            <li>    Deze dataset gaat over hoeveel mensen er in Nederland leven per provincie per jaar.
+                                    <p><a href="http://statline.cbs.nl/Statweb/publication/?DM=SLNL&PA=03759NED&D1=0&D2=129&D3=0,5-16&D4=12-28&HDR=T&STB=G2,G1,G3&VW=T
+                                    " target="_blank">Gegevens mensen</a></p>
+                                
+                            </li>
+                        </ol>
+
+
+                    </div>
+           
             </div>
 
         </div>
     </div>
-
-    <!-- <div class="page-header"> </div> -->
-
 
 
 </body>
