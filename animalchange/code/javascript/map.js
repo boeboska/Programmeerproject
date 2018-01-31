@@ -11,13 +11,13 @@ provincies = ["Noord-Brabant", "Utrecht", "Zuid-Holland", "Noord-Holland", "Dren
 provincies2 = ["Noord-Brabant", "Utrecht", "Zuid-Holland", "Noord-Holland"]
 provincies3 = ["Drenthe", "Friesland", "Gelderland", "Groningen", "Limburg", "Overijssel", "Flevoland", "Zeeland"]
 company_data = []
+array = []
+buttons_on = []
+
 var map;
 var tip;
 var current_year;
-array = [];
-
 var huidige_province
-
 
 // initialize buttons
 kip_button = 0;
@@ -31,8 +31,6 @@ other_button = "off"
 
 kalkoen_button = 0;
 turkey_button = "off"
-
-buttons_on = []
 
 window.onload = function() {
 
@@ -52,7 +50,6 @@ window.onload = function() {
     map = d3.select(".map")
         .attr("width", width + 300)
         .attr("height", height);
- 
 
     queue()
         .defer(d3.json, "/json/nld.json")
@@ -63,7 +60,7 @@ window.onload = function() {
 
         if (error) throw error;
 
-        // start year in visualisation is 2000
+        // visualisation starts in 2000
         gegevens = data
         current_year = 2000;
    
@@ -109,6 +106,7 @@ window.onload = function() {
 
             .on("click", function(d) { 
                 huidige_province = d.properties.name, 
+
             // change year if slider changes and update barchart
             change_year(current_year), click_province_bar(d.properties.name), make_black(huidige_province) })
             
@@ -122,7 +120,7 @@ window.onload = function() {
             .attr("class", "legend")
             .attr("transform", function(d, i ) { return "translate (0," + i * 30 + ")"; });
 
-        // positie van de blokjes van de legenda
+        // position blocks on the legenda
         legend.append("rect")
             .attr("id", function(d, i) { return d })
             .attr("x", width + 10)
@@ -132,7 +130,7 @@ window.onload = function() {
             .attr("stroke", "black")
             .style("fill", function(d) { return d });
 
-        // positie van de tekst van de legenda 
+        // positie text legenda
         legend.append("text")
             .data(legenda_numbers)
             .attr("x", width)
@@ -142,6 +140,7 @@ window.onload = function() {
             .style("font-size", "20px")
             .text(function(d) { return d; })
 
+        // log the Netherlands in user's screen
         var click_provincie = d3.selectAll(".nl_button")
             click_provincie.selectAll("text").remove()
             click_provincie.append("text")
@@ -153,7 +152,7 @@ window.onload = function() {
 
 function make_black(provincie) {
 
-    // log de provincie
+    // log the current province
     var click_provincie = d3.selectAll(".nl_button")
         click_provincie.selectAll("text").remove()
             click_provincie.append("text")
@@ -162,7 +161,7 @@ function make_black(provincie) {
             .attr("class", "log_province")
     
 
-    // maak eerst alle normale kleuren
+    // first color everthing normale
     for (var i = 0; i < provincies.length; i++){
         normal_color = d3.selectAll("." + provincies[i])
         normal_color.style("fill",function(d, i) {
@@ -175,6 +174,7 @@ function make_black(provincie) {
             })
     }
 
+    // fill the clicked province black
     mapje = d3.selectAll("." + huidige_province)
     mapje.style("fill", "black")
 }

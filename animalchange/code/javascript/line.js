@@ -11,7 +11,10 @@ jaren = ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008",
 lijnsoorten = ["kipmens", "varkenmens", "kalkoenmens", "overigmens"]
 
 alle_dieren = ["kipmens", "varkenmens", "kalkoenmens", "overigmens"]
+// for current buttons on
+
 update_knoppen= []
+y_as_numbers = []
 
 var line_gegevens
 var valueline
@@ -30,17 +33,12 @@ var y_lineAxis
 var x_lineAxis
 
 var line_height
-
 var linegraph
-
 var line_values = 0;
 
 lijnvalue = "leeg"
 
-var aap
-
-y_as_numbers = []
-
+var lines_are_removed = "no"
 var new_lines = "no"
 
 function lineGraph() {
@@ -77,25 +75,22 @@ function lineGraph() {
 		.await(make_line);
 
 	function make_line(error, linedata) {
-		
-		console.log(linedata)
 
 		line_gegevens = linedata
 
 		x_line.domain([2000, 2016])
 		y_line.domain([0, 900])
 
-		// add the Xaxis
 		linegraph.append("g")
 			.attr("class", "x axis")
 			.attr("transform", "translate(0," + line_height + ")")
 			.call(x_lineAxis);
 
-		// add the Y Axis
 		linegraph.append("g")
 			.attr("class", "y axis")
 			.call(y_lineAxis);
 
+		// draw lines
 		calculate_line("kipmens")
 		calculate_line("varkenmens")
 		calculate_line("kalkoenmens")
@@ -112,7 +107,7 @@ function lineGraph() {
             .attr("class", "line_legend")
             .attr("transform", function(d, i ) { return "translate (0," + i * 30  + ")"; });
 
-		// positie van de blokjes van de legenda
+		// position legenda blocks
         line_legend.append("rect")
        		.attr("class", "linelegenda")
             .attr("id", function(d, i) { return d })
@@ -123,7 +118,7 @@ function lineGraph() {
             .attr("stroke", "black")
             .style("fill", function(d) { return d });
 
-        // positie van de tekst van de legenda 
+        // position legenda text 
         line_legend.append("text")
         	.attr("class", "linelegenda")
             .data(legenda_animal)
@@ -134,7 +129,7 @@ function lineGraph() {
              .style("font-size", "20px")
             .text(function(d) { return d; })
 
-        // titel op x as
+        // titel on x axis
         linegraph.append("g")
         	.append("text")
 			.attr("x", 1060)
@@ -143,7 +138,7 @@ function lineGraph() {
 			.style("font-size", "30px")
 			.text("jaren")
 
-		// titel op y as
+		// titel on y axis
 		linegraph.append("g")
         	.append("text")
 			.attr("x", -410)
@@ -154,9 +149,7 @@ function lineGraph() {
 			.style("font-size", "25px")
 			.text("Aantal per 1000 mensen")
 
-
-
-        // zet het getal onder de slider standaart op 2000
+        // logs the number 2000 below the slider
         var slider = d3.selectAll(".slidecontainer")
 			slider.append("text")
 			.text(2000)
@@ -165,11 +158,10 @@ function lineGraph() {
 
 		line_values = calculate_mouseover_values()
 		mouseover()
-		
-
 	}
 }
 
+// calculates the mouseover values
 function calculate_mouseover_values () {
 	
 	lijn_waardes1 = []
@@ -213,8 +205,7 @@ function calculate_mouseover_values () {
 			
 		}
 	}
-		
-	
+
 	return {
 		lijn_waardes1,
 		lijn_waardes2,
@@ -224,6 +215,7 @@ function calculate_mouseover_values () {
 	}
 }
 
+// calculate the line values
 function calculate_line (value) {
 	 
 	waardes = []
@@ -243,6 +235,7 @@ function calculate_line (value) {
 	create_line(valueline, waardes, value)
 }
 
+// draws the line
 function create_line (line, waardes, value) {
 	
 
@@ -255,12 +248,10 @@ function create_line (line, waardes, value) {
 		.style("fill", "none")
 }
 
+// draws the line for update
 function create_line_2 (line, waardes, value) {
 
 	new_lines = "yes"
-
-	// console.log(value)
-	// console.log(waardes)
 
 	linegraph.append("path")
 		.attr("class", value + " lijn")
@@ -276,10 +267,11 @@ function create_line_2 (line, waardes, value) {
 	
 }
 
+// returns a color based on the input
 function color_line (value) {	
 
 	var line_colors = ["#A1887F", "#F48FB1", "#D4E157", "#FF8A65"];
-        var legenda_animal = ["kip (x10)", "varken", "kalkoen", "overig"];
+    var legenda_animal = ["kip (x10)", "varken", "kalkoen", "overig"];
 
 	if (value == "kipmens") {
 		return "#A1887F"	
@@ -298,15 +290,15 @@ function color_line (value) {
 
 function update_linegraph (animal_line) {
 
-	// verwijder oude lijnen
+	// remove old lines
 	linegraph.selectAll(".lijn").remove()
 
-	// verwijder provincie lijnen
+	// remove lines if user clicked on a province
 	if (current_province == "leeg") {
 		remove_lines()
 	}
 
-	// console.log(update_knoppen)
+	// set new y_axis
 	update_y_axis()
 	waardes, now_animal = calculate_line_values()
 
@@ -336,23 +328,18 @@ function calculate_line_values () {
 
 	var now_animal
 
-	
-	// console.log(alle_dieren)
-
-	// kijk of knoppen uit staan
+	// check if buttons are off
 	if (nl_on == "no" && update_knoppen.length == 0) {
 		update_knoppen = ["kipmens", "varkenmens", "kalkoenmens", "overigmens"]
 		// console.log(update_knoppen)
 	}
 	
-
-
 	if (nl_on == "yes" && update_knoppen.length == 0) {
 		console.log("JAAHA")
 		update_knoppen = lijnsoorten
 	}
 
-	// verwijder de eerste vier dieren
+	// remove the first four elements in the array
 	else if (nl_on == "no" && update_knoppen.length > 4) {
 		console.log("IK BEN ERIN")
 		for (var i = 0; i < 4; i++){
@@ -360,14 +347,9 @@ function calculate_line_values () {
 		}
 		
 	}
-	// console.log(nl_on)
-
-	// console.log(update_knoppen)
 			
 	// set new y_axis
 	update_y_axis()
-
-
 
 	for (var j = 0; j < update_knoppen.length; j++) {
 
@@ -390,21 +372,15 @@ function calculate_line_values () {
 
 		}
 
-		
-
 		// verwijder alle huidige lijnen
-		if (update_knoppen.length > 1 && aap != "jan"){
+		if (update_knoppen.length > 1 && lines_are_removed != "yes"){
 			remove_lines()
-			aap = "jan"
-			console.log("JAAHAA")
+			lines_are_removed = "yes"
 		}
-		
 
 		if (update_knoppen.length == 4 || update_knoppen.length == 2 || update_knoppen.length == 3) {
 
 			now_animal = update_knoppen[j]
-
-			// console.log(waardes)
 			valueline = update_knoppen[j]
 
 			valueline = d3.svg.line()
@@ -415,22 +391,15 @@ function calculate_line_values () {
 			
 		}
 
-		// console.log(update_knoppen[j])
 		now_animal = update_knoppen[j]
 
 	}
-		// als alle knoppeen aan staan of onclick provincie
-		// if (update_knoppen.length == 4) {
-		// 	update_knoppen = []
-		// }
-	
 		return waardes, now_animal
 	
 }
 
-
+// remove all lines
 function remove_lines () {
-	// console.log("OESS")
 
 	linegraph.selectAll(".varkenmens").remove()
 	linegraph.selectAll(".kipmens").remove()
@@ -438,12 +407,13 @@ function remove_lines () {
 	linegraph.selectAll(".kalkoenmens").remove()
 }
 
+// update the y axis based on the current values
 function update_y_axis (value) {
 
 	// update y as als alle knoppen uit staan
 	if (update_knoppen.length == 0 && value == "draw all lines")
 	{
-
+		// TO DO
 	}
 
 	// standaart y as update
@@ -462,8 +432,6 @@ function update_y_axis (value) {
 	}
 
 	y_as_numbers.sort(function(a, b) { return b-a });
-
-	// console.log(y_as_numbers)
 
 	// update y as
 	y_line.domain([0, y_as_numbers[0]]).nice()

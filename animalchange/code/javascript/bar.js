@@ -6,6 +6,7 @@
 // shows the amount of animals per province (or for the Neterlands) per year
 
 soorten = ["kip", "varken", "overig", "kalkoen"]
+// array for the current buttons on
 update_soorten = []
 
 var currentdata;
@@ -32,7 +33,6 @@ var tip_bar
 
 current_animals = soorten
 
-
 function barChart() {
 
 	
@@ -40,16 +40,11 @@ function barChart() {
 	width = 1100 - margin.left - margin.right
 	height = 850 - margin.top - margin.bottom;
 
+	x = d3.scale.ordinal()
+	.rangeRoundBands([0, width], .1);
 
-
-		x = d3.scale.ordinal()
-		.rangeRoundBands([0, width], .1);
-
-	// y = d3.scale.linear()
 	y = d3.scale.log()
-		// .base(Math.E)
 		.range([height, 0]);
-
 
 	xAxis = d3.svg.axis()
 		.scale(x)
@@ -71,11 +66,9 @@ function barChart() {
 		.await(make_bar);
 
 	function make_bar(error, bardata) {
-		// console.log(bardata)
-
-		// console.log(bardata)
 
 		currentdata = bardata
+		// visualisation starts in 2000
 		currentyear = 2000;
 
 		numbers_array = []
@@ -101,18 +94,10 @@ function barChart() {
 		d3.select(".barchart")
 		.call(tip_bar);
 
-		// for all the animals
 		x.domain(soorten)
-		// y.domain([Math.exp(9), Math.exp(18.5)])
-
 		y.domain([d3.min(numbers_array), d3.max(numbers_array)]).nice()
 
-		// y.domain([, d3.max(numbers_array)])
-
-		// y.domain([500000, 110000000])
-		// y.domain([500000, d3.max(numbers_array) + 50000000])
-
-		// TEXT OP X AS
+		// text on xaxis
 		barchart.append("g")
 			.attr("class", "x axis")
 			.attr("transform", "translate(0," + height +")")
@@ -123,7 +108,7 @@ function barChart() {
 			.style("font-size", "30px")
 			.text("soort")
 
-		// TEXT OP Y AS
+		// text on taxis
 		barchart.append("g")
 			.attr("class", "y axis")
 			.call(yAxis 
@@ -155,9 +140,7 @@ function barChart() {
 			.on("mouseover", tip_bar.show)
 			.on("mouseout", function() {
 				tip_bar.hide();
-				out_line()
-				
-				
+				out_line()		
 			})
 
 	}
@@ -215,11 +198,6 @@ function out_line () {
 	}
 }
 
-function powerOfTen (d) {
-	console.log(d)
-	return d / Math.pow(10, Math.ceil(Math.log(d) / Math.LN10 - 1e-12)) === 1;
-}
-
 // when slider changes, log the current year and update barchart
 function change_year_bar(value) {
 	
@@ -256,14 +234,6 @@ function calculate_y_numbers () {
 // when the user clicks a province in the map, update barchart and linegraph
 function click_province_bar (province) {
 
-	// logt de huidige provincie
-  //   var click_provincie = d3.selectAll(".nl_button")
-	 //    click_provincie.selectAll("text").remove()
-		// click_provincie.append("text")
-		// .attr("class", provincie_locatie)
-		// .text(province)
-		// .style("font-size", "30px")
-
 	current_province = province
 	nl_on = "no"
 
@@ -282,7 +252,6 @@ function click_province_bar (province) {
 }
 
 function update_barchart (y_numbers, x_numbers) {
-
 	
 	// if all buttons are off
 	if (x_numbers.length == 0) {
@@ -307,13 +276,8 @@ function update_barchart (y_numbers, x_numbers) {
 
 		var new_bar = barchart.selectAll(".bar").data(y_numbers)
 		new_bar.exit()
-			// .transition()
-			// .duration(1000)
 		.remove()
-
-		new_bar.enter().append("rect")
-			
-			
+	
 		new_bar.transition().duration(1000)
 			.attr("x", function(d, i) { return x(x_numbers[i]); })
 			.attr("width", x.rangeBand())
@@ -329,7 +293,6 @@ function update_barchart (y_numbers, x_numbers) {
 				tip_bar.hide ()
 				
 			})
-
 	}
 }
 
@@ -338,13 +301,6 @@ function back_to_nl () {
 
 	huidige_province = "Nederland"
 	make_black(huidige_province)
-
-	// // zet huidige plek op nederland
-	// var click_provincie = d3.selectAll(".legend")
-	// 	click_provincie.selectAll("text").remove()
- //        click_provincie.append("text")
- //        .text("Nederland")
- //        .style("font-size", "30px")
 
 	current_province = "leeg"
 	nl_on = "yes"
@@ -363,7 +319,6 @@ function back_to_nl () {
 
 }
 
-
 function animal_button_bar (value) {
 
 	if (value == "kip") {
@@ -375,15 +330,16 @@ function animal_button_bar (value) {
 			update_soorten.push("kip")
 			update_knoppen.push("kipmens")
 			current_animals = update_soorten
+
+			// update barchart
 			calculate_y_numbers()
 
 			
-			// als er op een provincie is geklikt
+			// if onclick province
 			if (current_province != "leeg") {
 				remove_lines()
 			}
 			update_linegraph("kipmens")
-
 			
 		}
 		else { 
@@ -395,12 +351,11 @@ function animal_button_bar (value) {
 			remove_lines()
 			update_linegraph()
 
-			// voor de mouseover goed te krijgen
+			// for a proper mouseover
 			line_values = calculate_mouseover_values()
 			mouseover()
 			
-		}
-			
+		}	
 	}
 
 	else if (value == "varken") {
@@ -508,6 +463,7 @@ function animal_button_bar (value) {
 	}
 }
 
+// checks if a button is on or off
 function check_button_on (value) {
 	if (value % 2 == 1) {
 		return "on"
@@ -527,9 +483,9 @@ function remove_animal_from_array (animal) {
 }
 
 function current_hover_data(hover_anmial) {
-	// als een van de knoppen aan staat
+	// if one of the buttons is on
 	if (update_soorten.length > 0) {
-		// NL OF PROVINCIE
+
 		if (nl_on == "yes") {
 
 			return convert_number_to_good_notation(parseInt(currentdata[currentyear]["Nederland"][update_soorten[hover_anmial]]))
@@ -538,7 +494,8 @@ function current_hover_data(hover_anmial) {
 			return convert_number_to_good_notation(parseInt(currentdata[currentyear][current_province][update_soorten[hover_anmial]]))
 		}
 	}
-	// als geneen van de knoppen aan staan
+
+	// if all buttons are off
 	else {
 		if (nl_on == "yes") {
 			return convert_number_to_good_notation(parseInt(currentdata[currentyear]["Nederland"][current_animals[hover_anmial]]))	
@@ -549,23 +506,21 @@ function current_hover_data(hover_anmial) {
 	}
 }
 
+// make good notation for hover barchart
 function convert_number_to_good_notation (number) {
 
 	var number = number.toLocaleString (undefined, { minimumFractionDigits: 0} );
 	return number
 }
 
+
 function remove_animal_from_array_line (animal) {
-	// console.log(animal)
-	// console.log(update_knoppen)
 
 	for (var i = update_knoppen.length - 1; i >= 0; i--) {
 		if (update_knoppen[i] == animal) {
     		update_knoppen.splice(i, 1)
 		}
 	}
-	
-	// console.log(update_knoppen)
 }
 
 
