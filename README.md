@@ -18,7 +18,7 @@ Course: Programming project
 #### How to use the visualisation:
 Click on the link to the visualisation above. You will be redirected to the webpage of the visualisation. On the webpage you can find the explanation on how to use the visualisation. Read "goals of the visualisation" (below here) to read about the different graphs wich are used in the visualisation.
 
-![](doc/final_version.png)
+![](doc/final_version.PNG)
 
 
 
