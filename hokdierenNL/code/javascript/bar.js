@@ -34,7 +34,6 @@ var tip_bar;
 current_animals = soorten
 
 function barChart() {
-
 	
 	var margin = {top: 25, right: 30, bottom: 60, left: 60}
 	width = 1100 - margin.left - margin.right
@@ -124,7 +123,6 @@ function barChart() {
 			.style("font-size", "30px")
 			.text("aantal");
 
-
 		barchart.selectAll(".bar")
 			.data(numbers_array)
 			.enter()
@@ -145,7 +143,6 @@ function barChart() {
 				tip_bar.hide()
 				out_line()		
 			})
-
 	};
 };
 

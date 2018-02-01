@@ -176,8 +176,9 @@ function make_black(provincie) {
 
     // first color everthing normale
     for (var i = 0; i < provincies.length; i++){
+
         normal_color = d3.selectAll("." + provincies[i])
-        .attr("id", "provincie")
+            .attr("id", "provincie")
         normal_color.style("fill",function(d, i) {
 
                 // only the 12 provinces in The Neterlands
@@ -248,6 +249,8 @@ function animal_button_map (value) {
             // color the map again
             make_map(buttons_on)
         }
+
+        // if button is off
         else { 
             remove_animal_from_array_map("kipbedrijf")
             make_map(buttons_on)
@@ -301,6 +304,7 @@ function animal_button_map (value) {
 
 // checks if button is on
 function check_button_on_2 (value) {
+
     if (value % 2 == 1) {
         return "on"
     }
@@ -311,6 +315,7 @@ function check_button_on_2 (value) {
 
 // if a button goes out, remove from array
 function remove_animal_from_array_map (animal) {
+
     for (var i = buttons_on.length - 1; i >= 0; i--) {
         if (buttons_on[i] == animal) {
             buttons_on.splice(i, 1)
@@ -319,8 +324,6 @@ function remove_animal_from_array_map (animal) {
 };
 
 function make_map (aantal_buttons_aan) {
-
-    // console.log(aantal_buttons_aan)
 
     // if all buttons are on or off
     if (aantal_buttons_aan.length == 0 || aantal_buttons_aan.length == 4) {
@@ -337,8 +340,6 @@ function make_map (aantal_buttons_aan) {
 
 // update map when 0, 1 or 4 buttons are on
 function create_part_map (value) {
-
-    console.log(value)
 
     new_mapi = map.selectAll("path")
     new_mapi.attr("fill", function(d,i) {
@@ -359,8 +360,6 @@ function create_part_map (value) {
 
 // update map when 2 or 3 buttons are on
 function multiple_buttons_map (animal_rij) {
-
-    console.log(animal_rij)
 
     rijtje_nummers = []
     eind_rijtje = []
@@ -394,7 +393,6 @@ function multiple_buttons_map (animal_rij) {
     new_map.attr("fill", function(d,i) {
 
         if (d.properties.name != undefined) {
-            console.log(map_color(eind_rijtje[i - 1]));
             return   map_color(eind_rijtje[i - 1])
         }
     })
