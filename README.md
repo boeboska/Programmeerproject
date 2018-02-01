@@ -60,13 +60,18 @@ For the line graph the data is transformed. The amount of animals per 1.000 peop
 #### Sources of external code:
 Note: I do not own the copyrights of these sources.
 
-The external sources needed for the project are:
+The external include sources needed for the project are:
 - D3 v3: d3js.org/d3.v3.min.js
 - D3 tooltip: http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js
 - D3 queue: http://d3js.org/queue.v1.min.js
 - D3 topoJson: http://d3js.org/topojson.v1.min.js
 - Bootstrap: https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css
 - Jquery: https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
+
+External code sources:
+- barchart: https://bl.ocks.org/RandomEtc/cff3610e7dd47bef2d01
+- lijngrafiek: https://bl.ocks.org/mbostock/3884955
+- map: http://bl.ocks.org/phil-pedruco/9344373
 
 
 #### External data-sources:
