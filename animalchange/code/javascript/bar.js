@@ -21,7 +21,7 @@ var x;
 
 var nl_on = "yes"
 var barchart;
-var current_province = "leeg";
+var current_province = "leeg"
 
 // initialize the buttons
 kip_on = "off"
@@ -29,7 +29,7 @@ varken_on = "off"
 overig_on = "off"
 kalkoen_on = "off"
 
-var tip_bar
+var tip_bar;
 
 current_animals = soorten
 
@@ -53,7 +53,7 @@ function barChart() {
 	yAxis = d3.svg.axis()
 		.scale(y)
 		.orient("left")
-		.ticks(5)
+		.ticks(5);
 	
 	barchart = d3.select(".barchart")
 		.attr("width", width + margin.left + margin.right)
@@ -77,7 +77,7 @@ function barChart() {
 		for (var i = 0; i < soorten.length; i++){
 			rijtje = parseInt(bardata[currentyear]["Nederland"][soorten[i]])
 			numbers_array.push(rijtje)
-		}
+		};
 
 		if (error) throw error
 
@@ -94,8 +94,8 @@ function barChart() {
 		d3.select(".barchart")
 		.call(tip_bar);
 
-		x.domain(soorten)
-		y.domain([d3.min(numbers_array), d3.max(numbers_array)]).nice()
+		x.domain(soorten);
+		y.domain([d3.min(numbers_array), d3.max(numbers_array)]).nice();
 
 		// text on xaxis
 		barchart.append("g")
@@ -106,7 +106,7 @@ function barChart() {
 			.attr("x", width - 80)
 			.attr("y", .75 * margin.bottom)
 			.style("font-size", "30px")
-			.text("soort")
+			.text("soort");
 
 		// text on taxis
 		barchart.append("g")
@@ -120,7 +120,7 @@ function barChart() {
                 return "rotate(-90)" 
                 })
 			.style("font-size", "30px")
-			.text("aantal")
+			.text("aantal");
 
 
 		barchart.selectAll(".bar")
@@ -139,18 +139,18 @@ function barChart() {
 
 			.on("mouseover", tip_bar.show)
 			.on("mouseout", function() {
-				tip_bar.hide();
+				tip_bar.hide()
 				out_line()		
 			})
 
-	}
-}
+	};
+};
 
 // if on hover bar show the connected line with the bar
 function show_conntected_line (i) {
 
-	var jani= x.domain()
-	var current_line = (jani[i] + "mens")
+	var current_domain= x.domain();
+	var current_line = (current_domain[i] + "mens");
 
 	// draw all lines with the normal colors and stroke-width
 	for (var i = 0; i < lijnsoorten.length; i++) {
@@ -165,7 +165,7 @@ function show_conntected_line (i) {
 
 		show_line_return.attr("stroke", (color_line(lijnsoorten[i])))
 		show_line_return.attr("stroke-width", 7)
-	}
+	};
 
 	if (new_lines == "yes") {
 		var show_line = d3.selectAll("." + current_line)
@@ -177,7 +177,7 @@ function show_conntected_line (i) {
 	// draw the line in black wich is connected with the bar
 	show_line.attr("stroke", "black")
 	show_line.attr("stroke-width", 10)
-}          
+};       
 
 // draw all lines with the normal colors and stroke-width
 function out_line () {
@@ -195,8 +195,8 @@ function out_line () {
 
 		show_line_return.attr("stroke", (color_line(lijnsoorten[i])))
 		show_line_return.attr("stroke-width", 7)
-	}
-}
+	};
+};
 
 // when slider changes, log the current year and update barchart
 function change_year_bar(value) {
@@ -209,7 +209,7 @@ function change_year_bar(value) {
 
 	currentyear = value
 	calculate_y_numbers()
-}
+};
 
 // calculate the data for the new barchart
 function calculate_y_numbers () {
@@ -226,33 +226,37 @@ function calculate_y_numbers () {
 			rijtje = parseInt(currentdata[currentyear][current_province][current_animals[i]])
 		}
 		numbers_array.push(rijtje)
-	}
+	};
 
 	update_barchart(numbers_array, current_animals)
-}
+};
 
 // when the user clicks a province in the map, update barchart and linegraph
 function click_province_bar (province) {
 
+
 	current_province = province
-	nl_on = "no"
+	nl_on = "no";
 
 	// if all buttons are on
 	if (update_soorten.length > 0){
 		current_animals = update_soorten
-	}
+	};
 
-	numbers_array = calculate_y_numbers()
+	numbers_array = calculate_y_numbers();
 
 	// remove all old lines
-	remove_lines()
+	remove_lines();
 
 	// draw the new lines
-	update_linegraph()
+	update_linegraph();
 }
 
 function update_barchart (y_numbers, x_numbers) {
 	
+	// console.log(y_numbers)
+	// console.log(x_numbers)
+
 	// if all buttons are off
 	if (x_numbers.length == 0) {
 		x_numbers = soorten
@@ -268,23 +272,28 @@ function update_barchart (y_numbers, x_numbers) {
 		}
 
 		// update the x and y axis
-		y.domain([d3.min(y_numbers), d3.max(y_numbers)]).nice()
-		x.domain(x_numbers)
+		y.domain([d3.min(y_numbers), d3.max(y_numbers)]).nice();
+		x.domain(x_numbers);
 		
-		barchart.select(".x.axis").transition().duration(1000).call(xAxis)
-		barchart.select(".y.axis").transition().duration(1000).call(yAxis)
+		barchart.select(".x.axis").transition().duration(1000).call(xAxis);
+		barchart.select(".y.axis").transition().duration(1000).call(yAxis);
 
-		var new_bar = barchart.selectAll(".bar").data(y_numbers)
+		// verwijder oudes bars
+		var new_bar = barchart.selectAll(".bar").data(y_numbers);
+			
 		new_bar.exit()
-		.remove()
-	
+			.remove();
+
+		console.log(y_numbers)
+
 		new_bar.transition().duration(1000)
 			.attr("x", function(d, i) { return x(x_numbers[i]); })
 			.attr("width", x.rangeBand())
-			.attr("y", function(d, i) { return y(y_numbers[i]); })
+			.attr("y", function(d, i) { console.log(i); return y(y_numbers[i]); })
 			.attr("height", function(d, i) { return height - y(y_numbers[i]); })
+
 			.attr("id", function(d, i) { return x_numbers[i] })
-			.attr("class", "bar")
+			.attr("class", "bar");
 
 		new_bar
 			.on("mouseover", tip_bar.show)
@@ -292,9 +301,9 @@ function update_barchart (y_numbers, x_numbers) {
 				out_line(),
 				tip_bar.hide ()
 				
-			})
-	}
-}
+			});
+	};
+};
 
 // when user clicks the buttons NL, update barchart and linegraph
 function back_to_nl () {
@@ -317,7 +326,7 @@ function back_to_nl () {
 		update_linegraph()
 	}
 
-}
+};
 
 function animal_button_bar (value) {
 
@@ -345,10 +354,10 @@ function animal_button_bar (value) {
 		else { 
 			remove_animal_from_array("kip") 
 			remove_animal_from_array_line("kipmens")
-			calculate_y_numbers()
+			calculate_y_numbers();
 			linegraph.selectAll(".kipmens").remove()
 			// console.log(update_knoppen)
-			remove_lines()
+			remove_lines();
 			update_linegraph()
 
 			// for a proper mouseover

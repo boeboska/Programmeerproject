@@ -262,8 +262,6 @@ function create_line_2 (line, waardes, value) {
 
 	line_values = calculate_mouseover_values()
 	mouseover()
-
-	linegraph.selectAll(".lijn").moveToBack();
 	
 }
 
@@ -331,17 +329,14 @@ function calculate_line_values () {
 	// check if buttons are off
 	if (nl_on == "no" && update_knoppen.length == 0) {
 		update_knoppen = ["kipmens", "varkenmens", "kalkoenmens", "overigmens"]
-		// console.log(update_knoppen)
 	}
 	
 	if (nl_on == "yes" && update_knoppen.length == 0) {
-		console.log("JAAHA")
 		update_knoppen = lijnsoorten
 	}
 
 	// remove the first four elements in the array
 	else if (nl_on == "no" && update_knoppen.length > 4) {
-		console.log("IK BEN ERIN")
 		for (var i = 0; i < 4; i++){
 			update_knoppen.shift()
 		}
@@ -355,7 +350,6 @@ function calculate_line_values () {
 
 		waardes = []
 		for (var i = 0; i < jaren.length; i++) {
-
 			// console.log(current_province)
 
 			// kijk of het voor heel NL moet of een provincie

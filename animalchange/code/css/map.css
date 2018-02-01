@@ -19,6 +19,11 @@ styles the map and logs the current place
 	cursor: pointer;
 }
 
+#provincie_2:hover {
+	fill: black;
+	cursor: pointer;
+}
+
 #mapdiv {
 	width: 950px;
 	height: 950px;

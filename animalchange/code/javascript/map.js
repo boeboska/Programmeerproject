@@ -159,11 +159,13 @@ function make_black(provincie) {
             .text(provincie)
             .style("font-size", "30px")
             .attr("class", "log_province")
+
     
 
     // first color everthing normale
     for (var i = 0; i < provincies.length; i++){
         normal_color = d3.selectAll("." + provincies[i])
+        .attr("id", "provincie_2")
         normal_color.style("fill",function(d, i) {
 
                 // only the 12 provinces in The Neterlands
@@ -173,6 +175,7 @@ function make_black(provincie) {
                 { return map_color(gegevens[current_year][d.properties.name]["bedrijven"])}
             })
     }
+    
 
     // fill the clicked province black
     mapje = d3.selectAll("." + huidige_province)
