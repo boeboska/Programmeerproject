@@ -12,7 +12,7 @@ update_soorten = []
 var currentdata;
 var currentyear;
 
-var total = 0
+var total = 0;
 var y;
 var height;
 var yAxis;
@@ -62,12 +62,13 @@ function barChart() {
 		.attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
 	
 	queue()
-		.defer(d3.json, "json/mdata.json")
+		.defer(d3.json, "json/cbs_data.json")
 		.await(make_bar);
 
 	function make_bar(error, bardata) {
 
 		currentdata = bardata
+
 		// visualisation starts in 2000
 		currentyear = 2000;
 
@@ -88,7 +89,8 @@ function barChart() {
 
 				// if on hover bar show the connected line with the bar
 				show_conntected_line(i)
-				return "<strong> Aantal: </strong> <span style='color:red'>" + current_hover_data(i) + "</span>";
+				return "<strong> Aantal: </strong> <span style='color:red'>" + 
+				current_hover_data(i) + "</span>";
 		});
 
 		d3.select(".barchart")
@@ -135,7 +137,8 @@ function barChart() {
 			.attr("width", x.rangeBand())
 
 			.attr("y", function(d, i) { return y(numbers_array[i]); })
-			.attr("height", function(d, i) { return height - y(numbers_array[i]); })
+			.attr("height", function(d, i) { return height -
+			 y(numbers_array[i]); })
 
 			.on("mouseover", tip_bar.show)
 			.on("mouseout", function() {
@@ -208,6 +211,8 @@ function change_year_bar(value) {
 		.style("font-size", "30px")
 
 	currentyear = value
+
+	// update barchart
 	calculate_y_numbers()
 };
 
@@ -215,15 +220,18 @@ function change_year_bar(value) {
 function calculate_y_numbers () {
 
 	numbers_array = []
+
 	for (var i = 0; i < current_animals.length; i++) {
 		
 		// if the user wants The Netherlands
 		if (current_province == "leeg" || nl_on == "yes") {	
-			rijtje = parseInt(currentdata[currentyear]["Nederland"][current_animals[i]])
+			rijtje = parseInt(currentdata[currentyear]["Nederland"]
+				[current_animals[i]])
 		}
 		// if the user wants a specific province
 		else {
-			rijtje = parseInt(currentdata[currentyear][current_province][current_animals[i]])
+			rijtje = parseInt(currentdata[currentyear][current_province]
+				[current_animals[i]])
 		}
 		numbers_array.push(rijtje)
 	};
@@ -253,9 +261,6 @@ function click_province_bar (province) {
 }
 
 function update_barchart (y_numbers, x_numbers) {
-	
-	// console.log(y_numbers)
-	// console.log(x_numbers)
 
 	// if all buttons are off
 	if (x_numbers.length == 0) {
@@ -284,12 +289,19 @@ function update_barchart (y_numbers, x_numbers) {
 		new_bar.exit()
 			.remove();
 
-		console.log(y_numbers)
-
 		new_bar.transition().duration(1000)
 			.attr("x", function(d, i) { return x(x_numbers[i]); })
 			.attr("width", x.rangeBand())
-			.attr("y", function(d, i) { console.log(i); return y(y_numbers[i]); })
+			.attr("y", function(d, i) { return y(y_numbers[i]); })
+			.attr("height", function(d, i) { return height - y(y_numbers[i]); })
+
+			.attr("id", function(d, i) { return x_numbers[i] })
+			.attr("class", "bar");
+
+		new_bar.enter().append("rect").transition().duration(1000)
+			.attr("x", function(d, i) { return x(x_numbers[i]); })
+			.attr("width", x.rangeBand())
+			.attr("y", function(d, i) {return y(y_numbers[i]); })
 			.attr("height", function(d, i) { return height - y(y_numbers[i]); })
 
 			.attr("id", function(d, i) { return x_numbers[i] })
@@ -313,10 +325,10 @@ function back_to_nl () {
 
 	current_province = "leeg"
 	nl_on = "yes"
-	calculate_y_numbers()
+	calculate_y_numbers();
 
 	// remove old lines and draw new 
-	remove_lines()
+	remove_lines();
 	if (update_knoppen.length == 0) {
 		update_knoppen = lijnsoorten
 		update_linegraph()
@@ -330,8 +342,12 @@ function back_to_nl () {
 
 function animal_button_bar (value) {
 
+	// if user kliks on the kip button
 	if (value == "kip") {
+
 		kip_click = kip_click + 1
+
+		// check is the button is on or off
 		kip_on = check_button_on(kip_click)
 
 		if (kip_on == "on") {
@@ -351,12 +367,17 @@ function animal_button_bar (value) {
 			update_linegraph("kipmens")
 			
 		}
+
+		// if button is off
 		else { 
+
 			remove_animal_from_array("kip") 
 			remove_animal_from_array_line("kipmens")
+
+			// update barchart
 			calculate_y_numbers();
+
 			linegraph.selectAll(".kipmens").remove()
-			// console.log(update_knoppen)
 			remove_lines();
 			update_linegraph()
 
@@ -462,25 +483,23 @@ function animal_button_bar (value) {
 				remove_lines()
 				update_linegraph()
 
-
-				// voor de mouseover goed te krijgen
 				line_values = calculate_mouseover_values()
 				mouseover()
 			
-
 			}	
 	}
-}
+};
 
 // checks if a button is on or off
 function check_button_on (value) {
+
 	if (value % 2 == 1) {
 		return "on"
 	}
 	else {
 		return "off"
 	}
-}
+};
 
 function remove_animal_from_array (animal) {
 
@@ -489,38 +508,44 @@ function remove_animal_from_array (animal) {
     		update_soorten.splice(i, 1)
 		}
 	}		
-}
+};
 
+// returns the hover data for the barchart
 function current_hover_data(hover_anmial) {
+
 	// if one of the buttons is on
 	if (update_soorten.length > 0) {
 
 		if (nl_on == "yes") {
 
-			return convert_number_to_good_notation(parseInt(currentdata[currentyear]["Nederland"][update_soorten[hover_anmial]]))
+			return convert_number_to_good_notation(parseInt(currentdata
+				[currentyear]["Nederland"][update_soorten[hover_anmial]]))
 		}
 		else {
-			return convert_number_to_good_notation(parseInt(currentdata[currentyear][current_province][update_soorten[hover_anmial]]))
+			return convert_number_to_good_notation(parseInt(currentdata
+				[currentyear][current_province][update_soorten[hover_anmial]]))
 		}
 	}
 
 	// if all buttons are off
 	else {
 		if (nl_on == "yes") {
-			return convert_number_to_good_notation(parseInt(currentdata[currentyear]["Nederland"][current_animals[hover_anmial]]))	
+			return convert_number_to_good_notation(parseInt(currentdata
+				[currentyear]["Nederland"][current_animals[hover_anmial]]))	
 		}
 		else {
-			return convert_number_to_good_notation(parseInt(currentdata[currentyear][current_province][current_animals[hover_anmial]]))
+			return convert_number_to_good_notation(parseInt(currentdata
+				[currentyear][current_province][current_animals[hover_anmial]]))
 		}
 	}
-}
+};
 
 // make good notation for hover barchart
 function convert_number_to_good_notation (number) {
 
 	var number = number.toLocaleString (undefined, { minimumFractionDigits: 0} );
 	return number
-}
+};
 
 
 function remove_animal_from_array_line (animal) {
@@ -530,8 +555,7 @@ function remove_animal_from_array_line (animal) {
     		update_knoppen.splice(i, 1)
 		}
 	}
-}
-
+};
 
 
 

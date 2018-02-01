@@ -7,17 +7,22 @@
 
 
 gegevens = 
-provincies = ["Noord-Brabant", "Utrecht", "Zuid-Holland", "Noord-Holland", "Drenthe", "Friesland", "Gelderland", "Groningen", "Limburg", "Overijssel", "Flevoland", "Zeeland"]
+provincies = ["Noord-Brabant", "Utrecht", "Zuid-Holland", "Noord-Holland", 
+"Drenthe", "Friesland", "Gelderland", "Groningen", "Limburg", "Overijssel", 
+"Flevoland", "Zeeland"]
+
 provincies2 = ["Noord-Brabant", "Utrecht", "Zuid-Holland", "Noord-Holland"]
-provincies3 = ["Drenthe", "Friesland", "Gelderland", "Groningen", "Limburg", "Overijssel", "Flevoland", "Zeeland"]
+
+provincies3 = ["Drenthe", "Friesland", "Gelderland", "Groningen", "Limburg",
+ "Overijssel", "Flevoland", "Zeeland"]
+
 company_data = []
-array = []
 buttons_on = []
 
 var map;
 var tip;
 var current_year;
-var huidige_province
+var huidige_province;
 
 // initialize buttons
 kip_button = 0;
@@ -53,7 +58,7 @@ window.onload = function() {
 
     queue()
         .defer(d3.json, "json/nld.json")
-        .defer(d3.json, "json/mdata.json")
+        .defer(d3.json, "json/cbs_data.json")
         .await(data_loader);
 
     function data_loader (error, nld, data){
@@ -68,8 +73,10 @@ window.onload = function() {
             .attr('class', 'd3-tip')
             .offset([-10, 0])
             .html(function(d) {
-                return  "<strong> Hoofdstad: </strong> <span style='color:red'>" + d.properties.name + "</span>" +
-                        "<div> <strong> Aantal boerderijen: </strong> <span style='color:red'>" + data[current_year][d.properties.name]["bedrijven"] + "</div>"
+                return  "<strong> Hoofdstad: </strong> <span style='color:red'>"
+                 + d.properties.name + "</span>" 
+                 +"<div> <strong> Aantal boerderijen: </strong> <span style='color:red'>" +
+                  data[current_year][d.properties.name]["bedrijven"] + "</div>"
 
         });
         map.call(tip);
@@ -77,8 +84,11 @@ window.onload = function() {
         // map position
         var l = topojson.feature(nld, nld.objects.subunits).features[3],
             b = path.bounds(l),
-            s = .2 / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / height),
-            t = [(width - s * (b[1][0] + b[0][0])) / 2, (height - 100 - s * (b[1][1] + b[0][1])) / 2];
+            s = .2 / Math.max((b[1][0] - b[0][0]) / width, 
+                (b[1][1] - b[0][1]) / height),
+
+            t = [(width - s * (b[1][0] + b[0][0])) / 2, 
+            (height - 100 - s * (b[1][1] + b[0][1])) / 2];
 
         projection
             .scale(s)
@@ -97,7 +107,8 @@ window.onload = function() {
                 if (d.properties.name != undefined) 
 
                 // fill the map based on the data per province
-                { return map_color(gegevens["2000"][d.properties.name]["bedrijven"])}
+                { return map_color(gegevens["2000"][d.properties.name]
+                    ["bedrijven"])}
             })
             .attr("class", function(d, i) { return d.properties.name; })
 
@@ -108,17 +119,20 @@ window.onload = function() {
                 huidige_province = d.properties.name, 
 
             // change year if slider changes and update barchart
-            change_year(current_year), click_province_bar(d.properties.name), make_black(huidige_province) })
+            change_year(current_year), click_province_bar(d.properties.name),
+             make_black(huidige_province) });
             
         var colorss = ["#B3E5FC", "#4FC3F7", "#03A9F4", "#0288D1", "#01579B"];
-        var legenda_numbers = ["0 - 250", "250 - 500", "500 - 1000", "1000 - 2000", "2000 +"];
+        var legenda_numbers = ["0 - 250", "250 - 500", "500 - 1000",
+         "1000 - 2000", "2000 +"];
 
         var legend = map.selectAll(".legend")
             .data(colorss)
             .enter()
             .append("g")
             .attr("class", "legend")
-            .attr("transform", function(d, i ) { return "translate (0," + i * 30 + ")"; });
+            .attr("transform", function(d, i ) { 
+                return "translate(0," + i * 30 + ")"; });
 
         // position blocks on the legenda
         legend.append("rect")
@@ -138,7 +152,7 @@ window.onload = function() {
             .attr("dy", ".35em")
             .style("text-anchor", "end")
             .style("font-size", "20px")
-            .text(function(d) { return d; })
+            .text(function(d) { return d; });
 
         // log the Netherlands in user's screen
         var click_provincie = d3.selectAll(".nl_button")
@@ -158,29 +172,28 @@ function make_black(provincie) {
             click_provincie.append("text")
             .text(provincie)
             .style("font-size", "30px")
-            .attr("class", "log_province")
-
-    
+            .attr("class", "log_province");
 
     // first color everthing normale
     for (var i = 0; i < provincies.length; i++){
         normal_color = d3.selectAll("." + provincies[i])
-        .attr("id", "provincie_2")
+        .attr("id", "provincie")
         normal_color.style("fill",function(d, i) {
 
                 // only the 12 provinces in The Neterlands
                 if (d.properties.name != undefined) 
 
                 // fill the map based on the data per province
-                { return map_color(gegevens[current_year][d.properties.name]["bedrijven"])}
+                { return map_color(gegevens[current_year][d.properties.name]
+                    ["bedrijven"])}
             })
-    }
+    };
     
-
     // fill the clicked province black
     mapje = d3.selectAll("." + huidige_province)
     mapje.style("fill", "black")
-}
+
+};
 
 // when the slider changes, update the map color
 function change_year(value) {
@@ -190,12 +203,12 @@ function change_year(value) {
     // if there are buttons on, update the map with these button data
     if (buttons_on.length > 0) {
         make_map(buttons_on)
-    }
+    };
 
     // draw the map color 
     make_black(huidige_province)
     
-}
+};
 
 // fill the map based on the data per province
 function map_color(number) {
@@ -218,7 +231,7 @@ function map_color(number) {
             return "#01579B"
         }
     }
-}
+};
 
 // buttons for updating the map
 function animal_button_map (value) {
@@ -229,9 +242,10 @@ function animal_button_map (value) {
         kip_button = kip_button + 1
         chicken_button = check_button_on_2(kip_button)
 
-
         if (chicken_button == "on") { 
             buttons_on.push("kipbedrijf")
+
+            // color the map again
             make_map(buttons_on)
         }
         else { 
@@ -272,7 +286,6 @@ function animal_button_map (value) {
 
         kalkoen_button = kalkoen_button + 1
         turkey_button = check_button_on_2(kalkoen_button)
-        // console.log(turkey_button)
 
         if (turkey_button == "on") {
             buttons_on.push("kalkoenbedrijf")
@@ -284,7 +297,7 @@ function animal_button_map (value) {
             make_map(buttons_on)
         }
     }
-}
+};
 
 // checks if button is on
 function check_button_on_2 (value) {
@@ -294,7 +307,7 @@ function check_button_on_2 (value) {
     else {
         return "off"
     }
-}
+};
 
 // if a button goes out, remove from array
 function remove_animal_from_array_map (animal) {
@@ -303,9 +316,11 @@ function remove_animal_from_array_map (animal) {
             buttons_on.splice(i, 1)
         }
     }       
-}
+};
 
 function make_map (aantal_buttons_aan) {
+
+    // console.log(aantal_buttons_aan)
 
     // if all buttons are on or off
     if (aantal_buttons_aan.length == 0 || aantal_buttons_aan.length == 4) {
@@ -318,28 +333,34 @@ function make_map (aantal_buttons_aan) {
     else if (aantal_buttons_aan.length > 1) {
         multiple_buttons_map (aantal_buttons_aan)
     }  
-}
+};
 
 // update map when 0, 1 or 4 buttons are on
 function create_part_map (value) {
 
-    new_map = map.selectAll("path")
-    new_map.attr("fill", function(d,i) {
+    console.log(value)
+
+    new_mapi = map.selectAll("path")
+    new_mapi.attr("fill", function(d,i) {
         if (d.properties.name != undefined) {
             // if only 1 button is on
             if (value.length == 1) {
-                return map_color(gegevens[current_year][d.properties.name][value])
+                return map_color(gegevens[current_year][d.properties.name]
+                    [value])
             }
             // if all buttons are off
             else {
-                return map_color(gegevens[current_year][d.properties.name]["bedrijven"])
+                return map_color(gegevens[current_year][d.properties.name]
+                    ["bedrijven"])
             }  
         }
     })
-}
+};
 
 // update map when 2 or 3 buttons are on
 function multiple_buttons_map (animal_rij) {
+
+    console.log(animal_rij)
 
     rijtje_nummers = []
     eind_rijtje = []
@@ -347,28 +368,35 @@ function multiple_buttons_map (animal_rij) {
     // calculate all the data
     for (var i = 0; i < animal_rij.length; i++) {
         for (var j = 0; j < provincies.length; j++) {
-            rijtje_nummers.push(parseInt(gegevens[current_year][provincies[j]][animal_rij[i]]))
+            rijtje_nummers.push(parseInt(gegevens[current_year][provincies[j]]
+                [animal_rij[i]]))
         }
     }
 
     // sort the data 
     for (var i = 0; i < rijtje_nummers.length / animal_rij.length; i++) {
+
         // if two buttons are on
         if (animal_rij.length == 2) {
             eind_rijtje.push(rijtje_nummers[i] + rijtje_nummers[i + 12])
         }
+
         // if three buttons are on
         else if (animal_rij.length == 3) {
-            eind_rijtje.push(rijtje_nummers[i] + rijtje_nummers[i + provincies.length] + rijtje_nummers[i + (provincies.length * 2)])
+            eind_rijtje.push(rijtje_nummers[i] + rijtje_nummers
+                [i + provincies.length] + 
+                rijtje_nummers[i + (provincies.length * 2)])
         }   
     }
 
     // fill the map
     new_map = map.selectAll("path")
     new_map.attr("fill", function(d,i) {
+
         if (d.properties.name != undefined) {
-            return  map_color(eind_rijtje[i - 1])
+            console.log(map_color(eind_rijtje[i - 1]));
+            return   map_color(eind_rijtje[i - 1])
         }
     })
-}
+};
 

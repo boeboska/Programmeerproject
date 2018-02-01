@@ -15,3 +15,11 @@ styles the linegraph
 	padding-top: 9px;
 	padding-left: 300px;
 }
+
+#bob_info_main {
+	font-size: 17px;	
+	position: absolute;
+	left: 1200px;
+	top: 20px;
+	
+}

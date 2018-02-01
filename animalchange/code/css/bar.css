@@ -66,3 +66,12 @@ styles the barchart
 	width: 1200;
     height: 600px;
 }
+
+/*info about my name and studentnummber in the head of the page*/
+#bob_info_main {
+	font-size: 17px;	
+	position: absolute;
+	left: 1200px;
+	top: 20px;
+	
+}

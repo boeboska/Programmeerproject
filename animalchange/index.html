@@ -57,10 +57,12 @@
         <div class="tab-content">
 
             <!-- tab 2 -->
-            <div id ="visualisation" class="tab-pane fade in active">
+            <div id ="visualisation" class="tab-pane fade">
 
                 <!-- 1st row MAP AND BAR-->
                 <div class="row">
+
+
 
                     <!-- 1st colom in row 1 MAP -->
                     <div class="col-sm-6">
@@ -125,6 +127,13 @@
                    <!-- 1st colom in row 1 BAR-->
                     <div class="col-sm-6">
 
+                        <div id="bob_info_main">
+                        <ul> <b>  Naam: Bob Borsboom
+                                <p>
+                                    Studentnummber: 10802975 </b>
+                                </ul>
+                        </div>
+
                         <div class="bar_title">
                             <h2> Aantal dieren </h2>
                         </div>
@@ -153,6 +162,8 @@
                             $('#popoverData_line').popover();
                             $('#popoverOption').popover({ trigger: "hover" });
                         </script>
+
+
 
                         <div id ="linediv">
                             <svg class="linegraph"> </svg>
@@ -201,10 +212,10 @@
 
              <!-- tab 1 -->
 
-            <div id="introduction" class="tab-pane fade">
+            <div id="introduction" class="tab-pane fade in active">
 
                     <div id="hokdieren_img">
-                        <img src="./hokdieren.jpg" alt="Hokdieren">
+                        <img src="../doc/hokdieren.jpg" alt="Hokdieren">
                     </div>
 
                     <h1> Discussie </h1> 
@@ -255,7 +266,7 @@
 
                     <div id="bron">
 
-                        <h1> Bronnen </h1>
+                        <h1> Data bronnen visualisatie </h1>
                         <ul>
                             Voor de visualisatie is gebruik gemaakt van gegevens van de databank van het Centraal Plan Bureau. Er zijn hiervoor 2 datasets gebruikt.
                         </ul>
@@ -272,8 +283,13 @@
 
 
                     </div>
-           
-            </div>
+
+                    <div id="bob_info">
+                            <h4>  <b>  Naam: Bob Borsboom
+                            <p>
+                                    Studentnummber: 10802975 </b>
+                            </h4>
+                    </div>
 
         </div>
     </div>

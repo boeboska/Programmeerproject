@@ -15,14 +15,10 @@ styles the map and logs the current place
 }
 
 #provincie:hover {
-	fill: black;
 	cursor: pointer;
 }
 
-#provincie_2:hover {
-	fill: black;
-	cursor: pointer;
-}
+
 
 #mapdiv {
 	width: 950px;
