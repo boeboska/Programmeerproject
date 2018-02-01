@@ -52,8 +52,8 @@ window.onload = function() {
         .attr("height", height);
 
     queue()
-        .defer(d3.json, "/json/nld.json")
-        .defer(d3.json, "/json/mdata.json")
+        .defer(d3.json, "json/nld.json")
+        .defer(d3.json, "json/mdata.json")
         .await(data_loader);
 
     function data_loader (error, nld, data){

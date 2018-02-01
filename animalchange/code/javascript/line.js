@@ -71,7 +71,7 @@ function lineGraph() {
 	var color = d3.scale.category10();
 
 	queue()
-		.defer(d3.json, "/json/mdata.json")
+		.defer(d3.json, "json/mdata.json")
 		.await(make_line);
 
 	function make_line(error, linedata) {

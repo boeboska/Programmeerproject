@@ -62,7 +62,7 @@ function barChart() {
 		.attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
 	
 	queue()
-		.defer(d3.json, "/json/mdata.json")
+		.defer(d3.json, "json/mdata.json")
 		.await(make_bar);
 
 	function make_bar(error, bardata) {
