@@ -27,7 +27,7 @@ For example: If you should not eat meat for 3 days on weekly basis, that would b
 
 
 
-Goals of the visualisation:
+Goal of the visualisation:
 -----------------------
 The goal of the visualisation is that the consumers become aware of the current amount of meat they use. In the visualisation there are three main graphs. A map where the user can see the distribution of the breeding farms in the Netherlands, a barchart where they can see the exaxct amount of animals (chicken, pigs, turkeys and other) and a linegraph where they can see the change over time. Next to the three main graphs the user can slide between years, click on different provinces and filter on animals. There are therefore sufficient possibilities to give the user enough information.
 
@@ -53,14 +53,21 @@ This is the sketch made before the start of the project.
 #### Data transformation:
 For the line graph the data is transformed. The amount of animals per 1.000 people will be showed. Therefor the amount of animals is divided by the amount of people.
 
-#### External components:
-The external components needed for the project are:
+#### Sources of external code:
+Note: I do not own the copyrights of these sources.
+
+The external sources needed for the project are:
 - D3 v3: d3js.org/d3.v3.min.js
 - D3 tooltip: http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js
 - D3 queue: http://d3js.org/queue.v1.min.js
 - D3 topoJson: http://d3js.org/topojson.v1.min.js
+- Bootstrap: https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css
+- Jquery: https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
 
-#### External data-sources
+
+#### External data-sources:
+Note: I do not own the copyrights of these sources.
+
 Data from CBS about the amount of breeding farms per province and the amount of animals per province
 http://statline.cbs.nl/Statweb/publication/?DM=SLNL&PA=80780ned&D1=542,560,572-575,578-579&D2=0,5-16&D3=a&HDR=G1,G2&STB=T&VW=T
 
