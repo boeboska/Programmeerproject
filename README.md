@@ -1,5 +1,7 @@
 Link to visualisation: https://boeboska.github.io/Programmeerproject/hokdierenNL/index.html
 
+Note: please set screen the zoom to 50% for a good view off the visualisation
+
 
 
 Project Animal Change 2000 - 2016
@@ -18,7 +20,7 @@ Course: Programming project
 #### How to use the visualisation:
 Click on the link to the visualisation above. You will be redirected to the webpage of the visualisation. On the webpage you can find the explanation on how to use the visualisation. Read "goals of the visualisation" (below here) to read about the different graphs wich are used in the visualisation.
 
-![](doc/final_version.png)
+![](doc/final_version.PNG)
 
 
 
