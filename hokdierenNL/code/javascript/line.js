@@ -158,65 +158,65 @@ function lineGraph() {
 			.style("font-size", "30px");
 
 
-		line_values = calculate_mouseover_values();
-		mouseover();
+		// line_values = calculate_mouseover_values();
+		// mouseover();
 	};
 };
 
 // calculates the mouseover values
-function calculate_mouseover_values () {
+// function calculate_mouseover_values () {
 	
-	lijn_waardes1 = []
-	lijn_waardes2 = []
-	lijn_waardes3 = []
-	lijn_waardes4 = []
+// 	lijn_waardes1 = []
+// 	lijn_waardes2 = []
+// 	lijn_waardes3 = []
+// 	lijn_waardes4 = []
 
-	alle_dieren = ["kipmens", "varkenmens", "kalkoenmens", "overigmens"]
+// 	alle_dieren = ["kipmens", "varkenmens", "kalkoenmens", "overigmens"]
 
-	for (var j = 0; j < alle_dieren.lenth; j++) { 
+// 	for (var j = 0; j < alle_dieren.lenth; j++) { 
 
-		for (var i = 0; i < jaren.length; i++) {
+// 		for (var i = 0; i < jaren.length; i++) {
 
-			if (current_province == "leeg") {
-				number = line_gegevens[jaren[i]]["Nederland"][alle_dieren[j]]	
-			}
-			else {
-				number = line_gegevens[jaren[i]][current_province]
-				[alle_dieren[j]]
-			}
+// 			if (current_province == "leeg") {
+// 				number = line_gegevens[jaren[i]]["Nederland"][alle_dieren[j]]	
+// 			}
+// 			else {
+// 				number = line_gegevens[jaren[i]][current_province]
+// 				[alle_dieren[j]]
+// 			}
 
-			if (j == 0) {
-				lijn_waardes1[i] = {}
-				lijn_waardes1[i]["date"] = dateFromDay((jaren[i]), 1)
-				lijn_waardes1[i]["value"] = number
-			}
-			else if (j == 1) {
-				lijn_waardes2[i] = {}
-				lijn_waardes2[i]["date"] = dateFromDay((jaren[i]), 1)
-				lijn_waardes2[i]["value"] = number
-			}
-			else if (j == 2) {
-				lijn_waardes3[i] = {}
-				lijn_waardes3[i]["date"] = dateFromDay((jaren[i]), 1)
-				lijn_waardes3[i]["value"] = number
-			}
-			else if (j == 3) {
-				lijn_waardes4[i] = {}
-				lijn_waardes4[i]["date"] = dateFromDay((jaren[i]), 1)
-				lijn_waardes4[i]["value"] = number
-			}
+// 			if (j == 0) {
+// 				lijn_waardes1[i] = {}
+// 				lijn_waardes1[i]["date"] = dateFromDay((jaren[i]), 1)
+// 				lijn_waardes1[i]["value"] = number
+// 			}
+// 			else if (j == 1) {
+// 				lijn_waardes2[i] = {}
+// 				lijn_waardes2[i]["date"] = dateFromDay((jaren[i]), 1)
+// 				lijn_waardes2[i]["value"] = number
+// 			}
+// 			else if (j == 2) {
+// 				lijn_waardes3[i] = {}
+// 				lijn_waardes3[i]["date"] = dateFromDay((jaren[i]), 1)
+// 				lijn_waardes3[i]["value"] = number
+// 			}
+// 			else if (j == 3) {
+// 				lijn_waardes4[i] = {}
+// 				lijn_waardes4[i]["date"] = dateFromDay((jaren[i]), 1)
+// 				lijn_waardes4[i]["value"] = number
+// 			}
 			
-		}
-	}
+// 		}
+// 	}
 
-	return {
-		lijn_waardes1,
-		lijn_waardes2,
-		lijn_waardes3,
-		lijn_waardes4,
+// 	return {
+// 		lijn_waardes1,
+// 		lijn_waardes2,
+// 		lijn_waardes3,
+// 		lijn_waardes4,
 
-	}
-};
+// 	}
+// };
 
 // calculate the line values
 function calculate_line (value) {
@@ -263,8 +263,8 @@ function create_line_2 (line, waardes, value) {
 		.attr("d", line(waardes))
 		.style("fill", "none");
 
-	line_values = calculate_mouseover_values();
-	mouseover();
+	// line_values = calculate_mouseover_values();
+	// mouseover();
 	
 };
 
@@ -441,141 +441,145 @@ function update_y_axis (value) {
 };
 
 
-function mouseover () {
+// function mouseover () {
 
-	// linegraph.selectAll(".circle").remove()
+// 	// linegraph.selectAll(".circle").remove()
+// 	// linegraph.selectAll(".mouse-per-line").remove()
+// 	// mouseG.selectAll(".mouse-over-effects").remove()
+// 	// linegraph.selectAll(".mouse-over-effects").remove()
+// 	// linegraph.selectAll(".mouse-line").remove()
 
-	var x_data;
+// 	var x_data;
 
-	var mouseG = linegraph.append("g")
-	.attr("class", "mouse-over-effects")
+// 	var mouseG = linegraph.append("g")
+// 	.attr("class", "mouse-over-effects")
 
-	mouseG.append("path")
-	.attr("class", "mouse-line")
-	.style("stroke", "black")
-	.style("stroke-width", "1px")
-	.style("opacity", "0")
+// 	mouseG.append("path")
+// 	.attr("class", "mouse-line")
+// 	.style("stroke", "black")
+// 	.style("stroke-width", "1px")
+// 	.style("opacity", "0")
 
-	var lines = document.getElementsByClassName("lijn")
+// 	var lines = document.getElementsByClassName("lijn")
 	
 
-	var mousePerLine = mouseG.selectAll(".mouse-per-line")
-	.data(gegevens)
-	.enter()
-	.append("g")
-	.attr("class", "mouse-per-line")
+// 	var mousePerLine = mouseG.selectAll(".mouse-per-line")
+// 	.data(gegevens)
+// 	.enter()
+// 	.append("g")
+// 	.attr("class", "mouse-per-line")
 
-	mousePerLine.append("circle")
-	.attr("class", "circle")
-	.attr("r", 7)
-	.style("stroke", "black")
-	.style("fill", "none")
-	.style("stroke-width", "1px")
-	.style("opacity", "0")
+// 	mousePerLine.append("circle")
+// 	.attr("class", "circle")
+// 	.attr("r", 7)
+// 	.style("stroke", "black")
+// 	.style("fill", "none")
+// 	.style("stroke-width", "1px")
+// 	.style("opacity", "0")
 
-	mousePerLine.append("text")
-		.attr("transform", "translate(10,3)")
+// 	mousePerLine.append("text")
+// 		.attr("transform", "translate(10,3)")
 
-	mouseG.append("svg:rect")
-	.attr("width", width)
-	.attr("height", line_height)
-	.attr("fill", "none")
-	.attr("pointer-events", "all")
+// 	mouseG.append("svg:rect")
+// 	.attr("width", width)
+// 	.attr("height", line_height)
+// 	.attr("fill", "none")
+// 	.attr("pointer-events", "all")
 
-	.on('mouseout', function() { // on mouse out hide line, circles and text
-        d3.select(".mouse-line")
-          .style("opacity", "0");
-        d3.selectAll(".mouse-per-line circle")
-          .style("opacity", "0");
-        d3.selectAll(".mouse-per-line text")
-          .style("opacity", "0");
-      })
+// 	.on('mouseout', function() { // on mouse out hide line, circles and text
+//         d3.select(".mouse-line")
+//           .style("opacity", "0");
+//         d3.selectAll(".mouse-per-line circle")
+//           .style("opacity", "0");
+//         d3.selectAll(".mouse-per-line text")
+//           .style("opacity", "0");
+//       })
 
-	.on('mouseover', function() { // on mouse in show line, circles and text
-        d3.select(".mouse-line")
-          .style("opacity", "1");
-        d3.selectAll(".mouse-per-line circle")
-          .style("opacity", "1");
-        d3.selectAll(".mouse-per-line text")
-          .style("opacity", "1");
-      })
+// 	.on('mouseover', function() { // on mouse in show line, circles and text
+//         d3.select(".mouse-line")
+//           .style("opacity", "1");
+//         d3.selectAll(".mouse-per-line circle")
+//           .style("opacity", "1");
+//         d3.selectAll(".mouse-per-line text")
+//           .style("opacity", "1");
+//       })
 
-	.on("mousemove", function() {
-		var mouse = d3.mouse(this)
-		d3.select(".mouse-line")
-			.attr("d", function () {
-				var d = "M" + mouse[0] + "," + line_height;
-				d  += " " + mouse[0] + "," + 0;
-				return d;
-			});
+// 	.on("mousemove", function() {
+// 		var mouse = d3.mouse(this)
+// 		d3.select(".mouse-line")
+// 			.attr("d", function () {
+// 				var d = "M" + mouse[0] + "," + line_height;
+// 				d  += " " + mouse[0] + "," + 0;
+// 				return d;
+// 			});
 
-		d3.selectAll(".mouse-per-line")
-			.attr("transform", function(d, i) {
+// 		d3.selectAll(".mouse-per-line")
+// 			.attr("transform", function(d, i) {
 
-				year = x_line.invert(mouse[0]);
-				x_data = dateFromDay(year, 1),
-					bisect = d3.bisector(function() 
-					{ 
-					return x_data
-						}).right
+// 				year = x_line.invert(mouse[0]);
+// 				x_data = dateFromDay(year, 1),
+// 					bisect = d3.bisector(function() 
+// 					{ 
+// 					return x_data
+// 						}).right
 
-				idx = index_number(x_data)
+// 				idx = index_number(x_data)
 
-				var beginning = 0,
-                	end = lines[i].getTotalLength(),
-                	target = null;
+// 				var beginning = 0,
+//                 	end = lines[i].getTotalLength(),
+//                 	target = null;
                 
-                while (true){
+//                 while (true){
                		
 
-	              target = Math.floor((beginning + end) / 2);
-	              pos = lines[i].getPointAtLength(target);
-	              if ((target === end || target === beginning) && pos.x
-	               !== mouse[0]) {
-	                  break;
-	              }
-	              if (pos.x > mouse[0])      end = target;
-	              else if (pos.x < mouse[0]) beginning = target;
-	              else break; //position found
-	            }
+// 	              target = Math.floor((beginning + end) / 2);
+// 	              pos = lines[i].getPointAtLength(target);
+// 	              if ((target === end || target === beginning) && pos.x
+// 	               !== mouse[0]) {
+// 	                  break;
+// 	              }
+// 	              if (pos.x > mouse[0])      end = target;
+// 	              else if (pos.x < mouse[0]) beginning = target;
+// 	              else break; //position found
+// 	            }
 	            
-	            d3.select(this).select('text')
-	              .text(y_line.invert(pos.y).toFixed(2));
+// 	            d3.select(this).select('text')
+// 	              .text(y_line.invert(pos.y).toFixed(2));
 
-	              // console.log(y_line.invert(pos.y))
-	            return "translate(" + mouse[0] + "," + pos.y +")";
-
-
-			});
+// 	              // console.log(y_line.invert(pos.y))
+// 	            return "translate(" + mouse[0] + "," + pos.y +")";
 
 
-	});
+// 			});
 
-	function index_number (date) {
 
-		var count = 1;
+// 	});
 
-		for (var i = 0; i < line_values["lijn_waardes1"].length; i++) {
-			if (date.getTime() == line_values["lijn_waardes1"]
-				[i].date.getTime()) {
-				count = i				
-				return count
-			}
-		}
-	}
+// 	function index_number (date) {
 
-}
+// 		var count = 1;
 
-function dateFromDay(year, day) {
-	    var date = new Date(year, 0)
-	    return new Date(date.setDate(day));
-}
+// 		for (var i = 0; i < line_values["lijn_waardes1"].length; i++) {
+// 			if (date.getTime() == line_values["lijn_waardes1"]
+// 				[i].date.getTime()) {
+// 				count = i				
+// 				return count
+// 			}
+// 		}
+// 	}
 
-d3.selection.prototype.moveToBack = function() {  
-    return this.each(function() { 
-        var firstChild = this.parentNode.firstChild; 
-        if (firstChild) { 
-            this.parentNode.insertBefore(this, firstChild); 
-        } 
-    });
-};
+// }
+
+// function dateFromDay(year, day) {
+// 	    var date = new Date(year, 0)
+// 	    return new Date(date.setDate(day));
+// }
+
+// d3.selection.prototype.moveToBack = function() {  
+//     return this.each(function() { 
+//         var firstChild = this.parentNode.firstChild; 
+//         if (firstChild) { 
+//             this.parentNode.insertBefore(this, firstChild); 
+//         } 
+//     });
+// };
