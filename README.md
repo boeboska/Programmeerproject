@@ -13,14 +13,18 @@ Studentnumber: 10802975
 
 Course: Programming project
 
+
+
 #### How to use the visualisation:
-Click on the link to the visualisation abose. You will be redirected to the webpage of the visualisation. On the webpage you can find explanation on how to use the visualisation. Read "goals of the visualisation" (below here) to read about the different graphs wich are used in the visualisation
+Click on the link to the visualisation above. You will be redirected to the webpage of the visualisation. On the webpage you can find the explanation on how to use the visualisation. Read "goals of the visualisation" (below here) to read about the different graphs wich are used in the visualisation.
+
 
 
 Problem statement:
 -----------------------
 In the Netherlands there is a discussion about the amount of meat we eat. Some experts say that we eat to much meat. Eating to much meat is bad for climate, health and the animals we eat do not have a fun life.
 For example: If you should not eat meat for 3 days on weekly basis, that would be equal to deleting 3.000.000 cars in The Netherlands.
+
 
 
 Goals of the visualisation:
