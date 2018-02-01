@@ -1,6 +1,6 @@
 Link to visualisation: https://boeboska.github.io/Programmeerproject/hokdierenNL/index.html
 
-Note: please set screen the zoom to 50% for a good view off the visualisation
+Note: please set the screen zoom to 50% for a good view off the visualisation
 
 
 
