@@ -1,4 +1,4 @@
-Link to visualisation: https://boeboska.github.io/Programmeerproject/hokdieren NL/index.html
+Link to visualisation: https://boeboska.github.io/Programmeerproject/hokdierenNL/index.html
 
 
 
