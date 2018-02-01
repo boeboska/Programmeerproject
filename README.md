@@ -35,20 +35,20 @@ Project propocal
 #### Data transformation:
 For the line graph the data should be transformed. The amount of animals per 1.000 people will be showed. Therefor the amount of animals must be divided by the population amount
 
-## External components:
+#### External components:
 The external components needed for the project are:
 - D3 v3: d3js.org/d3.v3.min.js
 - D3 tooltip: http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js
 - D3 queue: http://d3js.org/queue.v1.min.js
 - D3 topoJson: http://d3js.org/topojson.v1.min.js
 
-## Similar visualisation: 
+#### Similar visualisation: 
 http://www.kipinnederland.nl/feiten-en-cijfers
 
 In this visualisation you see the amount of chicken breeding farms in The Netherlands between 2010 - 2014. Next to that you see the average amount of chickens per chicken breeding farm.
 In my visualisation about the same data will be presented
 
-## minimum viable product:
+#### minimum viable product:
 - on hover province: highlight + exact amount of breeding farms
 - on click province: update barchart + update linegraph
 - drop down menu (years): update map numbers + colors
@@ -60,8 +60,8 @@ In my visualisation about the same data will be presented
 
 
 
-Solution:
------------------------
+####Solution:
+
 ![](doc/sketch.png)
 
 
