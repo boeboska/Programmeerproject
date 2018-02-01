@@ -1,28 +1,30 @@
 #### Introduction:
 
-In this report you can read wich important desicions I've made during this project,
-why the end result is a bit different than the proposal and what the difficult things were.
+In this report you can read wich important desicions I've made during my project,
+why the end result is a bit different than the proposal and what the challeging things were.
 
 #### Description of the visualisation: 
 
 In the visualisation there are three main graphs. A map where the user can see the distribution of the breeding farms in the Netherlands,
 a barchart where they can see the exact amount of animals (chicken, pigs, turkeys and other) and a linegraph where 
 they can see the change over time. Next to the three main graphs the user can slide between years,
-click on different provinces and filter on animals.
+click on different provinces to see the situaation there and filter on animals.
 
 #### Technical design:
 There are three javascript files. One for the map, one for the barchart and one for the linegraph. Within these files there are update
-functions. An update function for the barchart, one for the linegraph and one for the map.
+functions: an update function for the barchart, one for the linegraph and one for the map.
 
-Update function barchart: This function is called when the user changed the year, on clicks a province of filter on an animal. 
+- Update function barchart: This function is called when the user changed the year, on clicks a province of filter on an animal. 
 The update function updates the data based on the input it receives. Within this new data it calculates the new x and y positions of 
-the new bars. With a duration the new bars fly in the visualisation.
+the new bars. With a duration the new bars fly in the visualisation. Next to the bars there is also an update function for the yaxis.
+The values from the dirrerent bars is very wide, there it is better to also update the yaxis. Based on the values of the bars the 
+yaxis updates to check what the min and max values are.
 
-Update function linegraph: This function is called when the user on clicks a province of filter on an animal. 
+- Update function linegraph: This function is called when the user on clicks a province of filter on an animal. 
 If the update function is called, all the current lines will be removed. The update function updates the data based on the input it 
 receives and draw the new lines.
 
-Update function map: This function is called when the user changed the year or filter on an animal. 
+- Update function map: This function is called when the user changed the year or filter on an animal. 
 The update function updates the data based on the input it receives. Within these data it calculates the new province color.
 
 Around the javascript files there are sereval css files for styling. For each visualisation there is a css file. Next to that there are
@@ -43,13 +45,10 @@ on the map the barchart updates.
 - Linegraph data: First when a user clicks a province I divided for example the amount of chicken in that province by the amount
 of people in that province. But the lines were so different in each province so I changed the division. Now, when a users clicks
 a provinces I divide the amount of chicken by the amount of people in The Netherlands. This is better I think because the chicks 
-who lives in Noord-Holland for example are eated not only there but also in other provinces.
-- Drop down: In my visualisation there are 17 years to chose. A dropdown menu is to big therefor and ugly. There I made a sliders.
+who lives in Noord-Holland for example are eated not only there but also in other provinces. It is now also easier to compare the 
+different provinces wich each other because they have the same denominator.
+- Drop down: In my visualisation there are 17 years to chose. A dropdown menu is to big therefor and ugly. There I made a slider.
 It looks a lot better, it is better user experience because the user can now chose different years faster.
-
-
-Defend your decisions by writing an argument of a most a single paragraph. Why was it good to do it different than you thought before?
-Are there trade-offs for your current solution? In an ideal world, given much more time, would you choose another solution?
 
 
 
