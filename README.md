@@ -92,4 +92,4 @@ In my visualisation about the same data will be presented
 
 #### Copyright:
 
-for the copyright, see license.md
+Ror the copyright, see license.md
