@@ -2,6 +2,10 @@ Link to visualisation: https://boeboska.github.io/Programmeerproject/hokdierenNL
 
 Note: please set the screen zoom to 50% for a good view off the visualisation
 
+Link to product demo:
+
+https://www.useloom.com/share/378a295d23fe40c0834c8ab347373366
+
 
 
 Project Animal Change 2000 - 2016
